@@ -12,20 +12,21 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              buildBox(Icons.rocket_launch, 'PROJETOS', 0),
-              SizedBox(height: 20),
-              buildBox(Icons.report, 'AVISOS', 1),
-              SizedBox(height: 20),
-              buildBox(Icons.date_range, 'AGENDAMENTO', 2),
-              SizedBox(height: 20),
-              buildBox(Icons.fingerprint, 'ACESSOS', 3),
-            ],
-          ),
+        body: ListView(
+          children: [
+            Image.asset("assets/imagens/labmaker-navbar2.jpg"),
+            Column(
+              children: [
+                buildBox(Icons.rocket_launch, 'PROJETOS', 0),
+                SizedBox(height: 20),
+                buildBox(Icons.report, 'AVISOS', 1),
+                SizedBox(height: 20),
+                buildBox(Icons.date_range, 'AGENDAMENTO', 2),
+                SizedBox(height: 20),
+                buildBox(Icons.fingerprint, 'ACESSOS', 3),
+              ],
+            ),
+          ],
         ),
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,

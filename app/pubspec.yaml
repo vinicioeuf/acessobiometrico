@@ -25,6 +25,7 @@ flutter:
   assets:
     - assets/imagens/labmaker-logo.jpg
     - assets/imagens/labmaker-splash.png
+    - assets/imagens/labmaker-navbar2.jpg
 
 
 
