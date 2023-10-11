@@ -4,6 +4,7 @@ import 'package:app/pages/login_page.dart';
 import 'package:app/pages/register_page.dart';
 import 'package:app/pages/agendamento_page.dart';
 import 'package:app/pages/about_page.dart';
+import 'package:app/pages/team_dev.dart';
 import 'package:flutter/material.dart';
 
 class AppWidget extends StatelessWidget{
@@ -38,6 +39,7 @@ class AppWidget extends StatelessWidget{
         '/home': (_) => HomePage(),
         '/about': (_) => AboutPage(),
         '/agendamento': (_) => AgendamentoPage(),
+        '/teamDev': (_) => TeamDevPage(),
         },
       home:HomePage(),
     );

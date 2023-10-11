@@ -1,3 +1,4 @@
+import 'package:app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/about_page.dart';
 import 'package:app/pages/home_page.dart';
@@ -29,7 +30,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                     style: GoogleFonts.oswald(
                       textStyle: TextStyle(
                         color: Color.fromARGB(255, 61, 96, 47),
-                        fontSize: 35,
+                        fontSize: 40,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -81,7 +82,8 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                   ],
                 ),
               ),
-              
+              elevation: 1,
+              color: Colors.grey[300],
             ),
           ],
         ),
@@ -102,7 +104,13 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
           if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AboutPage()),
+              MaterialPageRoute(builder: (context) =>  AboutPage()),
+            );
+          }
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>  HomePage()),
             );
           }else if(index == 0){
             Navigator.push(
@@ -119,7 +127,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
           child: Icon(
             icon,
             color: isSelected ? Colors.white : Colors.green[700],
-            size: 50,
+            size: 35,
           ),
         ),
       ),
@@ -160,7 +168,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
     return Container(
       width: double.infinity,
       height: 80,
-
+      color: Colors.grey,
       child: Center(
         child: Text(
           text,
