@@ -28,7 +28,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                     style: GoogleFonts.oswald(
                       textStyle: TextStyle(
                         color: Color.fromARGB(255, 61, 96, 47),
-                        fontSize: 40,
+                        fontSize: 35,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -80,8 +80,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                   ],
                 ),
               ),
-              elevation: 1,
-              color: Colors.grey[300],
+              
             ),
           ],
         ),
@@ -155,7 +154,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
     return Container(
       width: double.infinity,
       height: 80,
-      color: Colors.grey,
+
       child: Center(
         child: Text(
           text,
