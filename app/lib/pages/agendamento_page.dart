@@ -102,7 +102,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
           if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AboutPage()),
+              MaterialPageRoute(builder: (context) => AboutPage()),
             );
           }
         },
