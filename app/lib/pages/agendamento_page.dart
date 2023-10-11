@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/pages/about_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AgendamentoPage extends StatefulWidget {
@@ -97,11 +98,18 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
           setState(() {
             selectedIndex = index;
           });
+
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AboutPage()),
+            );
+          }
         },
         child: Container(
           decoration: BoxDecoration(
+            shape: BoxShape.circle,
             color: isSelected ? Colors.green[700] : Colors.white,
-            borderRadius: BorderRadius.circular(50), // Defina o valor desejado para deixar o Container redondo
           ),
           child: Icon(
             icon,
@@ -115,11 +123,11 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
 
   Widget buildBox(IconData icon, String text, int index) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.95,
+      width: MediaQuery.of(context).size.width * 0.70,
       height: 100,
       decoration: BoxDecoration(
         color: Colors.green[700],
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
