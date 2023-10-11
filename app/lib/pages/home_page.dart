@@ -71,13 +71,17 @@ class HomePageState extends State<HomePage>
           });
         },
         child: Container(
-          color: isSelected ? Colors.green[700] : Colors.white,
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.green[700] : Colors.white,
+            borderRadius: BorderRadius.circular(50), // Defina o valor desejado para deixar o Container redondo
+          ),
           child: Icon(
             icon,
             color: isSelected ? Colors.white : Colors.green[700],
             size: 50,
           ),
         ),
+
       ),
     );
   }
