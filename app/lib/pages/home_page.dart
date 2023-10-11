@@ -28,7 +28,14 @@ class HomePageState extends State<HomePage> {
               MaterialPageRoute(builder: (context) => AboutPage()),
             );
           }
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          }
         },
+        
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -37,7 +44,7 @@ class HomePageState extends State<HomePage> {
           child: Icon(
             icon,
             color: isSelected ? Colors.white : Colors.green[700],
-            size: 50,
+            size: 35,
           ),
         ),
       ),

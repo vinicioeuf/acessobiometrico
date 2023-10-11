@@ -1,3 +1,4 @@
+import 'package:app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/about_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -102,7 +103,13 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
           if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AboutPage()),
+              MaterialPageRoute(builder: (context) =>  AboutPage()),
+            );
+          }
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>  HomePage()),
             );
           }
         },
@@ -114,7 +121,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
           child: Icon(
             icon,
             color: isSelected ? Colors.white : Colors.green[700],
-            size: 50,
+            size: 35,
           ),
         ),
       ),
