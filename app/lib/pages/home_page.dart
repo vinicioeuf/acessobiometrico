@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:app/pages/agendamento_page.dart';
+
 class HomePage extends StatefulWidget
 {
   @override
@@ -24,7 +26,16 @@ class HomePageState extends State<HomePage>
                 SizedBox(height: 20),
                 buildBox(Icons.report, 'AVISOS', 1),
                 SizedBox(height: 20),
-                buildBox(Icons.date_range, 'AGENDAMENTO', 2),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AgendamentoPage()),
+                    );
+                  },
+                  child: buildBox(Icons.date_range, 'AGENDAMENTO', 2),
+                ),
+                
                 SizedBox(height: 20),
                 buildBox(Icons.fingerprint, 'ACESSOS', 3),
               ],
