@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/pages/about_page.dart';
+import 'package:app/pages/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AgendamentoPage extends StatefulWidget {
@@ -102,6 +103,11 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AboutPage()),
+            );
+          }else if(index == 0){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
             );
           }
         },
