@@ -25,7 +25,7 @@ class HomePageState extends State<HomePage> {
           if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AboutPage()),
+              MaterialPageRoute(builder: (context) => AboutPage()),
             );
           }
         },
