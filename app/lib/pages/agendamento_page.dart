@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class AgendamentoPage extends StatefulWidget {
-  const AgendamentoPage({super.key});
+  const AgendamentoPage({Key? key}) : super(key: key);
 
   @override
   State<AgendamentoPage> createState() => _AgendamentoPageState();
@@ -9,53 +10,55 @@ class AgendamentoPage extends StatefulWidget {
 
 class _AgendamentoPageState extends State<AgendamentoPage> {
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: ListView(
-          children: [
-            Image.asset("assets/imagens/labmaker-navbar2.jpg"),
-            Center(
-              child: RichText(
-                text: TextSpan(
-                  text: 'Área de agendamento',
-                  style: GoogleFonts.oswald(
-                    textStyle: TextStyle(
-                      color: Color.fromARGB(255, 61, 96, 47),
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 35),
+              Image.asset("assets/imagens/labmaker-navbar2.jpg"),
+              Center(
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Área de agendamento',
+                    style: GoogleFonts.oswald(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 61, 96, 47),
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 35),
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                buildImageItem('assets/imagens/arduinokit.jpg', 'Kit de Arduino'),
-                buildImageItem('assets/imagens/cortadora-laser.jpg', 'Cortadora a laser'),
-                buildImageItem('assets/imagens/CR5proh.jpg', 'Impressora 3D CR5 Pro H'),
-                buildImageItem('assets/imagens/grmax5.jpg', 'Impressora 3D GR MAX5'),
-                buildImageItem('assets/imagens/furadeira.jpg', 'Furadeira'),
-                buildImageItem('assets/imagens/ferro-de-solda.png', 'Ferro de Solda'),
-              ].map((Widget item) {
-                return Padding(
-                  padding: EdgeInsets.all(20.0), // Espaçamento desejado
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0), // Raio do arredondamento
-                    child: item,
-                  ),
-                );
-              }).toList(),
-            ),
-
-          ],         
+              
+              GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  buildImageItem('assets/imagens/arduinokit.jpg', 'Kit de Arduino'),
+                  buildImageItem('assets/imagens/cortadora-laser.jpg', 'Cortadora a laser'),
+                  buildImageItem('assets/imagens/CR5proh.jpg', 'Impressora 3D CR5 Pro H'),
+                  buildImageItem('assets/imagens/grmax5.jpg', 'Impressora 3D GR MAX5'),
+                  buildImageItem('assets/imagens/furadeira.jpg', 'Furadeira'),
+                  buildImageItem('assets/imagens/ferro-de-solda.png', 'Ferro de Solda'),
+                ].map((Widget item) {
+                  return Padding(
+                    padding: EdgeInsets.all(20.0), // Espaçamento desejado
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0), // Raio do arredondamento
+                      child: item,
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
-
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -84,6 +87,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
       ),
     );
   }
+
   Widget buildIconContainer(IconData icon, int index) {
     bool isSelected = selectedIndex == index;
 
@@ -105,7 +109,6 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
             size: 50,
           ),
         ),
-
       ),
     );
   }
@@ -139,6 +142,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
       ),
     );
   }
+
   Widget buildItem(String text) {
     return Container(
       width: double.infinity,
@@ -156,12 +160,12 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
       ),
     );
   }
+
   Widget buildImageItem(String imagePath, String text) {
     return Column(
       children: [
         Container(
           width: double.infinity,
-
           height: 120,
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -181,5 +185,4 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
       ],
     );
   }
-
 }
