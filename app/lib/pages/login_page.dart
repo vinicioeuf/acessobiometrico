@@ -1,8 +1,11 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/register_page.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key});
 
@@ -19,10 +22,9 @@ class _LoginPageState extends State<LoginPage> {
           padding: EdgeInsets.all(20),
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 15), // Aumentando o espaçamento vertical
+              padding: EdgeInsets.symmetric(vertical: 15),
               child: Image.asset("assets/imagens/labmaker-navbar2.jpg"),
             ),
-
             Column(
               children: [
                 Center(
@@ -39,42 +41,39 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 50), 
+                SizedBox(height: 50),
                 TextField(
                   decoration: InputDecoration(
                     labelText: 'E-mail',
-                    filled: true, // Habilitando o preenchimento do campo
-                    fillColor: Color.fromARGB(255,238,244,236),
+                    filled: true,
+                    fillColor: Color.fromARGB(255, 238, 244, 236),
                     labelStyle: TextStyle(
                       color: Color.fromARGB(255, 61, 96, 47),
                       fontWeight: FontWeight.bold,
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none // Definindo a borda arredondada com raio de 10
+                      borderSide: BorderSide.none,
                     ),
                   ),
-                  
                 ),
-                SizedBox(height: 30), 
-
+                SizedBox(height: 30),
                 TextField(
                   decoration: InputDecoration(
                     labelText: 'Senha',
-                    filled: true, // Habilitando o preenchimento do campo
-                    fillColor: Color.fromARGB(255,238,244,236),
+                    filled: true,
+                    fillColor: Color.fromARGB(255, 238, 244, 236),
                     labelStyle: TextStyle(
                       color: Color.fromARGB(255, 61, 96, 47),
                       fontWeight: FontWeight.bold,
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none // Definindo a borda arredondada com raio de 10
+                      borderSide: BorderSide.none,
                     ),
                   ),
                 ),
-                SizedBox(height: 75), 
-
+                SizedBox(height: 75),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -97,13 +96,18 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-           
-
-                Icon(Icons.facebook, color: Colors.blue, size: 60,),
-                
-                
-
-                SizedBox(height: 40), 
+                SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.facebook, color: const Color.fromARGB(255, 0, 63, 114), size: 40,),
+                    SizedBox(width: 20),
+                    Icon(Icons.email, color: Colors.red, size: 40,),
+                    SizedBox(width: 20),
+                    Icon(Icons.apple, color: Colors.blueGrey, size: 40),
+                  ],
+                ),
+                SizedBox(height: 40),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -126,7 +130,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-
               ],
             ),
           ],
@@ -135,3 +138,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+

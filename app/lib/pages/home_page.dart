@@ -1,17 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:app/pages/agendamento_page.dart';
+import 'about_page.dart';
 
-class HomePage extends StatefulWidget
-{
+class HomePage extends StatefulWidget {
   @override
-  State<HomePage> createState() 
-  {
+  State<HomePage> createState() {
     return HomePageState();
   }
 }
-class HomePageState extends State<HomePage>
-{
+
+class HomePageState extends State<HomePage> {
   int selectedIndex = 0;
+
+  Widget buildIconContainer(IconData icon, int index) {
+    bool isSelected = selectedIndex == index;
+
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            selectedIndex = index;
+          });
+
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AboutPage()),
+            );
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isSelected ? Colors.green[700] : Colors.white,
+          ),
+          child: Icon(
+            icon,
+            color: isSelected ? Colors.white : Colors.green[700],
+            size: 50,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildBox(IconData icon, String text, int index) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.70,
+      height: 100,
+      decoration: BoxDecoration(
+        color: Colors.green[700],
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: Colors.white,
+            size: 50,
+          ),
+          SizedBox(width: 10),
+          Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +96,6 @@ class HomePageState extends State<HomePage>
                   },
                   child: buildBox(Icons.date_range, 'AGENDAMENTO', 2),
                 ),
-                
                 SizedBox(height: 20),
                 buildBox(Icons.fingerprint, 'ACESSOS', 3),
               ],
@@ -67,62 +127,6 @@ class HomePageState extends State<HomePage>
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildIconContainer(IconData icon, int index) {
-    bool isSelected = selectedIndex == index;
-
-    return Expanded(
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.green[700] : Colors.white,
-            borderRadius: BorderRadius.circular(50), // Defina o valor desejado para deixar o Container redondo
-          ),
-          child: Icon(
-            icon,
-            color: isSelected ? Colors.white : Colors.green[700],
-            size: 50,
-          ),
-        ),
-
-      ),
-    );
-  }
-
-  Widget buildBox(IconData icon, String text, int index) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.95,
-      height: 100,
-      decoration: BoxDecoration(
-        color: Colors.green[700],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: Colors.white,
-            size: 50,
-          ),
-          SizedBox(width: 10),
-          Text(
-            text,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
       ),
     );
   }
