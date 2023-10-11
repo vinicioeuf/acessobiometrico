@@ -30,15 +30,31 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                 ),
               ),
             ),
-            
-          ],
-          
-            
+            SizedBox(height: 35),
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                buildImageItem('assets/imagens/arduinokit.jpg', 'Kit de Arduino'),
+                buildImageItem('assets/imagens/cortadora-laser.jpg', 'Cortadora a laser'),
+                buildImageItem('assets/imagens/CR5proh.jpg', 'Impressora 3D CR5 Pro H'),
+                buildImageItem('assets/imagens/grmax5.jpg', 'Impressora 3D GR MAX5'),
+                buildImageItem('assets/imagens/furadeira.jpg', 'Furadeira'),
+                buildImageItem('assets/imagens/ferro-de-solda.png', 'Ferro de Solda'),
+              ].map((Widget item) {
+                return Padding(
+                  padding: EdgeInsets.all(12.0), // Espaçamento desejado
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0), // Raio do arredondamento
+                    child: item,
+                  ),
+                );
+              }).toList(),
+            ),
 
+          ],         
         ),
-
-        
-
 
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
@@ -123,4 +139,46 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
       ),
     );
   }
+  Widget buildItem(String text) {
+    return Container(
+      width: double.infinity,
+      height: 100,
+      color: Colors.grey,
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+  Widget buildImageItem(String imagePath, String text) {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 135,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(imagePath),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        SizedBox(height: 8), // Espaçamento vertical entre a imagem e o texto
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
 }
