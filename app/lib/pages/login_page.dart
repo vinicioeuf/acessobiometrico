@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 0, 127, 54),
+                    backgroundColor: Color.fromARGB(255, 0, 127, 54),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -97,7 +97,13 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 100), 
+           
+
+                Icon(Icons.facebook, color: Colors.blue, size: 60,),
+                
+                
+
+                SizedBox(height: 40), 
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -108,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Center(
                     child: RichText(
                       text: TextSpan(
-                        text: 'Já possui uma conta? Entrar',
+                        text: 'Ainda não possui uma conta? Cadastre-se!',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
                             color: Color.fromARGB(255, 61, 96, 47),
