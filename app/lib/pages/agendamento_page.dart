@@ -44,7 +44,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                 buildImageItem('assets/imagens/ferro-de-solda.png', 'Ferro de Solda'),
               ].map((Widget item) {
                 return Padding(
-                  padding: EdgeInsets.all(12.0), // Espaçamento desejado
+                  padding: EdgeInsets.all(20.0), // Espaçamento desejado
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0), // Raio do arredondamento
                     child: item,
@@ -142,7 +142,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
   Widget buildItem(String text) {
     return Container(
       width: double.infinity,
-      height: 100,
+      height: 80,
       color: Colors.grey,
       child: Center(
         child: Text(
@@ -161,7 +161,8 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
       children: [
         Container(
           width: double.infinity,
-          height: 135,
+
+          height: 120,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(imagePath),
@@ -169,7 +170,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
             ),
           ),
         ),
-        SizedBox(height: 8), // Espaçamento vertical entre a imagem e o texto
+        SizedBox(height: 4), // Espaçamento vertical entre a imagem e o texto
         Text(
           text,
           style: TextStyle(
