@@ -10,10 +10,12 @@ class AboutPage extends StatelessWidget {
         children: [
           Image.asset("assets/imagens/labmaker-navbar2.jpg"),
           const SizedBox(height: 20),
-          const Text(
-            'Sobre o LabMaker',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,  color: Colors.green),
-            textAlign: TextAlign.center,
+          Container(
+            alignment: Alignment.center,
+            child: const Text(
+              'Sobre o LabMaker',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green),
+            ),
           ),
           const SizedBox(height: 20),
           Image.asset("assets/imagens/labMaker.jpg"),
@@ -21,7 +23,6 @@ class AboutPage extends StatelessWidget {
           const Text(
             'O Laboratório Maker é um espaço inovador e inspirador, projetado para promover a aprendizagem e a criatividade dos alunos. Equipado com tecnologias de ponta, o laboratório oferece aos estudantes a oportunidade de explorar e experimentar diversas áreas, como programação, robótica, eletrônica e design.',
             style: TextStyle(fontSize: 15),
-            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
           Row(
@@ -32,7 +33,7 @@ class AboutPage extends StatelessWidget {
                   children: [
                     const Text(
                       'Equipe de Desenvolvimento',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,  color: Colors.green),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green),
                     ),
                     const SizedBox(height: 10),
                     AspectRatio(
@@ -74,7 +75,7 @@ class AboutPage extends StatelessWidget {
               Expanded(
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: Image.asset("assets/imagens/PLemos.jpg"),
+                  child: Image.asset('assets/imagens/PLemos.jpg'),
                 ),
               ),
             ],
@@ -85,3 +86,4 @@ class AboutPage extends StatelessWidget {
     );
   }
 }
+
