@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:app/pages/agendamento_page.dart';
 import 'package:app/pages/access_page.dart';
 import 'about_page.dart';
-import 'footer_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override

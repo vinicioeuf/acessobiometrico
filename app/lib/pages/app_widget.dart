@@ -44,7 +44,6 @@ class AppWidget extends StatelessWidget {
       },
       home: Scaffold(
         body: HomePage(),
-        bottomNavigationBar: FooterWidget(),
       ),
     );
   }
