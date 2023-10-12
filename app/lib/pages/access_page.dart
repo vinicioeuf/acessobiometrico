@@ -75,7 +75,171 @@ class _AccessPageState extends State<AccessPage> {
                     ),
                   ),
                 ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: AssetImage('assets/imagens/vicCarlos.jpg'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                         
+                          SizedBox(height: 8.0),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Álvaro Victor',
+                                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                                ),
+
+                                Text(
+                                  'Bolsista',
+                                  style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 5.0),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Entrou',
+                                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.green[700]),
+                                        ),
+                                        SizedBox(width: 5.0),
+                                        Text(
+                                          'ás 09:14',
+                                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),
+                                        ),
+                                        
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                 Container(
+                                    child:  ElevatedButton(
+                                    onPressed: () {
+                                    // Adicione a ação desejada para o botão
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green), // Defina a cor de fundo do botão
+                                    ),
+                                    child: Text(
+                                      'Ver mais',
+                                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              
+                            ),
+                            
+                          ),
+                        ],
+                      ),
+
+
+                    ],
+                  ),
+
+
+                  SizedBox(height: 15.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage('assets/imagens/viniEufrazio.jpg'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      
+                      SizedBox(height: 8.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Vinicio Eufrazio',
+                              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                            ),
+
+                            Text(
+                              'Bolsista',
+                              style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Entrou',
+                                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.green[700]),
+                                    ),
+                                    SizedBox(width: 5.0),
+                                    Text(
+                                      'ás 08:22',
+                                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),
+                                    ),
+                                    
+                                  ],
+                                ),
+                              ],
+                            ),
+                              Container(
+                                child:  ElevatedButton(
+                                onPressed: () {
+                                // Adicione a ação desejada para o botão
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green), // Defina a cor de fundo do botão
+                                ),
+                                child: Text(
+                                  'Ver mais',
+                                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                          
+                        ),
+                        
+                      ),
+                    ],
+                  ),
+                ],
               )
+
+              
+              
             ],
           ),
         ),
