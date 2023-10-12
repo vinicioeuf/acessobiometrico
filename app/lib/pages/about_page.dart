@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:app/pages/home_page.dart';
-// ignore: must_be_immutable
-class AboutPage extends StatelessWidget {
-  
-  int selectedIndex = 0;
 
-  AboutPage({super.key});
-  
-  BuildContext? get context => null;
+class AboutPage extends StatefulWidget {
+  AboutPage({Key? key}) : super(key: key);
+
+  @override
+  _AboutPageState createState() => _AboutPageState();
+}
+
+class _AboutPageState extends State<AboutPage> {
+  int selectedIndex = 0;
 
   Widget buildIconContainer(IconData icon, int index) {
     bool isSelected = selectedIndex == index;
@@ -21,8 +23,13 @@ class AboutPage extends StatelessWidget {
 
           if (index == 2) {
             Navigator.push(
-              context!,
+              context,
               MaterialPageRoute(builder: (context) => AboutPage()),
+            );
+          } else if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
             );
           }
         },
@@ -41,7 +48,6 @@ class AboutPage extends StatelessWidget {
     );
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,7 +155,4 @@ class AboutPage extends StatelessWidget {
       ),
     );
   }
-  
-  void setState(Null Function() param0) {}
 }
-

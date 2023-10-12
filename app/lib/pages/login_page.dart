@@ -93,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: GoogleFonts.oswald(
                       fontWeight: FontWeight.bold,
                       fontSize: 26,
+                      color: Colors.white,
                     ),
                   ),
                 ),

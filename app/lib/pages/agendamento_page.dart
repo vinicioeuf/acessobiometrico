@@ -107,12 +107,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
               MaterialPageRoute(builder: (context) =>  AboutPage()),
             );
           }
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>  HomePage()),
-            );
-          }else if(index == 0){
+          else if(index == 0){
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
@@ -183,19 +178,24 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
   }
 
   Widget buildImageItem(String imagePath, String text) {
-    return Column(
+  return SingleChildScrollView(
+    child: Column(
       children: [
-        Container(
-          width: double.infinity,
-          height: 120,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(imagePath),
-              fit: BoxFit.cover,
+        AspectRatio(
+          aspectRatio: 1,
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
+                
+              ),
+              
             ),
+            
           ),
+          
         ),
-        SizedBox(height: 4), // Espaçamento vertical entre a imagem e o texto
         Text(
           text,
           style: TextStyle(
@@ -204,6 +204,10 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
           ),
         ),
       ],
-    );
-  }
+    ),
+  );
+}
+
+
+
 }

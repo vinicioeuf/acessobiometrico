@@ -106,6 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: GoogleFonts.oswald(
                   fontWeight: FontWeight.bold,
                   fontSize: 26,
+                  color: Colors.white,
                 ),
               ),
             ),
