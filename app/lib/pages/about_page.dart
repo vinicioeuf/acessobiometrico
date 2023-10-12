@@ -47,7 +47,11 @@ class _AboutPageState extends State<AboutPage> {
       ),
     );
   }
-
+  final List<Widget> pages = [
+    HomePage(),
+    // Adicione outras páginas aqui
+    AboutPage(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,31 +136,42 @@ class _AboutPageState extends State<AboutPage> {
           SizedBox(height: 20),
         ],
       ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Divider(
-            height: 1,
-            color: Colors.grey,
-          ),
-          BottomAppBar(
-            child: Container(
-              height: 50,
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  buildIconContainer(Icons.explore, 0),
-                  buildIconContainer(Icons.person, 1),
-                  buildIconContainer(Icons.help_outline, 2),
-                ],
-              ),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+            if (index == 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            } else if (index == 1) {
+              // Defina a rota para a página de perfil
+            } else if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutPage()),
+              );
+            }
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.explore),
+              label: 'Explorar',
             ),
-            elevation: 1,
-            color: Colors.white,
-          ),
-        ],
-      ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.help_outline),
+              label: 'Sobre',
+            ),
+          ],
+          selectedItemColor: Color.fromARGB(255, 87, 85, 85), // Define a cor dos ícones selecionados
+        ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app/pages/agendamento_page.dart';
 import 'package:app/pages/access_page.dart';
 import 'about_page.dart';
+import 'footer_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,45 +13,6 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int selectedIndex = 0;
-
-  Widget buildIconContainer(IconData icon, int index) {
-    bool isSelected = selectedIndex == index;
-
-    return Expanded(
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            selectedIndex = index;
-          });
-
-          if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AboutPage()),
-            );
-          }
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          }
-        },
-        
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isSelected ? Colors.green[700] : Colors.white,
-          ),
-          child: Icon(
-            icon,
-            color: isSelected ? Colors.white : Colors.green[700],
-            size: 35,
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget buildBox(IconData icon, String text, int index) {
     return Container(
@@ -81,6 +43,12 @@ class HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  final List<Widget> pages = [
+    HomePage(),
+    // Adicione outras páginas aqui
+    AboutPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -119,37 +87,49 @@ class HomePageState extends State<HomePage> {
                   },
                   child: buildBox(Icons.fingerprint, 'ACESSOS', 3),
                 ),
-                
               ],
             ),
           ],
         ),
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Divider(
-              height: 1,
-              color: Colors.grey,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+            if (index == 0) {
+              index = 0;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            } else if (index == 1) {
+              // Defina a rota para a página de perfil
+            } else if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutPage()),
+              );
+            }
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.explore),
+              label: 'Explorar',
             ),
-            BottomAppBar(
-              child: Container(
-                height: 50,
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    buildIconContainer(Icons.explore, 0),
-                    buildIconContainer(Icons.person, 1),
-                    buildIconContainer(Icons.help_outline, 2),
-                  ],
-                ),
-              ),
-              elevation: 1,
-              color: Colors.white,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.help_outline),
+              label: 'Sobre',
             ),
           ],
+          selectedItemColor: Color.fromARGB(255, 87, 85, 85), // Define a cor dos ícones selecionados
         ),
       ),
     );
   }
 }
+
