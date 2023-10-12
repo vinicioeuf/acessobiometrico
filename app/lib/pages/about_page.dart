@@ -41,7 +41,7 @@ class _AboutPageState extends State<AboutPage> {
           child: Icon(
             icon,
             color: isSelected ? Colors.white : Colors.green[700],
-            size: 50,
+            size: 35,
           ),
         ),
       ),
@@ -54,6 +54,10 @@ class _AboutPageState extends State<AboutPage> {
       body: ListView(
         children: [
           Image.asset("assets/imagens/labmaker-navbar2.jpg"),
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
           SizedBox(height: 20),
           Container(
             alignment: Alignment.center,
@@ -133,7 +137,7 @@ class _AboutPageState extends State<AboutPage> {
         children: [
           Divider(
             height: 1,
-            color: Colors.black,
+            color: Colors.grey,
           ),
           BottomAppBar(
             child: Container(
@@ -149,7 +153,7 @@ class _AboutPageState extends State<AboutPage> {
               ),
             ),
             elevation: 1,
-            color: Colors.grey[300],
+            color: Colors.white,
           ),
         ],
       ),

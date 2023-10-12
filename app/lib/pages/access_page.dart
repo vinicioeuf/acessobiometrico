@@ -1,19 +1,16 @@
-import 'package:app/pages/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:app/pages/about_page.dart';
-import 'package:app/pages/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-class AgendamentoPage extends StatefulWidget {
-  const AgendamentoPage({Key? key}) : super(key: key);
+import 'package:app/pages/home_page.dart';
+import 'package:app/pages/about_page.dart';
+class AccessPage extends StatefulWidget {
+  const AccessPage({super.key});
 
   @override
-  State<AgendamentoPage> createState() => _AgendamentoPageState();
+  State<AccessPage> createState() => _AccessPageState();
 }
 
-class _AgendamentoPageState extends State<AgendamentoPage> {
+class _AccessPageState extends State<AccessPage> {
   int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,14 +20,14 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
             children: [
               SizedBox(height: 35),
               Image.asset("assets/imagens/labmaker-navbar2.jpg"),
-                Divider(
+              Divider(
                 height: 1,
                 color: Colors.grey,
               ),
               Center(
                 child: RichText(
                   text: TextSpan(
-                    text: 'Área de agendamento',
+                    text: 'Acessos ao LabMaker',
                     style: GoogleFonts.oswald(
                       textStyle: TextStyle(
                         color: Color.fromARGB(255, 61, 96, 47),
@@ -42,27 +39,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                 ),
               ),
               
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  buildImageItem('assets/imagens/arduinokit.jpg', 'Kit de Arduino'),
-                  buildImageItem('assets/imagens/cortadora-laser.jpg', 'Cortadora a laser'),
-                  buildImageItem('assets/imagens/CR5proh.jpg', 'Impressora 3D CR5 Pro H'),
-                  buildImageItem('assets/imagens/grmax5.jpg', 'Impressora 3D GR MAX5'),
-                  buildImageItem('assets/imagens/furadeira.jpg', 'Furadeira'),
-                  buildImageItem('assets/imagens/ferro-de-solda.png', 'Ferro de Solda'),
-                ].map((Widget item) {
-                  return Padding(
-                    padding: EdgeInsets.all(20.0), // Espaçamento desejado
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0), // Raio do arredondamento
-                      child: item,
-                    ),
-                  );
-                }).toList(),
-              ),
+              
             ],
           ),
         ),
@@ -162,56 +139,4 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
       ),
     );
   }
-
-  Widget buildItem(String text) {
-    return Container(
-      width: double.infinity,
-      height: 80,
-      color: Colors.grey,
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildImageItem(String imagePath, String text) {
-  return SingleChildScrollView(
-    child: Column(
-      children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
-                
-              ),
-              
-            ),
-            
-          ),
-          
-        ),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-
-
 }

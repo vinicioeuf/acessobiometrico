@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/pages/agendamento_page.dart';
+import 'package:app/pages/access_page.dart';
 import 'about_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -88,6 +89,11 @@ class HomePageState extends State<HomePage> {
         body: ListView(
           children: [
             Image.asset("assets/imagens/labmaker-navbar2.jpg"),
+            Divider(
+              height: 1,
+              color: Colors.grey,
+            ),
+            SizedBox(height: 10),
             Column(
               children: [
                 buildBox(Icons.rocket_launch, 'PROJETOS', 0),
@@ -104,7 +110,16 @@ class HomePageState extends State<HomePage> {
                   child: buildBox(Icons.date_range, 'AGENDAMENTO', 2),
                 ),
                 SizedBox(height: 20),
-                buildBox(Icons.fingerprint, 'ACESSOS', 3),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AccessPage()),
+                    );
+                  },
+                  child: buildBox(Icons.fingerprint, 'ACESSOS', 3),
+                ),
+                
               ],
             ),
           ],
@@ -114,7 +129,7 @@ class HomePageState extends State<HomePage> {
           children: [
             Divider(
               height: 1,
-              color: Colors.black,
+              color: Colors.grey,
             ),
             BottomAppBar(
               child: Container(
@@ -130,7 +145,7 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
               elevation: 1,
-              color: Colors.grey[300],
+              color: Colors.white,
             ),
           ],
         ),
