@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/about_page.dart';
+
 class AccessPage extends StatefulWidget {
-  const AccessPage({super.key});
+  const AccessPage({Key? key}) : super(key: key);
 
   @override
   State<AccessPage> createState() => _AccessPageState();
@@ -38,8 +39,43 @@ class _AccessPageState extends State<AccessPage> {
                   ),
                 ),
               ),
+              SizedBox(height: 20),
               
-              
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: DropdownButton<String>(
+                      value: '12/10/2023',
+                      onChanged: (String? newValue) {},
+                      items: <String>['12/10/2023', '11/10/2023', '10/10/2023', '09/10/2023']
+                        .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      style: TextStyle(color: Colors.black),
+                      underline: Container(
+                        height: 1,
+                        color: Colors.transparent,
+                      ),
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 30,
+                      elevation: 8,
+                      dropdownColor: Colors.white,
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -85,10 +121,9 @@ class _AccessPageState extends State<AccessPage> {
           if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  AboutPage()),
+              MaterialPageRoute(builder: (context) => AboutPage()),
             );
-          }
-          else if(index == 0){
+          } else if (index == 0) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
