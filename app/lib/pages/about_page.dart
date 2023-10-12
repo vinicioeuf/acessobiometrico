@@ -1,177 +1,181 @@
-import 'package:flutter/material.dart';
 import 'package:app/pages/home_page.dart';
+import 'package:app/pages/team_dev.dart';
+import 'package:flutter/material.dart';
 
-class AboutPage extends StatefulWidget {
-  AboutPage({Key? key}) : super(key: key);
 
-  @override
-  _AboutPageState createState() => _AboutPageState();
-}
 
-class _AboutPageState extends State<AboutPage> {
+class AboutPage extends StatelessWidget {
   int selectedIndex = 0;
-
-  Widget buildIconContainer(IconData icon, int index) {
-    bool isSelected = selectedIndex == index;
-
-    return Expanded(
-      child: InkWell(
-        onTap: () {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.asset('assets/imagens/labmaker-navbar2.jpg'), // Passo 1
+            Container(
+              height: 1,
+              color: Colors.grey, // Passo 2
+            ),
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Sobre o Lab Maker', // Passo 3
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Image.asset('assets/imagens/labMaker.jpg'), // Passo 4
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Descrição sobre o Lab Maker', // Passo 5
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TeamDevPage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green[700], // Passo 6
+                  ),
+                  child: Text(
+                    'Time de Devs',
+                    style: TextStyle(
+                      color: Colors.white, // Altera a cor do texto para branco
+                    ),
+                  ),
+                ),
+                SizedBox(width: 30),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TeamDevPage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green[700], // Passo 6
+                  ),
+                  child: Text(
+                    'Time Lab Maker',
+                    style: TextStyle(
+                      color: Colors.white, // Altera a cor do texto para branco
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage('assets/imagens/leoCampello.jpg'), // Passo 7
+                          radius: 50,
+                        ),
+                        SizedBox(height: 15),
+                        Text('Leonardo Campello'),
+                      ],
+                    ),
+                    SizedBox(width: 30), // Aumente a largura do SizedBox conforme necessário
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage('assets/imagens/viniEufrazio.jpg'), // Passo 7
+                          radius: 50,
+                        ),
+                        SizedBox(height: 15),
+                        Text('Vinicio Eufrazio'),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage('assets/imagens/vicCarlos.jpg'), // Passo 7
+                          radius: 50,
+                        ),
+                        SizedBox(height: 15),
+                        Text('Victor Carlos'),
+                      ],
+                    ),
+                    SizedBox(width: 50), // Aumente a largura do SizedBox conforme necessário
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage('assets/imagens/PLemos.jpg'), // Passo 7
+                          radius: 50,
+                        ),
+                        SizedBox(height: 15),
+                        Text('Pedro Lemos'),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: (index) {
           setState(() {
             selectedIndex = index;
           });
-
-          if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AboutPage()),
-            );
-          } else if (index == 0) {
+          if (index == 0) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
             );
+          } else if (index == 1) {
+            // Defina a rota para a página de perfil
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AboutPage()),
+            );
           }
         },
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isSelected ? Colors.green[700] : Colors.white,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore),
+            label: 'Explorar',
           ),
-          child: Icon(
-            icon,
-            color: isSelected ? Colors.white : Colors.green[700],
-            size: 35,
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
           ),
-        ),
-      ),
-    );
-  }
-  final List<Widget> pages = [
-    HomePage(),
-    // Adicione outras páginas aqui
-    AboutPage(),
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-          Image.asset("assets/imagens/labmaker-navbar2.jpg"),
-          Divider(
-            height: 1,
-            color: Colors.grey,
+          BottomNavigationBarItem(
+            icon: Icon(Icons.help_outline),
+            label: 'Sobre',
           ),
-          SizedBox(height: 20),
-          Container(
-            alignment: Alignment.center,
-            child: const Text(
-              'Sobre o LabMaker',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green),
-            ),
-          ),
-          SizedBox(height: 20),
-          Image.asset("assets/imagens/labMaker.jpg"),
-          SizedBox(height: 20),
-          const Text(
-            'O Laboratório Maker é um espaço inovador e inspirador, projetado para promover a aprendizagem e a criatividade dos alunos. Equipado com tecnologias de ponta, o laboratório oferece aos estudantes a oportunidade de explorar e experimentar diversas áreas, como programação, robótica, eletrônica e design.',
-            style: TextStyle(fontSize: 15),
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text(
-                      'Equipe de Desenvolvimento',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green),
-                    ),
-                    const SizedBox(height: 10),
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: Image.asset('assets/imagens/leoCampello.jpg'),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text(
-                      'Equipe LabMaker',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green),
-                    ),
-                    const SizedBox(height: 10),
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: Image.asset('assets/imagens/vicCarlos.jpg'),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.asset('assets/imagens/viniEufrazio.jpg'),
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.asset('assets/imagens/PLemos.jpg'),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
         ],
+        selectedItemColor: Color.fromARGB(255, 87, 85, 85), // Define a cor dos ícones selecionados
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-            if (index == 0) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-            } else if (index == 1) {
-              // Defina a rota para a página de perfil
-            } else if (index == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutPage()),
-              );
-            }
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
-              label: 'Explorar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.help_outline),
-              label: 'Sobre',
-            ),
-          ],
-          selectedItemColor: Color.fromARGB(255, 87, 85, 85), // Define a cor dos ícones selecionados
-        ),
     );
   }
+  
+  void setState(Null Function() param0) {}
 }

@@ -36,63 +36,48 @@ class TeamDevPage extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-            height: 50,
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildIconContainer(Icons.explore, 0),
-                buildIconContainer(Icons.person, 1),
-                buildIconContainer(Icons.help_outline, 2),
-              ],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+            if (index == 0) {
+              index = 0;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            } else if (index == 1) {
+              // Defina a rota para a página de perfil
+            } else if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutPage()),
+              );
+            }
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.explore),
+              label: 'Explorar',
             ),
-          ),
-          elevation: 1,
-          color: Colors.grey[300],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.help_outline),
+              label: 'Sobre',
+            ),
+          ],
+          selectedItemColor: Color.fromARGB(255, 87, 85, 85), // Define a cor dos ícones selecionados
         ),
       );
 
   int selectedIndex = 0;
 
-  Widget buildIconContainer(IconData icon, int index) {
-    bool isSelected = selectedIndex == index;
-
-    return Expanded(
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            selectedIndex = index;
-          });
-
-          if (index == 2) {
-            Navigator.push(
-              context!,
-              MaterialPageRoute(builder: (context) => AboutPage()),
-            );
-          }
-          if (index == 0) {
-            Navigator.push(
-              context!,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          }
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isSelected ? Colors.green[700] : Colors.white,
-          ),
-          child: Icon(
-            icon,
-            color: isSelected ? Colors.white : Colors.green[700],
-            size: 35,
-          ),
-        ),
-      ),
-    );
-  }
+ 
   Widget buildTeamMember(String imagePath, String name, String role, String description) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
