@@ -48,7 +48,7 @@ class AboutPage extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green[700], // Passo 6
+                    backgroundColor: Colors.green[700], // Passo 6
                   ),
                   child: Text(
                     'Time de Devs',
@@ -66,7 +66,7 @@ class AboutPage extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green[700], // Passo 6
+                    backgroundColor: Colors.green[700], // Passo 6
                   ),
                   child: Text(
                     'Time Lab Maker',

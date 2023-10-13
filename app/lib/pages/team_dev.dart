@@ -28,7 +28,7 @@ class TeamDevPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              buildTeamMember('assets/imagens/leoCampello.jpg', 'Leonardo Campello', 'Desenvolvedor Full Stack Sênior', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl ac aliquet ultrices, nunc nunc tincidunt nunc, vitae tincidunt nunc nunc auctor nunc.'),
+              buildTeamMember('assets/imagens/leoCampello.jpg', 'Leonardo Campello', 'Desenvolvedor Full Stack Sênior', 'Mestre em Ciências (UNIVASF). Graduado em Engenharia de Computação (UNIVASF e University of Idaho). Professor EBTT do IFSertãoPE - Campus Salgueiro.'),
               SizedBox(height: 10),
               buildTeamMember('assets/imagens/vicCarlos.jpg', 'Victor Carlos', 'Desenvolvedor Frontend', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl ac aliquet ultrices, nunc nunc tincidunt nunc, vitae tincidunt nunc nunc auctor nunc.'),
               SizedBox(height: 10),
