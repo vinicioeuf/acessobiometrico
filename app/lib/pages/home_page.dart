@@ -15,7 +15,7 @@ class HomePageState extends State<HomePage> {
 
   Widget buildBox(IconData icon, String text, int index) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.70,
+      width: MediaQuery.of(context).size.width * 0.85,
       height: 100,
       decoration: BoxDecoration(
         color: Colors.green[700],

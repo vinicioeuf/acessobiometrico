@@ -35,7 +35,7 @@ class _AccessPageState extends State<AccessPage> {
                     style: GoogleFonts.oswald(
                       textStyle: TextStyle(
                         color: Color.fromARGB(255, 61, 96, 47),
-                        fontSize: 40,
+                        fontSize: 35,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -115,7 +115,7 @@ class _AccessPageState extends State<AccessPage> {
                                   'Álvaro Victor',
                                   style: TextStyle(
                                       fontSize: 18.0, fontWeight: FontWeight.bold),
-                                ),
+                                ),                                
                                 Text(
                                   'Bolsista',
                                   style: TextStyle(
@@ -147,22 +147,23 @@ class _AccessPageState extends State<AccessPage> {
                                   ],
                                 ),
                                 Align(
-                                  alignment: Alignment.centerRight,
+                                  alignment: Alignment.topRight,
                                   child: ElevatedButton(
                                     onPressed: () {
                                       // Adicione a ação desejada para o botão
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.green), // Defina a cor de fundo do botão
+                                      backgroundColor: MaterialStateProperty.all<Color>(
+                                        Colors.green,
+                                      ), // Defina a cor de fundo do botão
                                     ),
                                     child: Text(
                                       'Ver mais',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),

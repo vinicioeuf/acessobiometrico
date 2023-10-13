@@ -33,7 +33,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                     style: GoogleFonts.oswald(
                       textStyle: TextStyle(
                         color: Color.fromARGB(255, 61, 96, 47),
-                        fontSize: 40,
+                        fontSize: 35,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -157,36 +157,44 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
   }
 
   Widget buildImageItem(String imagePath, String text) {
-  return SingleChildScrollView(
-    child: Column(
-      children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
-                
-              ),
-              
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(imagePath),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    color: Colors.black.withOpacity(0.5), // Define a cor de fundo do texto
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            
           ),
-          
-        ),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-
+        ],
+      ),
+    );
+  }
 
 }
