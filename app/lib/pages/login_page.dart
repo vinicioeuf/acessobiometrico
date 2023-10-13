@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                 Center(
                   child: RichText(
                     text: TextSpan(
+                      // ignore: prefer_const_constructors
                       text: 'Login',
                       style: GoogleFonts.oswald(
                         textStyle: TextStyle(

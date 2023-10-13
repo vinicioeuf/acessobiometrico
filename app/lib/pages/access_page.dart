@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:app/pages/home_page.dart';
-import 'package:app/pages/about_page.dart';
+
 
 class AccessPage extends StatefulWidget {
   const AccessPage({Key? key}) : super(key: key);
@@ -56,13 +55,13 @@ class _AccessPageState extends State<AccessPage> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: DropdownButton<String>(
-                      value: '12/10/2023',
+                      value: ' 12/10/2023',
                       onChanged: (String? newValue) {},
                       items: <String>[
-                        '12/10/2023',
-                        '11/10/2023',
-                        '10/10/2023',
-                        '09/10/2023'
+                        ' 12/10/2023',
+                        ' 11/10/2023',
+                        ' 10/10/2023',
+                        ' 09/10/2023'
                       ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -561,43 +560,7 @@ class _AccessPageState extends State<AccessPage> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-            if (index == 0) {
-              index = 0;
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-            } else if (index == 1) {
-              // Defina a rota para a página de perfil
-            } else if (index == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutPage()),
-              );
-            }
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
-              label: 'Explorar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.help_outline),
-              label: 'Sobre',
-            ),
-          ],
-          selectedItemColor: Color.fromARGB(255, 87, 85, 85), // Define a cor dos ícones selecionados
-        ),
+        
       ),
     );
   }

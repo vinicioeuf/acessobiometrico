@@ -7,7 +7,7 @@ import 'package:app/pages/about_page.dart';
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/team_dev.dart';
 import 'package:flutter/material.dart';
-import 'package:app/pages/footer_widget.dart';
+
 
 class AppWidget extends StatelessWidget {
   final String title;

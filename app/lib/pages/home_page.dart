@@ -1,6 +1,7 @@
+import 'package:app/pages/explorarPage.dart';
+import 'package:app/pages/login_page.dart';
+import 'package:app/pages/register_page.dart';
 import 'package:flutter/material.dart';
-import 'package:app/pages/agendamento_page.dart';
-import 'package:app/pages/access_page.dart';
 import 'about_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +13,8 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int selectedIndex = 0;
+  int paginaAtual = 0;
+  late PageController pc;
 
   Widget buildBox(IconData icon, String text, int index) {
     return Container(
@@ -43,92 +46,69 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  final List<Widget> pages = [
-    HomePage(),
-    // Adicione outras páginas aqui
-    AboutPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    pc = PageController(initialPage: paginaAtual);
+  }
+
+  setPaginaAtual(pagina) {
+    setState(() {
+      paginaAtual = pagina;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: ListView(
+        body: PageView(
+          controller: pc,
           children: [
-            Image.asset("assets/imagens/labmaker-navbar2.jpg"),
-            Divider(
-              height: 1,
-              color: Colors.grey,
-            ),
-            SizedBox(height: 10),
-            Column(
-              children: [
-                buildBox(Icons.rocket_launch, 'PROJETOS', 0),
-                SizedBox(height: 20),
-                buildBox(Icons.report, 'AVISOS', 1),
-                SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AgendamentoPage()),
-                    );
-                  },
-                  child: buildBox(Icons.date_range, 'AGENDAMENTO', 2),
-                ),
-                SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AccessPage()),
-                    );
-                  },
-                  child: buildBox(Icons.fingerprint, 'ACESSOS', 3),
-                ),
-              ],
-            ),
+            ExplorarPage(),
+            LoginPage(),
+            RegisterPage(),
+            AboutPage(),
           ],
+          onPageChanged: setPaginaAtual,
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-            if (index == 0) {
-              index = 0;
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-            } else if (index == 1) {
-              // Defina a rota para a página de perfil
-            } else if (index == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutPage()),
-              );
-            }
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
-              label: 'Explorar',
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: paginaAtual,
+        selectedItemColor: Colors.green[700], // Define a cor dos itens selecionados
+        unselectedItemColor: Colors.grey, // Define a cor dos itens não selecionados
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.explore,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
+            label: 'Explorar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.lock,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.help_outline),
-              label: 'Sobre',
+            label: 'Login',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
             ),
-          ],
-          selectedItemColor: Color.fromARGB(255, 87, 85, 85), // Define a cor dos ícones selecionados
-        ),
+            label: 'Cadastro',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.help_outline,
+            ),
+            label: 'Sobre',
+          ),
+        ],
+        onTap: (pagina) {
+          pc.animateToPage(pagina,
+              duration: Duration(milliseconds: 400), curve: Curves.ease);
+        },
+      ),
+
       ),
     );
   }
 }
-

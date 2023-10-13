@@ -1,9 +1,11 @@
-import 'package:app/pages/home_page.dart';
+
 import 'package:app/pages/team_dev.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 
+// ignore: must_be_immutable
 class AboutPage extends StatelessWidget {
   int selectedIndex = 0;
   @override
@@ -21,10 +23,14 @@ class AboutPage extends StatelessWidget {
               padding: EdgeInsets.all(16.0),
               child: Text(
                 'Sobre o Lab Maker', // Passo 3
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.oswald(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 61, 96, 47),
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                  
               ),
             ),
             Image.asset('assets/imagens/labMaker.jpg'), // Passo 4
@@ -137,42 +143,6 @@ class AboutPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          } else if (index == 1) {
-            // Defina a rota para a página de perfil
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AboutPage()),
-            );
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explorar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.help_outline),
-            label: 'Sobre',
-          ),
-        ],
-        selectedItemColor: Color.fromARGB(255, 87, 85, 85), // Define a cor dos ícones selecionados
       ),
     );
   }

@@ -1,6 +1,5 @@
-import 'package:app/pages/home_page.dart';
+
 import 'package:flutter/material.dart';
-import 'package:app/pages/about_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AgendamentoPage extends StatefulWidget {
@@ -64,43 +63,6 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
               ),
             ],
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-            if (index == 0) {
-              index = 0;
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-            } else if (index == 1) {
-              // Defina a rota para a página de perfil
-            } else if (index == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutPage()),
-              );
-            }
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
-              label: 'Explorar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.help_outline),
-              label: 'Sobre',
-            ),
-          ],
-          selectedItemColor: Color.fromARGB(255, 87, 85, 85), // Define a cor dos ícones selecionados
         ),
       ),
     );
