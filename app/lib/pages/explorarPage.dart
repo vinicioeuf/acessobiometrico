@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app/pages/agendamento_page.dart';
+import 'package:app/pages/projects_page.dart';
+import 'package:app/pages/avisos_page.dart';
 import 'package:app/pages/access_page.dart';
 
 class ExplorarPage extends StatelessWidget {
@@ -45,9 +47,27 @@ class ExplorarPage extends StatelessWidget {
         SizedBox(height: 10),
         Column(
           children: [
-            buildBox(Icons.rocket_launch, 'PROJETOS', 0, context),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProjectsPage()),
+                );
+              },
+              child: buildBox(Icons.rocket_launch, 'PROJETOS', 0, context),
+            ),
+            
             SizedBox(height: 20),
-            buildBox(Icons.report, 'AVISOS', 1, context),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AvisosPage()),
+                );
+              },
+              child: buildBox(Icons.report, 'AVISOS', 1, context),
+            ),
+            
             SizedBox(height: 20),
             GestureDetector(
               onTap: () {
