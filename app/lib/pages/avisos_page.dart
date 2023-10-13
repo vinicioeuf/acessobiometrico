@@ -11,7 +11,7 @@ class _AvisosPageState extends State<AvisosPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Text("Em desenvolvimento"),
+      home: Center(child: Text("Em desenvolvimento")),
     );
   }
 }

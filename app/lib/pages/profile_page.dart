@@ -11,7 +11,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Text("Em desenvolvimento"),
+      home: Center(child: Text("Em desenvolvimento")),
     );
   }
 }

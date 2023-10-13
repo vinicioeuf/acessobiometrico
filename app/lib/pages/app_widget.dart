@@ -7,6 +7,7 @@ import 'package:app/pages/projects_page.dart';
 import 'package:app/pages/agendamento_page.dart';
 import 'package:app/pages/about_page.dart';
 import 'package:app/pages/access_page.dart';
+import 'package:app/pages/avisos_page.dart';
 import 'package:app/pages/team_dev.dart';
 import 'package:flutter/material.dart';
 
@@ -44,6 +45,7 @@ class AppWidget extends StatelessWidget {
         '/access': (_) => AccessPage(),
         '/projects': (_) => ProjectsPage(),
         '/profile': (_) => ProfilePage(),
+        '/avisos': (_) => AvisosPage(),
         '/teamDev': (_) => TeamDevPage(),
       },
       home: Scaffold(
