@@ -25,6 +25,10 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.symmetric(vertical: 15),
               child: Image.asset("assets/imagens/labmaker-navbar2.jpg"),
             ),
+            Divider(
+              height: 1,
+              color: Colors.grey,
+            ),
             Column(
               children: [
                 Center(

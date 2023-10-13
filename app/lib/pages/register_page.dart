@@ -24,6 +24,10 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: EdgeInsets.symmetric(vertical: 15),
               child: Image.asset("assets/imagens/labmaker-navbar2.jpg"),
             ),
+            Divider(
+              height: 1,
+              color: Colors.grey,
+            ),
             Center(
               child: RichText(
                 text: TextSpan(

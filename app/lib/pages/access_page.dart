@@ -106,7 +106,7 @@ class _AccessPageState extends State<AccessPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 8.0),
+                          SizedBox(width: 6.5),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,6 +175,11 @@ class _AccessPageState extends State<AccessPage> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 10.0),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
                   SizedBox(height: 15.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
@@ -196,7 +201,7 @@ class _AccessPageState extends State<AccessPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 8.0),
+                          SizedBox(width: 6.5),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,6 +270,11 @@ class _AccessPageState extends State<AccessPage> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 10.0),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
                   SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
@@ -286,7 +296,7 @@ class _AccessPageState extends State<AccessPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 8.0),
+                          SizedBox(width: 6.5),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -355,6 +365,11 @@ class _AccessPageState extends State<AccessPage> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 10.0),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
                   SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
@@ -376,7 +391,7 @@ class _AccessPageState extends State<AccessPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 8.0),
+                          SizedBox(width: 6.5),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -445,7 +460,11 @@ class _AccessPageState extends State<AccessPage> {
                       ),
                     ],
                   ),
-
+                  SizedBox(height: 10.0),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
                   SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
@@ -467,7 +486,7 @@ class _AccessPageState extends State<AccessPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 8.0),
+                          SizedBox(width: 6.5),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
