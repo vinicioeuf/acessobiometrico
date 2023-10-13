@@ -1,6 +1,7 @@
 import 'package:app/pages/explorarPage.dart';
 import 'package:app/pages/login_page.dart';
 import 'package:app/pages/register_page.dart';
+import 'package:app/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'about_page.dart';
 
@@ -66,8 +67,7 @@ class HomePageState extends State<HomePage> {
           controller: pc,
           children: [
             ExplorarPage(),
-            LoginPage(),
-            RegisterPage(),
+            ProfilePage(),
             AboutPage(),
           ],
           onPageChanged: setPaginaAtual,
@@ -83,17 +83,17 @@ class HomePageState extends State<HomePage> {
             ),
             label: 'Explorar',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.lock,
-            ),
-            label: 'Login',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(
+          //     Icons.lock,
+          //   ),
+          //   label: 'Login',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
             ),
-            label: 'Cadastro',
+            label: 'Perfil',
           ),
           BottomNavigationBarItem(
             icon: Icon(
