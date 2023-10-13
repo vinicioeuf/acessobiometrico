@@ -280,7 +280,7 @@ class _AccessPageState extends State<AccessPage> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: AssetImage('assets/imagens/PLemos.jpg'),
+                                  image: AssetImage('assets/imagens/leoCampello.jpg'),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -292,12 +292,12 @@ class _AccessPageState extends State<AccessPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Pedro Lemos',
+                                  'Leonardo Campello',
                                   style: TextStyle(
                                       fontSize: 18.0, fontWeight: FontWeight.bold),
                                 ),                                
                                 Text(
-                                  'Coordenador do Lab',
+                                  'Professor do Campus',
                                   style: TextStyle(
                                       fontSize: 15.0, fontWeight: FontWeight.bold),
                                 ),
