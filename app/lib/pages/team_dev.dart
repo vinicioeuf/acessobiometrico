@@ -32,7 +32,7 @@ class TeamDevPage extends StatelessWidget {
               SizedBox(height: 10),
               buildTeamMember('assets/imagens/vicCarlos.jpg', 'Victor Carlos', 'Desenvolvedor Frontend', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl ac aliquet ultrices, nunc nunc tincidunt nunc, vitae tincidunt nunc nunc auctor nunc.'),
               SizedBox(height: 10),
-              buildTeamMember('assets/imagens/viniEufrazio.jpg', 'Vinicio Eufrazio', 'Desenvolvedor Backend', 'Técnico em Informática (IFSertãoPE), Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Administrador de sites na K1Digital.'),
+              buildTeamMember('assets/imagens/viniEufrazio.jpg', 'Vinicio Eufrazio', 'Desenvolvedor Backend', 'Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Técnico em Informática (IFSertãoPE), Administrador de sites na K1Digital.'),
             ],
           ),
         ),
