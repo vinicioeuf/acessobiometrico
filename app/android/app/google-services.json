@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "596295902068",
+    "project_id": "login-ec84e",
+    "storage_bucket": "login-ec84e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596295902068:android:33ad9c5cfa7235bc598221",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4X5D00Y_zm0913qTMIft1f3vDQFHtQkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
