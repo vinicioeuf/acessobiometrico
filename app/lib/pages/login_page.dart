@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +16,99 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+final TextEditingController emailController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+
+  Future<void> _loginUser(BuildContext context) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailController.text,
+            password: passController.text,
+      );
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Acesso liberado! Redirecionando...'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Erro no Login'),
+                content: Text('Não há usuários cadastrados com essas credenciais.'),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Ok'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        } else if (e.code == 'wrong-password') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Erro no Login'),
+                content: Text('A senha está incorreta'),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Ok'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
+        else if (e.code == 'weak-password'){
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Erro no Login'),
+                content: Text('A senha é muito fraca.'),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Ok'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
+    } 
+    catch (e) {
+      print('Error: $e');
+    }
+  }
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 50),
                 TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'E-mail',
                     filled: true,
@@ -64,6 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 30),
                 TextField(
+                  controller: passController,
                   decoration: InputDecoration(
                     labelText: 'Senha',
                     filled: true,
@@ -80,12 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 75),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
-                  },
+                  onPressed: () => _loginUser(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 0, 127, 54),
                     shape: RoundedRectangleBorder(
