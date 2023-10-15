@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app/pages/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key});
@@ -17,13 +19,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
-
+  // final FirebaseStorage storage = FirebaseStorage.instance;
   Future<void> _registerUser(BuildContext context) async {
-    
-    
-    
     try {
-      
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
@@ -95,6 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
     catch (e) {
       print('Error: $e');
     }
+    
   }
 
   @override
@@ -126,6 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
+            
             SizedBox(height: 50),
             TextField(
               controller: nameController,
