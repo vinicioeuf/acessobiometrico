@@ -19,28 +19,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passController = TextEditingController();
 
   Future<void> _registerUser(BuildContext context) async {
-    // if (passController.text.length < 6) {
-    //   showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         title: Text('Erro no cadastro'),
-    //         content: Text('A senha deve ter no mínimo 6 caracteres.'),
-    //         actions: <Widget>[
-    //           TextButton(
-    //             child: Text('Ok'),
-    //             onPressed: () {
-    //               Navigator.of(context).pop();
-    //             },
-    //           ),
-    //         ],
-    //       );
-    //     },
-    //   );
-    //   return;
-    // }
-    String name = nameController.text;
-
+    
+    
+    
     try {
       
       UserCredential userCredential =
@@ -48,7 +29,10 @@ class _RegisterPageState extends State<RegisterPage> {
         email: emailController.text,
         password: passController.text,
       );
-      
+      User? user = userCredential.user;
+      if (user != null) {
+        await user.updateDisplayName(nameController.text);
+      }
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -57,11 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
             actions: <Widget>[
               TextButton(
                 child: Text('Ok'),
-                onPressed: () async {
-                  await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(userCredential.user!.uid)
-                    .set({'name': name});
+                onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                 },
               ),
@@ -116,36 +96,6 @@ class _RegisterPageState extends State<RegisterPage> {
       print('Error: $e');
     }
   }
-
-  // Future<void> _showAlertDialog(BuildContext context) async {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Cadastro efetuado'),
-  //         content: SingleChildScrollView(
-  //           child: ListBody(
-  //             children: <Widget>[
-  //               Text('Seu cadastro foi efetuado com sucesso.'),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: Text('Ok'),
-  //             onPressed: () {
-  //               Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(builder: (context) => LoginPage()),
-  //               );
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -285,6 +235,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+    
   }
-
+  
 }

@@ -5,28 +5,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Importe a biblioteca do Firestore
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key});
-  
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
-  
   Future<void> _loginUser(BuildContext context) async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailController.text,
-            password: passController.text,
+        email: emailController.text,
+        password: passController.text,
       );
       showDialog(
         context: context,
@@ -37,7 +36,10 @@ class _LoginPageState extends State<LoginPage> {
               TextButton(
                 child: Text('Ok'),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage()));
                 },
               ),
             ],
@@ -45,73 +47,29 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
     } on FirebaseAuthException catch (e) {
-      
-        if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Erro no Login'),
-                content: Text('Verifique se as credenciais informadas estão corretas.'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('Ok'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        } 
-        // else if (e.code == 'wrong-password') {
-        //   showDialog(
-        //     context: context,
-        //     builder: (BuildContext context) {
-        //       return AlertDialog(
-        //         title: Text('Erro no Login'),
-        //         content: Text('A senha está incorreta'),
-        //         actions: <Widget>[
-        //           TextButton(
-        //             child: Text('Ok'),
-        //             onPressed: () {
-        //               Navigator.of(context).pop();
-        //             },
-        //           ),
-        //         ],
-        //       );
-        //     },
-        //   );
-        // }
-        // else if (e.code == 'weak-password'){
-        //   showDialog(
-        //     context: context,
-        //     builder: (BuildContext context) {
-        //       return AlertDialog(
-        //         title: Text('Erro no Login'),
-        //         content: Text('A senha é muito fraca.'),
-        //         actions: <Widget>[
-        //           TextButton(
-        //             child: Text('Ok'),
-        //             onPressed: () {
-        //               Navigator.of(context).pop();
-        //             },
-        //           ),
-        //         ],
-        //       );
-        //     },
-        //   );
-        // }
-    } 
-    catch (e) {
+      if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Erro no Login'),
+              content: Text('Verifique se as credenciais informadas estão corretas.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
       print('Error: $e');
     }
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -202,9 +160,11 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.facebook, color: const Color.fromARGB(255, 0, 63, 114), size: 40,),
+                    Icon(Icons.facebook,
+                        color: const Color.fromARGB(255, 0, 63, 114),
+                        size: 40),
                     SizedBox(width: 20),
-                    Icon(Icons.email, color: Colors.red, size: 40,),
+                    Icon(Icons.email, color: Colors.red, size: 40),
                     SizedBox(width: 20),
                     Icon(Icons.apple, color: Colors.blueGrey, size: 40),
                   ],
@@ -232,6 +192,36 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 40),
+                // Adicione o código abaixo para exibir os dados do Firestore
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('suaColecao')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Erro ao carregar os dados');
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text('Carregando...');
+                    }
+
+                    return ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> data =
+                            document.data() as Map<String, dynamic>;
+                        return ListTile(
+                          title: Text(data['email']),
+                          subtitle: Text(data['uid']),
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
               ],
             ),
           ],
@@ -240,4 +230,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

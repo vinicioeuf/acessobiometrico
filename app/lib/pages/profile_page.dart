@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -12,9 +12,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-
-
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,27 +33,42 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Positioned(
               top: 100,
-              left: 120, // Ajuste a posição vertical da imagem conforme necessário
-               // Ajuste a posição horizontal da imagem conforme necessário
+              left: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: Image.asset(
                   'assets/imagens/viniEufrazio.jpg',
                   width: 150,
                   height: 150,
-                  
                 ),
-                
+              ),
+            ),
+            Positioned(
+              top: 300,
+              left: 50,
+              child: FutureBuilder<User?>(
+                future: FirebaseAuth.instance.authStateChanges().first,
+                builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else {
+                    if (snapshot.hasData) {
+                      User? user = snapshot.data;
+                      return Column(
+                        children: [
+                          Text('Nome: ${user!.displayName}'),
+                          Text('Email: ${user!.email}'),
+                          // Text('Foto: ${user.photoURL}'),
+                        ],
+                      );
+                    } else {
+                      return Text('Usuário não autenticado');
+                    }
+                  }
+                },
               ),
               
             ),
-            
-            Center(
-              child: Text("Vinicio Eufrazio"),
-            ),
-            
-
-            // Restante do conteúdo da página aqui
           ],
         ),
       ),
