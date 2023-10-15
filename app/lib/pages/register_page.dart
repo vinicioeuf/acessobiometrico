@@ -35,6 +35,10 @@ class _RegisterPageState extends State<RegisterPage> {
       User? user = userCredential.user;
       if (user != null) {
         await user.updateDisplayName(nameController.text);
+        String? imagePath = await pickAndUploadImage();
+        if (imagePath != null) {
+          await user.updatePhotoURL(imagePath);
+        }
       }
       showDialog(
         context: context,
@@ -256,10 +260,13 @@ class _RegisterPageState extends State<RegisterPage> {
       throw Exception("Erro no upload: ${e.code}");
     }
   }
-  pickAndUploadImage() async{
-    XFile? file = await getImage();
-    if(file != null){
-      await upload(file.path);
+  Future<String?> pickAndUploadImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      await upload(image.path);
+      return image.path;
     }
+    return null;
   }
 }
