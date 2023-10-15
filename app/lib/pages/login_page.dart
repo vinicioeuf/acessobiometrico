@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import
 
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -19,7 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
-
+  Timer? _sessionTimer;
   Future<void> _loginUser(BuildContext context) async {
     try {
       UserCredential userCredential =
@@ -27,6 +29,30 @@ class _LoginPageState extends State<LoginPage> {
         email: emailController.text,
         password: passController.text,
       );
+      _sessionTimer = Timer(Duration(minutes: 20), () {
+        FirebaseAuth.instance.signOut();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('A sessão encerrou, faça o login novamente.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginPage()));
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        
+
+      });
       showDialog(
         context: context,
         builder: (BuildContext context) {
