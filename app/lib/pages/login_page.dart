@@ -10,15 +10,17 @@ import 'package:app/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key});
-
+  
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
+  
   Future<void> _loginUser(BuildContext context) async {
     try {
       UserCredential userCredential =
