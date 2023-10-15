@@ -1,13 +1,8 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -17,7 +12,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final FirebaseStorage storage = FirebaseStorage.instance;
   @override
   void initState() {
     super.initState();
@@ -49,10 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            ElevatedButton.icon(onPressed: pickAndUploadImage, icon: Icon(Icons.upload), label: Text('Enviar imagem')),
-            SizedBox(height: 50),
             Positioned(
-              
               top: 300,
               left: 50,
               child: FutureBuilder<User?>(
@@ -83,35 +74,9 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-  Future<XFile?> getImage() async{
-    final ImagePicker _picker = ImagePicker();
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    return image;
-  }
-  Future<void> upload(String path) async{
-    File file = File(path);
-    try{
-      String ref = 'image/img-${DateTime.now().toString()}.jpg';
-      await storage.ref(ref).putFile(file);
-    } on FirebaseException catch(e){
-      throw Exception("Erro no upload: ${e.code}");
-    }
-  }
-  pickAndUploadImage() async{
-    XFile? file = await getImage();
-    if(file != null){
-      await upload(file.path);
-    }
-  }
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<FirebaseStorage>('storage', storage));
-  }
 }
 
 class _SemiCirclePainter extends CustomPainter {
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -134,6 +99,4 @@ class _SemiCirclePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
-
-  
 }

@@ -1,4 +1,6 @@
 
+
+
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
-  
+  final FirebaseStorage storage = FirebaseStorage.instance;
   Future<void> _registerUser(BuildContext context) async {
     try {
       UserCredential userCredential =
@@ -128,6 +130,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
+            ElevatedButton.icon(onPressed: pickAndUploadImage, icon: Icon(Icons.upload), label: Text('Enviar imagem')),
+            SizedBox(height: 50),
             TextField(
               controller: nameController,
               decoration: InputDecoration(
@@ -237,5 +241,25 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
     
+  }
+  Future<XFile?> getImage() async{
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+  Future<void> upload(String path) async{
+    File file = File(path);
+    try{
+      String ref = 'image/img-${DateTime.now().toString()}.jpg';
+      await storage.ref(ref).putFile(file);
+    } on FirebaseException catch(e){
+      throw Exception("Erro no upload: ${e.code}");
+    }
+  }
+  pickAndUploadImage() async{
+    XFile? file = await getImage();
+    if(file != null){
+      await upload(file.path);
+    }
   }
 }
