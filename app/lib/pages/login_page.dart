@@ -43,13 +43,14 @@ final TextEditingController emailController = TextEditingController();
         },
       );
     } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
+      
+        if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text('Erro no Login'),
-                content: Text('Não há usuários cadastrados com essas credenciais.'),
+                content: Text('Verifique se as credenciais informadas estão corretas.'),
                 actions: <Widget>[
                   TextButton(
                     child: Text('Ok'),
@@ -61,44 +62,45 @@ final TextEditingController emailController = TextEditingController();
               );
             },
           );
-        } else if (e.code == 'wrong-password') {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Erro no Login'),
-                content: Text('A senha está incorreta'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('Ok'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        }
-        else if (e.code == 'weak-password'){
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Erro no Login'),
-                content: Text('A senha é muito fraca.'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('Ok'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        }
+        } 
+        // else if (e.code == 'wrong-password') {
+        //   showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return AlertDialog(
+        //         title: Text('Erro no Login'),
+        //         content: Text('A senha está incorreta'),
+        //         actions: <Widget>[
+        //           TextButton(
+        //             child: Text('Ok'),
+        //             onPressed: () {
+        //               Navigator.of(context).pop();
+        //             },
+        //           ),
+        //         ],
+        //       );
+        //     },
+        //   );
+        // }
+        // else if (e.code == 'weak-password'){
+        //   showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return AlertDialog(
+        //         title: Text('Erro no Login'),
+        //         content: Text('A senha é muito fraca.'),
+        //         actions: <Widget>[
+        //           TextButton(
+        //             child: Text('Ok'),
+        //             onPressed: () {
+        //               Navigator.of(context).pop();
+        //             },
+        //           ),
+        //         ],
+        //       );
+        //     },
+        //   );
+        // }
     } 
     catch (e) {
       print('Error: $e');

@@ -42,16 +42,13 @@ class _RegisterPageState extends State<RegisterPage> {
     String name = nameController.text;
 
     try {
+      
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passController.text,
       );
-      await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userCredential.user!.uid)
-        .set({'name': name});
-      // _showAlertDialog(context);
+      
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -60,7 +57,11 @@ class _RegisterPageState extends State<RegisterPage> {
             actions: <Widget>[
               TextButton(
                 child: Text('Ok'),
-                onPressed: () {
+                onPressed: () async {
+                  await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(userCredential.user!.uid)
+                    .set({'name': name});
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                 },
               ),
@@ -68,6 +69,9 @@ class _RegisterPageState extends State<RegisterPage> {
           );
         },
       );
+      
+      // _showAlertDialog(context);
+      
     } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           showDialog(
