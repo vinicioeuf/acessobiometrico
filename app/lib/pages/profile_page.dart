@@ -1,5 +1,7 @@
 import 'package:app/pages/perfilAcessosPage.dart';
 import 'package:app/pages/perfilPessoaisPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -13,11 +15,13 @@ class _ProfilePageState extends State<ProfilePage> {
   bool isAccessButtonSelected = false;
   int selectedIndexPerfil = 0;
   late PageController pcPerfil;
+  
 
   @override
   void initState() {
     super.initState();
     pcPerfil = PageController(initialPage: selectedIndexPerfil);
+    Firebase.initializeApp();
   }
 
   @override
@@ -59,29 +63,69 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
+            
             Align(
               alignment: Alignment.center,
               child: Transform.translate(
-                offset: Offset(0, -200),
+                offset: Offset(0, -25),
                 child: Container(
                   width: 150,
                   height: 150,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2,
-                    ),
+                  // decoration: BoxDecoration(
+                  //   shape: BoxShape.circle,
+                  //   border: Border.all(
+                  //     color: Colors.white,
+                  //     width: 2,
+                  //   ),
+                  // ),
+                  child: FutureBuilder<User?>(
+                    future: FirebaseAuth.instance.authStateChanges().first,
+                    builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else {
+                        if (snapshot.hasData) {
+                          User? user = snapshot.data;
+                          return Align(
+                            alignment: Alignment.center,
+                            child: Transform.translate(
+                              offset: Offset(0, -200),
+                              child: Container(
+                                width: 150,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(user!.photoURL ?? ''),
+                                  radius: 75,
+                                ),
+                              ),
+                            ),
+                          );
+                            // Text('Email: ${user!.email}'),
+                            // Text('Foto: ${user.photoURL}'),
+                        } else {
+                          return Text('Usuário não autenticado');
+                        }
+                      }
+                    },
                   ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      'assets/imagens/vicCarlos.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  // child: ClipOval(
+
+                  //   child: Image.asset(
+                  //     'assets/imagens/vicCarlos.jpg',
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  // ),
                 ),
               ),
             ),
+            // SizedBox(height: 150),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -184,16 +228,36 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 420),
-                child: Text(
-                  'Álvaro Victor \n    Bolsista',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              child: FutureBuilder<User?>(
+                future: FirebaseAuth.instance.authStateChanges().first,
+                builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else {
+                    if (snapshot.hasData) {
+                      User? user = snapshot.data;
+                      return Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 495),
+                          child: Text(
+                            '${user!.displayName}',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                        // Text('Email: ${user!.email}'),
+                        // Text('Foto: ${user.photoURL}'),
+                    } else {
+                      return Text('Usuário não autenticado');
+                    }
+                  }
+                },
               ),
+              
             ),
           ],
         ),

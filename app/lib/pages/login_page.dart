@@ -19,83 +19,83 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // final TextEditingController emailController = TextEditingController();
-  // final TextEditingController passController = TextEditingController();
-  // Timer? _sessionTimer;
-  // Future<void> _loginUser(BuildContext context) async {
-  //   try {
-  //     UserCredential userCredential =
-  //         await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: emailController.text,
-  //       password: passController.text,
-  //     );
-  //     _sessionTimer = Timer(Duration(minutes: 20), () {
-  //       FirebaseAuth.instance.signOut();
-  //       showDialog(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return AlertDialog(
-  //             title: Text('A sessão encerrou, faça o login novamente.'),
-  //             actions: <Widget>[
-  //               TextButton(
-  //                 child: Text('Ok'),
-  //                 onPressed: () {
-  //                   Navigator.push(
-  //                     context,
-  //                     MaterialPageRoute(
-  //                         builder: (context) => LoginPage()));
-  //                 },
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+  Timer? _sessionTimer;
+  Future<void> _loginUser(BuildContext context) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passController.text,
+      );
+      _sessionTimer = Timer(Duration(minutes: 20), () {
+        FirebaseAuth.instance.signOut();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('A sessão encerrou, faça o login novamente.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginPage()));
+                  },
+                ),
+              ],
+            );
+          },
+        );
         
 
-  //     });
-  //     showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text('Acesso liberado! Redirecionando...'),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               child: Text('Ok'),
-  //               onPressed: () {
-  //                 Navigator.push(
-  //                     context,
-  //                     MaterialPageRoute(
-  //                         builder: (context) => HomePage()));
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
-  //       showDialog(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return AlertDialog(
-  //             title: Text('Erro no Login'),
-  //             content: Text('Verifique se as credenciais informadas estão corretas.'),
-  //             actions: <Widget>[
-  //               TextButton(
-  //                 child: Text('Ok'),
-  //                 onPressed: () {
-  //                   Navigator.of(context).pop();
-  //                 },
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //   }
-  
+      });
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Acesso liberado! Redirecionando...'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage()));
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Erro no Login'),
+              content: Text('Verifique se as credenciais informadas estão corretas.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 50),
                 TextField(
-                  // controller: emailController,
+                  controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'E-mail',
                     filled: true,
@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 30),
                 TextField(
-                  // controller: passController,
+                  controller: passController,
                   decoration: InputDecoration(
                     labelText: 'Senha',
                     filled: true,
@@ -165,12 +165,13 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 75),
                 ElevatedButton(
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomePage())),
-                  },//Por enqunato_loginUser(context),
+                  onPressed: () => _loginUser(context),
+                  // {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => HomePage())),
+                  // },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 0, 127, 54),
                     shape: RoundedRectangleBorder(

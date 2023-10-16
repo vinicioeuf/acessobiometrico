@@ -134,7 +134,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            ElevatedButton.icon(onPressed: pickAndUploadImage, icon: Icon(Icons.upload), label: Text('Enviar imagem')),
+            // ElevatedButton.icon(onPressed: pickAndUploadImage, icon: Icon(Icons.upload), label: Text('Enviar imagem')),
             SizedBox(height: 50),
             TextField(
               controller: nameController,
@@ -264,8 +264,11 @@ class _RegisterPageState extends State<RegisterPage> {
     final ImagePicker _picker = ImagePicker();
     XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      await upload(image.path);
-      return image.path;
+      Reference storageReference = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
+      UploadTask uploadTask = storageReference.putFile(File(image.path));
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+      String imageUrl = await taskSnapshot.ref.getDownloadURL();
+      return imageUrl;
     }
     return null;
   }
