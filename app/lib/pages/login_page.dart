@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Importe a biblioteca do Firestore
 import 'package:app/pages/home_page.dart';
@@ -21,8 +22,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
+  bool _isLoading = false;
   Timer? _sessionTimer;
   Future<void> _loginUser(BuildContext context) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -62,10 +67,11 @@ class _LoginPageState extends State<LoginPage> {
               TextButton(
                 child: Text('Ok'),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomePage()));
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/home',
+                    (route) => false,
+                  );
                 },
               ),
             ],
@@ -95,6 +101,9 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       print('Error: $e');
     }
+    setState(() {
+      _isLoading = false;
+    });
 }
 
   @override
@@ -165,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 75),
                 ElevatedButton(
-                  onPressed: () => _loginUser(context),
+                  onPressed: _isLoading ? null : () => _loginUser(context),
                   // {
                   //   Navigator.push(
                   //     context,
@@ -179,7 +188,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     minimumSize: Size(double.infinity, 60),
                   ),
-                  child: Text(
+                  child: _isLoading ? SpinKitCircle(
+                    color: Colors.white,
+                    size: 26,
+                  )
+                : Text(
                     "Enviar",
                     style: GoogleFonts.oswald(
                       fontWeight: FontWeight.bold,

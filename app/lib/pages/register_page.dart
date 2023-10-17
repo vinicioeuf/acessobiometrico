@@ -1,8 +1,5 @@
-
-
-
 import 'dart:io';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
@@ -10,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app/pages/login_page.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -24,8 +22,12 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
+  bool _isLoading = false;
   final FirebaseStorage storage = FirebaseStorage.instance;
   Future<void> _registerUser(BuildContext context) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -102,6 +104,9 @@ class _RegisterPageState extends State<RegisterPage> {
     catch (e) {
       print('Error: $e');
     }
+    setState(() {
+      _isLoading = false;
+    });
     
   }
 
@@ -188,7 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 50),
             ElevatedButton(
-              onPressed: () => _registerUser(context),
+              onPressed: _isLoading ? null : () => _registerUser(context),
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 0, 127, 54),
                 shape: RoundedRectangleBorder(
@@ -196,14 +201,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 minimumSize: Size(double.infinity, 60),
               ),
-              child: Text(
-                "Enviar",
-                style: GoogleFonts.oswald(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                  color: Colors.white,
-                ),
-              ),
+              child: _isLoading ? SpinKitCircle(
+                    color: Colors.white,
+                    size: 26,
+                  )
+                : Text(
+                    "Enviar",
+                    style: GoogleFonts.oswald(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 26,
+                      color: Colors.white,
+                    ),
+                  ),
             ),
             SizedBox(height: 40),
             Row(

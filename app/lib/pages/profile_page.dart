@@ -129,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 350),
+                padding: const EdgeInsets.only(bottom: 410),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
