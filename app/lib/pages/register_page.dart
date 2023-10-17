@@ -23,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   bool _isLoading = false;
+  bool _obscurePassword = true; 
   final FirebaseStorage storage = FirebaseStorage.instance;
   Future<void> _registerUser(BuildContext context) async {
     setState(() {
@@ -189,6 +190,16 @@ class _RegisterPageState extends State<RegisterPage> {
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide.none,
                 ),
+                suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.green[700],),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
               ),
             ),
             SizedBox(height: 50),

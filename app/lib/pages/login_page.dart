@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Importe a biblioteca do Firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/register_page.dart';
 
@@ -23,7 +21,9 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   bool _isLoading = false;
+  bool _obscurePassword = true; // Adicionado para controlar a visibilidade da senha
   Timer? _sessionTimer;
+
   Future<void> _loginUser(BuildContext context) async {
     setState(() {
       _isLoading = true;
@@ -47,16 +47,14 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => LoginPage()));
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
                   },
                 ),
               ],
             );
           },
         );
-        
-
       });
       showDialog(
         context: context,
@@ -104,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = false;
     });
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +124,6 @@ class _LoginPageState extends State<LoginPage> {
                 Center(
                   child: RichText(
                     text: TextSpan(
-                      // ignore: prefer_const_constructors
                       text: 'Login',
                       style: GoogleFonts.oswald(
                         textStyle: TextStyle(
@@ -158,6 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 30),
                 TextField(
                   controller: passController,
+                  obscureText: _obscurePassword, // Define a visibilidade da senha
                   decoration: InputDecoration(
                     labelText: 'Senha',
                     filled: true,
@@ -170,17 +168,21 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.green[700],),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(height: 75),
                 ElevatedButton(
                   onPressed: _isLoading ? null : () => _loginUser(context),
-                  // {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => HomePage())),
-                  // },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 0, 127, 54),
                     shape: RoundedRectangleBorder(
@@ -188,18 +190,19 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     minimumSize: Size(double.infinity, 60),
                   ),
-                  child: _isLoading ? SpinKitCircle(
-                    color: Colors.white,
-                    size: 26,
-                  )
-                : Text(
-                    "Enviar",
-                    style: GoogleFonts.oswald(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 26,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: _isLoading
+                      ? SpinKitCircle(
+                          color: Colors.white,
+                          size: 26,
+                        )
+                      : Text(
+                          "Enviar",
+                          style: GoogleFonts.oswald(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 26,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
                 SizedBox(height: 40),
                 Row(
@@ -238,7 +241,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 40),
-                // Adicione o código abaixo para exibir os dados do Firestore
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('suaColecao')
