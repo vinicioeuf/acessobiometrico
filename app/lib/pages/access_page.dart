@@ -84,8 +84,8 @@ class _AccessPageState extends State<AccessPage> {
               SizedBox(height: 10),
               Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Saiu","13:56"),
               Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Saiu","13:53"),
-              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Professor","Saiu","13:53"),
-              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Bolsista","Entrou","07:53"),
+              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Saiu","13:53"),
+              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Entrou","07:53"),
               Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Entrou","07:45"),
               Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Entrou","07:45"),
             ],
@@ -129,7 +129,7 @@ Widget Acessos(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$nome\n$vinculo",
+                  "$nome\n$vinculo\n",
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
