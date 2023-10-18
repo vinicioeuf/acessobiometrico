@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class AccessPage extends StatefulWidget {
   const AccessPage({Key? key}) : super(key: key);
 
@@ -11,6 +10,7 @@ class AccessPage extends StatefulWidget {
 
 class _AccessPageState extends State<AccessPage> {
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -81,487 +81,120 @@ class _AccessPageState extends State<AccessPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center, // Centraliza horizontalmente
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 16.0),
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage('assets/imagens/vicCarlos.jpg'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 6.5),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Álvaro Victor',
-                                  style: TextStyle(
-                                      fontSize: 18.0, fontWeight: FontWeight.bold),
-                                ),                                
-                                Text(
-                                  'Bolsista',
-                                  style: TextStyle(
-                                      fontSize: 15.0, fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 5.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Entrou',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green[700]),
-                                        ),
-                                        SizedBox(width: 5.0),
-                                        Text(
-                                          'ás 09:14',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Adicione a ação desejada para o botão
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.green,
-                                ), // Defina a cor de fundo do botão
-                              ),
-                              child: Text(
-                                'Ver mais',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.0),
-                  Divider(
-                    height: 1,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 15.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center, // Centraliza horizontalmente
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 16.0),
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage('assets/imagens/viniEufrazio.jpg'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 6.5),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Vinicio Eufrazio',
-                                  style: TextStyle(
-                                      fontSize: 18.0, fontWeight: FontWeight.bold),
-                                ),                                
-                                Text(
-                                  'Bolsista',
-                                  style: TextStyle(
-                                      fontSize: 15.0, fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 5.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Entrou',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green[700]),
-                                        ),
-                                        SizedBox(width: 5.0),
-                                        Text(
-                                          'ás 08:22',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Adicione a ação desejada para o botão
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.green,
-                                ), // Defina a cor de fundo do botão
-                              ),
-                              child: Text(
-                                'Ver mais',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.0),
-                  Divider(
-                    height: 1,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 8.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center, // Centraliza horizontalmente
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 16.0),
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage('assets/imagens/leoCampello.jpg'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 6.5),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Leonardo Campello',
-                                  style: TextStyle(
-                                      fontSize: 18.0, fontWeight: FontWeight.bold),
-                                ),                                
-                                Text(
-                                  'Professor do Campus',
-                                  style: TextStyle(
-                                      fontSize: 15.0, fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 5.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Entrou',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green[700]),
-                                        ),
-                                        SizedBox(width: 5.0),
-                                        Text(
-                                          'ás 10:04',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Adicione a ação desejada para o botão
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.green,
-                                ), // Defina a cor de fundo do botão
-                              ),
-                              child: Text(
-                                'Ver mais',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.0),
-                  Divider(
-                    height: 1,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 8.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center, // Centraliza horizontalmente
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 16.0),
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage('assets/imagens/viniEufrazio.jpg'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 6.5),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Vinicio Eufrazio',
-                                  style: TextStyle(
-                                      fontSize: 18.0, fontWeight: FontWeight.bold),
-                                ),                                
-                                Text(
-                                  'Bolsista',
-                                  style: TextStyle(
-                                      fontSize: 15.0, fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 5.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Saíu',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.red[700]),
-                                        ),
-                                        SizedBox(width: 5.0),
-                                        Text(
-                                          'ás 12:08',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Adicione a ação desejada para o botão
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.green,
-                                ), // Defina a cor de fundo do botão
-                              ),
-                              child: Text(
-                                'Ver mais',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.0),
-                  Divider(
-                    height: 1,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 8.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center, // Centraliza horizontalmente
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 16.0),
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage('assets/imagens/vicCarlos.jpg'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 6.5),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Álvaro Victor',
-                                  style: TextStyle(
-                                      fontSize: 18.0, fontWeight: FontWeight.bold),
-                                ),                                
-                                Text(
-                                  'Bolsista',
-                                  style: TextStyle(
-                                      fontSize: 15.0, fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 5.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Saíu',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.red[700]),
-                                        ),
-                                        SizedBox(width: 5.0),
-                                        Text(
-                                          'ás 13:23',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Adicione a ação desejada para o botão
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.green,
-                                ), // Defina a cor de fundo do botão
-                              ),
-                              child: Text(
-                                'Ver mais',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        
-                      ),
-                    ],
-                  ),
-
-                ],
-              ),
+              SizedBox(height: 10),
+              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Saiu","13:56"),
+              Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Saiu","13:53"),
+              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Professor","Saiu","13:53"),
+              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Bolsista","Entrou","07:53"),
+              Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Entrou","07:45"),
+              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Entrou","07:45"),
             ],
           ),
         ),
-        
       ),
     );
   }
+}
+
+Widget Acessos(
+  String imagem,
+  String nome,
+  String vinculo,
+  String estado,
+  String hora,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center, // Centraliza horizontalmente
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 16.0),
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(imagem),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: 10,),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "$nome\n$vinculo",
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 5.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          estado,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: estado == "Entrou" ? Colors.green : Colors.red,
+                          ),
+                        ),
+                        SizedBox(width: 5.0),
+                        Text(
+                          'às $hora',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: ElevatedButton(
+              onPressed: () {
+                // Adicione a ação desejada para o botão
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Colors.green,
+                ), // Defina a cor de fundo do botão
+              ),
+              child: Text(
+                'Ver mais',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: 10,),
+        ],
+      ),
+      SizedBox(height: 10),
+      Divider(
+        height: 1,
+        color: Colors.grey,
+      ),
+      SizedBox(height: 5,)
+    ],
+  );
 }

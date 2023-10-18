@@ -5,13 +5,14 @@ import 'package:app/pages/avisos_page.dart';
 import 'package:app/pages/access_page.dart';
 
 class ExplorarPage extends StatelessWidget {
+  
   Widget buildBox(IconData icon, String text, int index, BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
+      width: double.infinity,
       height: 100,
       decoration: BoxDecoration(
         color: Colors.green[700],
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
