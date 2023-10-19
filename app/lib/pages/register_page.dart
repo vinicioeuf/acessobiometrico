@@ -51,6 +51,8 @@ class _RegisterPageState extends State<RegisterPage> {
           "email": emailController.text,
           "senha": passController.text,
           "foto": imagePath,
+          "biometria": null,
+          "credencial": 0,
         });
       }
       showDialog(
