@@ -8,7 +8,7 @@ class ExplorarPage extends StatelessWidget {
   
   Widget buildBox(IconData icon, String text, int index, BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: 370,
       height: 100,
       decoration: BoxDecoration(
         color: Colors.green[700],

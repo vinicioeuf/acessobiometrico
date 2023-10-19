@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,6 +20,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  DatabaseReference ref = FirebaseDatabase.instance.ref('users');
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
@@ -42,6 +45,13 @@ class _RegisterPageState extends State<RegisterPage> {
         if (imagePath != null) {
           await user.updatePhotoURL(imagePath);
         }
+        DatabaseReference newUserRef = ref.push(); // Cria uma nova referência com uma chave única
+        await newUserRef.set({
+          "nome": nameController.text,
+          "email": emailController.text,
+          "senha": passController.text,
+          "foto": imagePath,
+        });
       }
       showDialog(
         context: context,
