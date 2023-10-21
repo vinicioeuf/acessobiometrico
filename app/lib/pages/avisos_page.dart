@@ -26,7 +26,7 @@ class _AvisosPageState extends State<AvisosPage> {
               onTap: () {
                 
               },
-              child: buildBox(Icons.rocket_launch, 'PROJETOS', 0, context),
+              child: buildBox(Icons.rocket_launch, 'Dps eu altero aq', 0, context),
             ),
           ],
         ),
