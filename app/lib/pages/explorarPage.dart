@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:app/pages/agendamento_page.dart';
 import 'package:app/pages/projects_page.dart';
 import 'package:app/pages/avisos_page.dart';
 import 'package:app/pages/access_page.dart';
+
+
 
 class ExplorarPage extends StatelessWidget {
   
@@ -12,7 +15,7 @@ class ExplorarPage extends StatelessWidget {
       height: 100,
       decoration: BoxDecoration(
         color: Colors.green[700],
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(50),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
