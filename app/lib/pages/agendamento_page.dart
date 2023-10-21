@@ -1,4 +1,4 @@
-
+import 'package:postgres/postgres.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,6 +11,20 @@ class AgendamentoPage extends StatefulWidget {
 
 class _AgendamentoPageState extends State<AgendamentoPage> {
   int selectedIndex = 0;
+
+  Future<PostgreSQLConnection> conectarAoBancoDeDados() async {
+    final connection = PostgreSQLConnection(
+      'bagn5vr3bcf9lplyqthm-postgresql.services.clever-cloud.com',
+      5432,
+      'bagn5vr3bcf9lplyqthm',
+      username: 'uscce6rjf5lgua9fjb48',
+      password: 'a8n5RmNZpHJ4gkZQMuj1dm3AfKMuNf',
+    );
+
+    await connection.open();
+
+    return connection;
+  }
 
   @override
   Widget build(BuildContext context) {
