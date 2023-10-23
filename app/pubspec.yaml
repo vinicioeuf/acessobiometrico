@@ -38,6 +38,8 @@ flutter:
     - assets/imagens/arduinokit.jpg
     - assets/imagens/cortadora-laser.jpg
     - assets/imagens/CR5proh.jpg
+    - assets/imagens/impressora3d.png
+    - assets/imagens/arduino.png
     - assets/imagens/grmax5.jpg
     - assets/imagens/ferro-de-solda.png
     - assets/imagens/furadeira.jpg

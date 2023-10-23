@@ -42,7 +42,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
               Center(
                 child: RichText(
                   text: TextSpan(
-                    text: 'Área de agendamento',
+                    text: 'AGENDAMENTOS',
                     style: GoogleFonts.oswald(
                       textStyle: TextStyle(
                         color: Color.fromARGB(255, 61, 96, 47),
@@ -59,8 +59,8 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  buildImageItem('app/assets/imagens/icon-impressora3d.png', 'IMPRESSORA 3D'),
-                  buildImageItem('assets/imagens/cortadora-laser.jpg', 'KIT ARDUÍNO'),
+                  buildImageItem('assets/imagens/impressora3d.png', 'IMPRESSORA 3D'),
+                  buildImageItem('assets/imagens/arduino.png', 'KIT ARDUÍNO'),
                 ].map((Widget item) {
                   return Padding(
                     padding: EdgeInsets.all(20.0), // Espaçamento desejado
@@ -99,9 +99,10 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
                 alignment: Alignment.center,
                 child: Image.asset(
                   imagePath,
-                  width: 130,
-                  height: 130,
+                  width: 100,
+                  height: 100,
                   fit: BoxFit.contain,
+                  semanticLabel:text,
                 ),
               ),
               Align(
