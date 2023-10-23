@@ -39,7 +39,7 @@ class _AvisosPageState extends State<AvisosPage> {
       width: 370,
       height: 150,
       decoration: BoxDecoration(
-        color: Colors.green[700],
+        color: const Color.fromARGB(255, 157, 157, 157),
         borderRadius: BorderRadius.circular(50),
       ),
       child: Row(
