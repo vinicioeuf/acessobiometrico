@@ -101,8 +101,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 300),
-                        width: 100,
-                        height: 30,
+                        width: 110,
+                        height: 40,
                         decoration: BoxDecoration(
                           color: botaoSelecionado == 0
                               ? Colors.green[700]
@@ -125,14 +125,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             Icon(
                               Icons.person,
                               color: botaoSelecionado == 0 ? Colors.white : Colors.black,
-                              size: 20,
+                              size: 25,
                             ),
                             SizedBox(width: 5),
                             Text(
                               "Pessoais",
                               style: TextStyle(
                                 color: botaoSelecionado == 0 ? Colors.white : Colors.black,
-                                fontSize: 15,
+                                fontSize: 20,
                               ),
                             ),
                           ],
@@ -150,8 +150,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 300),
-                        width: 100,
-                        height: 30,
+                        width: 110,
+                        height: 40,
                         decoration: BoxDecoration(
                           color: botaoSelecionado == 1
                               ? Colors.green[700]
@@ -174,14 +174,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             Icon(
                               Icons.fingerprint,
                               color: botaoSelecionado == 1 ? Colors.white : Colors.black,
-                              size: 20,
+                              size: 25,
                             ),
                             SizedBox(width: 5),
                             Text(
                               "Acessos",
                               style: TextStyle(
                                 color: botaoSelecionado == 1 ? Colors.white : Colors.black,
-                                fontSize: 15,
+                                fontSize: 20,
                               ),
                             ),
                           ],
