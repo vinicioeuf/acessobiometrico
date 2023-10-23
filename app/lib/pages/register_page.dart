@@ -190,6 +190,7 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(height: 30),
             TextField(
               controller: passController,
+              obscureText: _obscurePassword,
               decoration: InputDecoration(
                 labelText: 'Senha',
                 filled: true,
