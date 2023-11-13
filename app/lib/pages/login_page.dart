@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    '/home',
+                    '/access',
                     (route) => false,
                   );
                 },
