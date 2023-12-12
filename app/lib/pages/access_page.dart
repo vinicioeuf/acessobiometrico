@@ -41,7 +41,7 @@ class _AccessPageState extends State<AccessPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               Row(
   mainAxisAlignment: MainAxisAlignment.center,
   children: [
@@ -120,13 +120,13 @@ class _AccessPageState extends State<AccessPage> {
 ),
 
 
-              SizedBox(height:20),
-              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Saiu","13:56"),
-              Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Saiu","13:53"),
-              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Saiu","13:53"),
-              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Entrou","07:53"),
-              Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Entrou","07:45"),
-              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Entrou","07:45"),
+              SizedBox(height:30),
+              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Saiu","13:56", "20/10/2023"),
+              Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Saiu","13:53", "20/10/2023"),
+              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Saiu","13:53", "20/10/2023"),
+              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Entrou","07:53", "20/10/2023"),
+              Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Entrou","07:45", "20/10/2023"),
+              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Entrou","07:45", "20/10/2023"),
             ],
           ),
         ),
@@ -141,6 +141,7 @@ Widget Acessos(
   String vinculo,
   String estado,
   String hora,
+  String data
 ) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
@@ -198,7 +199,7 @@ Widget Acessos(
                         ),
                         SizedBox(width: 5),
                         Text(
-                          'às $hora',
+                          'às $hora em $data',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold,
