@@ -43,55 +43,19 @@ class AboutPage extends StatelessWidget {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TeamDevPage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green[700], // Passo 6
-                  ),
-                  child: Text(
-                    'Time de Devs',
-                    style: TextStyle(
-                      color: Colors.white, // Altera a cor do texto para branco
-                    ),
-                  ),
-                ),
-                SizedBox(width: 30),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TeamDevPage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green[700], // Passo 6
-                  ),
-                  child: Text(
-                    'Time Lab Maker',
-                    style: TextStyle(
-                      color: Colors.white, // Altera a cor do texto para branco
-                    ),
-                  ),
-                ),
-              ],
-            ),
             SizedBox(height: 20),
-            Row(
+            Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 120.0, // Largura desejada
+                    width: double.infinity*0.5,
+                    height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Ação para 24h
+                        Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TeamDevPage()),
+                    );
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green[800],
@@ -100,7 +64,7 @@ class AboutPage extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        '24h',
+                        'Equipe Maker',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
                             fontSize: 20.0, // Tamanho de fonte aumentado
@@ -110,12 +74,16 @@ class AboutPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10.0), // Espaçamento entre os botões
+                  SizedBox(height: 10.0), // Espaçamento entre os botões
                   Container(
-                    width: 120.0, // Largura desejada
+                    width: double.infinity * 0.5, // Largura desejada
+                    height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Ação para 7 dias
+                        Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TeamDevPage()),
+                    );
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green[800],
@@ -124,7 +92,7 @@ class AboutPage extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        '7 dias',
+                        'Equipe de Desenvolvimento',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
                             fontSize: 20.0, // Tamanho de fonte aumentado
@@ -134,30 +102,7 @@ class AboutPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10.0), // Espaçamento entre os botões
-                  Container(
-                    width: 120.0, // Largura desejada
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Ação para 30 dias
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[800]!,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      child: Text(
-                        '30 dias',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            fontSize: 20.0, // Tamanho de fonte aumentado
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 20.0), // Espaçamento entre os botões
                 ],
               ),
           ],

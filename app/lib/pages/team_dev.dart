@@ -1,5 +1,3 @@
-import 'package:app/pages/about_page.dart';
-import 'package:app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable, use_key_in_widget_constructors
