@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                       text: 'Login',
                       style: GoogleFonts.oswald(
                         textStyle: TextStyle(
-                          color: Color.fromARGB(255, 61, 96, 47),
+                          color: Colors.green[800],
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
                         ),
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                     filled: true,
                     fillColor: Color.fromARGB(255, 238, 244, 236),
                     labelStyle: TextStyle(
-                      color: Color.fromARGB(255, 61, 96, 47),
+                      color: Colors.green[800],
                       fontWeight: FontWeight.bold,
                     ),
                     border: OutlineInputBorder(
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                     filled: true,
                     fillColor: Color.fromARGB(255, 238, 244, 236),
                     labelStyle: TextStyle(
-                      color: Color.fromARGB(255, 61, 96, 47),
+                      color: Colors.green[800],
                       fontWeight: FontWeight.bold,
                     ),
                     border: OutlineInputBorder(
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                      color: Colors.green[700],),
+                      color: Colors.green[800],),
                       onPressed: () {
                         setState(() {
                           _obscurePassword = !_obscurePassword;
@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   onPressed: _isLoading ? null : () => _loginUser(context),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 0, 127, 54),
+                    backgroundColor: Colors.green[800],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -199,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
             text: 'Cadastre-se!',
             style: GoogleFonts.oswald(
               textStyle: TextStyle(
-                color: Colors.green[700],
+                color: Colors.green[800],
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline

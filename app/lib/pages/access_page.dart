@@ -52,7 +52,7 @@ class _AccessPageState extends State<AccessPage> {
           // Ação para 24h
         },
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 36, 64, 25),
+          primary: Colors.green[800],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
@@ -76,7 +76,7 @@ class _AccessPageState extends State<AccessPage> {
           // Ação para 7 dias
         },
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 36, 64, 25),
+          primary: Colors.green[800],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
@@ -100,7 +100,7 @@ class _AccessPageState extends State<AccessPage> {
           // Ação para 30 dias
         },
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 36, 64, 25),
+          primary: Colors.green[800]!,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
@@ -193,7 +193,7 @@ Widget Acessos(
                           style: TextStyle(
                             fontSize: 13.0,
                             fontWeight: FontWeight.bold,
-                            color: estado == "Entrou" ? Color.fromARGB(255, 36, 64, 25) : Colors.red,
+                            color: estado == "Entrou" ? Colors.green[800]! : Colors.red,
                           ),
                         ),
                         SizedBox(width: 5),
@@ -220,7 +220,7 @@ Widget Acessos(
     },
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
-        Color.fromARGB(255, 36, 64, 25),
+        Colors.green[800]!,
       ),
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(

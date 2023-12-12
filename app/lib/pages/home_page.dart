@@ -20,7 +20,7 @@ class HomePageState extends State<HomePage> {
       width: MediaQuery.of(context).size.width * 0.85,
       height: 100,
       decoration: BoxDecoration(
-        color: Colors.green[700],
+        color: Colors.green[800],
         borderRadius: BorderRadius.circular(5),
       ),
       child: Row(
@@ -72,7 +72,7 @@ class HomePageState extends State<HomePage> {
         ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: paginaAtual,
-        selectedItemColor: Colors.green[700], // Define a cor dos itens selecionados
+        selectedItemColor: Colors.green[800], // Define a cor dos itens selecionados
         unselectedItemColor: Colors.grey, // Define a cor dos itens não selecionados
         items: [
           BottomNavigationBarItem(
