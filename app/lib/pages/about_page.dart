@@ -1,5 +1,6 @@
 
 import 'package:app/pages/team_dev.dart';
+import 'package:app/pages/team_maker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -48,13 +49,13 @@ class AboutPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: double.infinity*0.5,
+                    width: 400,
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => TeamDevPage()),
+                      MaterialPageRoute(builder: (context) => TeamMakerPage()),
                     );
                       },
                       style: ElevatedButton.styleFrom(
@@ -76,7 +77,7 @@ class AboutPage extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0), // Espaçamento entre os botões
                   Container(
-                    width: double.infinity * 0.5, // Largura desejada
+                    width: 400, // Largura desejada
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
