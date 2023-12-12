@@ -33,7 +33,7 @@ class _AccessPageState extends State<AccessPage> {
                     text: 'Acessos ao LabMaker',
                     style: GoogleFonts.oswald(
                       textStyle: TextStyle(
-                        color: Color.fromARGB(255, 61, 96, 47),
+                        color: Color.fromARGB(255, 36, 64, 25),
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
                       ),
@@ -41,7 +41,86 @@ class _AccessPageState extends State<AccessPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
+              Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Container(
+      width: 120.0, // Largura desejada
+      child: ElevatedButton(
+        onPressed: () {
+          // Ação para 24h
+        },
+        style: ElevatedButton.styleFrom(
+          primary: Color.fromARGB(255, 36, 64, 25),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
+        child: Text(
+          '24h',
+          style: GoogleFonts.oswald(
+            textStyle: TextStyle(
+              fontSize: 20.0, // Tamanho de fonte aumentado
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ),
+    SizedBox(width: 10.0), // Espaçamento entre os botões
+    Container(
+      width: 120.0, // Largura desejada
+      child: ElevatedButton(
+        onPressed: () {
+          // Ação para 7 dias
+        },
+        style: ElevatedButton.styleFrom(
+          primary: Color.fromARGB(255, 36, 64, 25),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
+        child: Text(
+          '7 dias',
+          style: GoogleFonts.oswald(
+            textStyle: TextStyle(
+              fontSize: 20.0, // Tamanho de fonte aumentado
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ),
+    SizedBox(width: 10.0), // Espaçamento entre os botões
+    Container(
+      width: 120.0, // Largura desejada
+      child: ElevatedButton(
+        onPressed: () {
+          // Ação para 30 dias
+        },
+        style: ElevatedButton.styleFrom(
+          primary: Color.fromARGB(255, 36, 64, 25),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
+        child: Text(
+          '30 dias',
+          style: GoogleFonts.oswald(
+            textStyle: TextStyle(
+              fontSize: 20.0, // Tamanho de fonte aumentado
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+
+
+              SizedBox(height:20),
               Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Saiu","13:56"),
               Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Saiu","13:53"),
               Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Saiu","13:53"),
@@ -114,7 +193,7 @@ Widget Acessos(
                           style: TextStyle(
                             fontSize: 13.0,
                             fontWeight: FontWeight.bold,
-                            color: estado == "Entrou" ? Colors.green : Colors.red,
+                            color: estado == "Entrou" ? Color.fromARGB(255, 36, 64, 25) : Colors.red,
                           ),
                         ),
                         SizedBox(width: 5),
@@ -141,7 +220,7 @@ Widget Acessos(
     },
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(
-        const Color.fromARGB(255, 24, 93, 26),
+        Color.fromARGB(255, 36, 64, 25),
       ),
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
