@@ -41,46 +41,6 @@ class _AccessPageState extends State<AccessPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 16.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: DropdownButton<String>(
-                      value: ' 12/10/2023',
-                      onChanged: (String? newValue) {},
-                      items: <String>[
-                        ' 12/10/2023',
-                        ' 11/10/2023',
-                        ' 10/10/2023',
-                        ' 09/10/2023'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      style: TextStyle(color: Colors.black),
-                      underline: Container(
-                        height: 1,
-                        color: Colors.transparent,
-                      ),
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 30,
-                      elevation: 8,
-                      dropdownColor: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
               SizedBox(height: 10),
               Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Saiu","13:56"),
               Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Saiu","13:53"),
@@ -112,8 +72,8 @@ Widget Acessos(
           Padding(
             padding: EdgeInsets.only(left: 16.0),
             child: Container(
-              width: 100,
-              height: 100,
+              width: 70,
+              height: 70,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
@@ -127,15 +87,23 @@ Widget Acessos(
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "$nome\n$vinculo\n",
+                  "$nome",
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 15.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 5.0),
+                Text(
+                  "$vinculo",
+                  style: TextStyle(
+                    fontSize: 13.0,
+                    color: Colors.grey
+                  ),
+                ),
+                SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -144,16 +112,16 @@ Widget Acessos(
                         Text(
                           estado,
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: 13.0,
                             fontWeight: FontWeight.bold,
                             color: estado == "Entrou" ? Colors.green : Colors.red,
                           ),
                         ),
-                        SizedBox(width: 5.0),
+                        SizedBox(width: 5),
                         Text(
                           'às $hora',
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: 14.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
@@ -165,27 +133,33 @@ Widget Acessos(
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: ElevatedButton(
-              onPressed: () {
-                // Adicione a ação desejada para o botão
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  Colors.green,
-                ), // Defina a cor de fundo do botão
-              ),
-              child: Text(
-                'Ver mais',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
+         Align(
+  alignment: Alignment.topRight,
+  child: ElevatedButton(
+    onPressed: () {
+      // Adicione a ação desejada para o botão
+    },
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(
+        const Color.fromARGB(255, 24, 93, 26),
+      ),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+      ),
+    ),
+    child: Text(
+      'Ver mais',
+      style: TextStyle(
+        fontSize: 13.0,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
           SizedBox(width: 10,),
         ],
       ),

@@ -1,6 +1,4 @@
 import 'package:app/pages/access_page.dart';
-import 'package:app/pages/login_page.dart';
-import 'package:app/pages/register_page.dart';
 import 'package:app/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'about_page.dart';
@@ -83,12 +81,6 @@ class HomePageState extends State<HomePage> {
             ),
             label: 'Acessos',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(
-          //     Icons.lock,
-          //   ),
-          //   label: 'Login',
-          // ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
