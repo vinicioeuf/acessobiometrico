@@ -84,63 +84,82 @@ class AboutPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage('assets/imagens/leoCampello.jpg'), // Passo 7
-                          radius: 50,
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 120.0, // Largura desejada
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Ação para 24h
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
-                        SizedBox(height: 15),
-                        Text('Leonardo Campello'),
-                      ],
-                    ),
-                    SizedBox(width: 30), // Aumente a largura do SizedBox conforme necessário
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage('assets/imagens/viniEufrazio.jpg'), // Passo 7
-                          radius: 50,
+                      ),
+                      child: Text(
+                        '24h',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
                         ),
-                        SizedBox(height: 15),
-                        Text('Vinicio Eufrazio'),
-                      ],
+                      ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage('assets/imagens/vicCarlos.jpg'), // Passo 7
-                          radius: 50,
+                  ),
+                  SizedBox(width: 10.0), // Espaçamento entre os botões
+                  Container(
+                    width: 120.0, // Largura desejada
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Ação para 7 dias
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
-                        SizedBox(height: 15),
-                        Text('Victor Carlos'),
-                      ],
-                    ),
-                    SizedBox(width: 50), // Aumente a largura do SizedBox conforme necessário
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage('assets/imagens/PLemos.jpg'), // Passo 7
-                          radius: 50,
+                      ),
+                      child: Text(
+                        '7 dias',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
                         ),
-                        SizedBox(height: 15),
-                        Text('Pedro Lemos'),
-                      ],
+                      ),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  SizedBox(width: 10.0), // Espaçamento entre os botões
+                  Container(
+                    width: 120.0, // Largura desejada
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Ação para 30 dias
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800]!,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        '30 dias',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

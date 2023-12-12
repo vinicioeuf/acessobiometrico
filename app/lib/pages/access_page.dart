@@ -17,7 +17,8 @@ class _AccessPageState extends State<AccessPage> {
       home: Scaffold(
         body: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // Centraliza verticalmente
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Centraliza verticalmente
             children: [
               SizedBox(height: 35),
               Center(
@@ -43,90 +44,94 @@ class _AccessPageState extends State<AccessPage> {
               ),
               SizedBox(height: 30),
               Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    Container(
-      width: 120.0, // Largura desejada
-      child: ElevatedButton(
-        onPressed: () {
-          // Ação para 24h
-        },
-        style: ElevatedButton.styleFrom(
-          primary: Colors.green[800],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-        ),
-        child: Text(
-          '24h',
-          style: GoogleFonts.oswald(
-            textStyle: TextStyle(
-              fontSize: 20.0, // Tamanho de fonte aumentado
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    ),
-    SizedBox(width: 10.0), // Espaçamento entre os botões
-    Container(
-      width: 120.0, // Largura desejada
-      child: ElevatedButton(
-        onPressed: () {
-          // Ação para 7 dias
-        },
-        style: ElevatedButton.styleFrom(
-          primary: Colors.green[800],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-        ),
-        child: Text(
-          '7 dias',
-          style: GoogleFonts.oswald(
-            textStyle: TextStyle(
-              fontSize: 20.0, // Tamanho de fonte aumentado
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    ),
-    SizedBox(width: 10.0), // Espaçamento entre os botões
-    Container(
-      width: 120.0, // Largura desejada
-      child: ElevatedButton(
-        onPressed: () {
-          // Ação para 30 dias
-        },
-        style: ElevatedButton.styleFrom(
-          primary: Colors.green[800]!,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-        ),
-        child: Text(
-          '30 dias',
-          style: GoogleFonts.oswald(
-            textStyle: TextStyle(
-              fontSize: 20.0, // Tamanho de fonte aumentado
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    ),
-  ],
-),
-
-
-              SizedBox(height:30),
-              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Saiu","13:56", "20/10/2023"),
-              Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Saiu","13:53", "20/10/2023"),
-              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Saiu","13:53", "20/10/2023"),
-              Acessos('assets/imagens/leoCampello.jpg',"Leonardo Campello","Professor","Entrou","07:53", "20/10/2023"),
-              Acessos('assets/imagens/viniEufrazio.jpg',"Vinicio Eufrazio","Bolsista","Entrou","07:45", "20/10/2023"),
-              Acessos('assets/imagens/vicCarlos.jpg',"Álvaro Victor","Bolsista","Entrou","07:45", "20/10/2023"),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 120.0, // Largura desejada
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Ação para 24h
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        '24h',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.0), // Espaçamento entre os botões
+                  Container(
+                    width: 120.0, // Largura desejada
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Ação para 7 dias
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        '7 dias',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.0), // Espaçamento entre os botões
+                  Container(
+                    width: 120.0, // Largura desejada
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Ação para 30 dias
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800]!,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        '30 dias',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
+              Acessos('assets/imagens/leoCampello.jpg', "Leonardo Campello",
+                  "Professor", "Saiu", "13:56", "20/10/2023"),
+              Acessos('assets/imagens/viniEufrazio.jpg', "Vinicio Eufrazio",
+                  "Bolsista", "Saiu", "13:53", "20/10/2023"),
+              Acessos('assets/imagens/vicCarlos.jpg', "Álvaro Victor",
+                  "Bolsista", "Saiu", "13:53", "20/10/2023"),
+              Acessos('assets/imagens/leoCampello.jpg', "Leonardo Campello",
+                  "Professor", "Entrou", "07:53", "20/10/2023"),
+              Acessos('assets/imagens/viniEufrazio.jpg', "Vinicio Eufrazio",
+                  "Bolsista", "Entrou", "07:45", "20/10/2023"),
+              Acessos('assets/imagens/vicCarlos.jpg', "Álvaro Victor",
+                  "Bolsista", "Entrou", "07:45", "20/10/2023"),
             ],
           ),
         ),
@@ -135,19 +140,14 @@ class _AccessPageState extends State<AccessPage> {
   }
 }
 
-Widget Acessos(
-  String imagem,
-  String nome,
-  String vinculo,
-  String estado,
-  String hora,
-  String data
-) {
+Widget Acessos(String imagem, String nome, String vinculo, String estado,
+    String hora, String data) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
     children: [
       Row(
-        mainAxisAlignment: MainAxisAlignment.center, // Centraliza horizontalmente
+        mainAxisAlignment:
+            MainAxisAlignment.center, // Centraliza horizontalmente
         children: [
           Padding(
             padding: EdgeInsets.only(left: 16.0),
@@ -163,7 +163,9 @@ Widget Acessos(
               ),
             ),
           ),
-          SizedBox(width: 10,),
+          SizedBox(
+            width: 10,
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,10 +180,7 @@ Widget Acessos(
                 ),
                 Text(
                   "$vinculo",
-                  style: TextStyle(
-                    fontSize: 13.0,
-                    color: Colors.grey
-                  ),
+                  style: TextStyle(fontSize: 13.0, color: Colors.grey),
                 ),
                 SizedBox(height: 5),
                 Row(
@@ -194,7 +193,9 @@ Widget Acessos(
                           style: TextStyle(
                             fontSize: 13.0,
                             fontWeight: FontWeight.bold,
-                            color: estado == "Entrou" ? Colors.green[800]! : Colors.red,
+                            color: estado == "Entrou"
+                                ? Colors.green[800]!
+                                : Colors.red,
                           ),
                         ),
                         SizedBox(width: 5),
@@ -213,34 +214,35 @@ Widget Acessos(
               ],
             ),
           ),
-         Align(
-  alignment: Alignment.topRight,
-  child: ElevatedButton(
-    onPressed: () {
-      // Adicione a ação desejada para o botão
-    },
-    style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(
-        Colors.green[800]!,
-      ),
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-      ),
-    ),
-    child: Text(
-      'Ver mais',
-      style: TextStyle(
-        fontSize: 13.0,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
-  ),
-),
-
-          SizedBox(width: 10,),
+          Align(
+            alignment: Alignment.topRight,
+            child: ElevatedButton(
+              onPressed: () {
+                // Adicione a ação desejada para o botão
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Colors.green[800]!,
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+              ),
+              child: Text(
+                'Ver mais',
+                style: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
         ],
       ),
       SizedBox(height: 10),
@@ -248,7 +250,9 @@ Widget Acessos(
         height: 1,
         color: Colors.grey,
       ),
-      SizedBox(height: 5,)
+      SizedBox(
+        height: 5,
+      )
     ],
   );
 }
