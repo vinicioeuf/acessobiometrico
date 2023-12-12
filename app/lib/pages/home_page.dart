@@ -1,4 +1,4 @@
-import 'package:app/pages/explorarPage.dart';
+import 'package:app/pages/access_page.dart';
 import 'package:app/pages/login_page.dart';
 import 'package:app/pages/register_page.dart';
 import 'package:app/pages/profile_page.dart';
@@ -66,7 +66,7 @@ class HomePageState extends State<HomePage> {
         body: PageView(
           controller: pc,
           children: [
-            ExplorarPage(),
+            AccessPage(),
             ProfilePage(),
             AboutPage(),
           ],
@@ -79,9 +79,9 @@ class HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.explore,
+              Icons.fingerprint,
             ),
-            label: 'Explorar',
+            label: 'Acessos',
           ),
           // BottomNavigationBarItem(
           //   icon: Icon(

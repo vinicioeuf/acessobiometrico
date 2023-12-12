@@ -3,8 +3,6 @@ import 'package:app/pages/home_page.dart';
 import 'package:app/pages/login_page.dart';
 import 'package:app/pages/register_page.dart';
 import 'package:app/pages/profile_page.dart';
-import 'package:app/pages/projects_page.dart';
-import 'package:app/pages/agendamento_page.dart';
 import 'package:app/pages/about_page.dart';
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/avisos_page.dart';
@@ -41,9 +39,7 @@ class AppWidget extends StatelessWidget {
         '/register': (_) => const RegisterPage(),
         '/home': (_) => HomePage(),
         '/about': (_) => AboutPage(),
-        '/agendamento': (_) => AgendamentoPage(),
         '/access': (_) => AccessPage(),
-        '/projects': (_) => ProjectsPage(),
         '/profile': (_) => ProfilePage(),
         '/avisos': (_) => AvisosPage(),
         '/teamDev': (_) => TeamDevPage(),

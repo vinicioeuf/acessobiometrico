@@ -1,13 +1,10 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:app/pages/home_page.dart';
 import 'package:app/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -22,40 +19,12 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passController = TextEditingController();
   bool _isLoading = false;
   bool _obscurePassword = true; // Adicionado para controlar a visibilidade da senha
-  Timer? _sessionTimer;
 
   Future<void> _loginUser(BuildContext context) async {
     setState(() {
       _isLoading = true;
     });
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passController.text,
-      );
-      _sessionTimer = Timer(Duration(minutes: 20), () {
-        FirebaseAuth.instance.signOut();
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('A sessão encerrou, faça o login novamente.'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      });
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -67,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    '/access',
+                    '/home',
                     (route) => false,
                   );
                 },
@@ -147,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.bold,
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -165,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.bold,
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
                     ),
                     suffixIcon: IconButton(
@@ -180,13 +149,13 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 75),
+                SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: _isLoading ? null : () => _loginUser(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 0, 127, 54),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     minimumSize: Size(double.infinity, 60),
                   ),
@@ -196,50 +165,53 @@ class _LoginPageState extends State<LoginPage> {
                           size: 26,
                         )
                       : Text(
-                          "Enviar",
+                          "Entrar",
                           style: GoogleFonts.oswald(
                             fontWeight: FontWeight.bold,
-                            fontSize: 26,
+                            fontSize: 20,
                             color: Colors.white,
                           ),
                         ),
                 ),
                 SizedBox(height: 40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.facebook,
-                        color: const Color.fromARGB(255, 0, 63, 114),
-                        size: 40),
-                    SizedBox(width: 20),
-                    Icon(Icons.email, color: Colors.red, size: 40),
-                    SizedBox(width: 20),
-                    Icon(Icons.apple, color: Colors.blueGrey, size: 40),
-                  ],
-                ),
-                SizedBox(height: 40),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
-                    );
-                  },
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Ainda não possui uma conta? Cadastre-se!',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            color: Color.fromARGB(255, 61, 96, 47),
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterPage()),
+    );
+  },
+  child: Center(
+    child: RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: 'Ainda não possui cadastro? ',
+            style: GoogleFonts.oswald(
+              textStyle: TextStyle(
+                color: Colors.black,
+                fontSize: 17,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+          TextSpan(
+            text: 'Cadastre-se!',
+            style: GoogleFonts.oswald(
+              textStyle: TextStyle(
+                color: Colors.green[700],
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.underline
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ),
+),
+
                 SizedBox(height: 40),
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
