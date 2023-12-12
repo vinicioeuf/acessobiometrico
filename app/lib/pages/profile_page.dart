@@ -89,7 +89,28 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              
+              SizedBox(height: 100),
+              Column(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    width: 300,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.green[800],
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Text(
+                      'Solicitar acesso',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16, // Substitua pelo tamanho desejado
+                        fontFamily: 'Oswald',
+                      ),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),
