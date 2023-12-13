@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app/pages/validation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -37,78 +38,36 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.center,
-                child: Transform.translate(
-                  offset: Offset(0, -80),
-                  child: FutureBuilder<User?>(
-                    future: FirebaseAuth.instance.authStateChanges().first,
-                    builder:
-                        (BuildContext context, AsyncSnapshot<User?> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else {
-                        if (snapshot.hasData) {
-                          User? user = snapshot.data;
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 150,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(user!.photoURL ?? ''),
-                                  radius: 75,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                '${user.displayName}',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          );
-                        } else {
-                          return Text('Usuário não autenticado');
-                        }
-                      }
-                    },
-                  ),
-                ),
-              ),
               SizedBox(height: 100),
               Column(
                 children: [
                   Container(
-                    alignment: Alignment.center,
                     width: 300,
                     height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.green[800],
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Text(
-                      'Solicitar acesso',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16, // Substitua pelo tamanho desejado
-                        fontFamily: 'Oswald',
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Validation()),
+                    );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        'Solictar Acesso',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               )
             ],
