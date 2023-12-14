@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -15,63 +16,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
-  bool _isLoading = false;
   bool _obscurePassword = true; // Adicionado para controlar a visibilidade da senha
 
-  Future<void> _loginUser(BuildContext context) async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Acesso liberado! Redirecionando...'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Ok'),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/home',
-                    (route) => false,
-                  );
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Erro no Login'),
-              content: Text('Verifique se as credenciais informadas estão corretas.'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +53,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 50),
                 TextField(
-                  controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'E-mail',
                     filled: true,
@@ -123,7 +69,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 30),
                 TextField(
-                  controller: passController,
                   obscureText: _obscurePassword, // Define a visibilidade da senha
                   decoration: InputDecoration(
                     labelText: 'Senha',
@@ -151,7 +96,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: _isLoading ? null : () => _loginUser(context),
+                  onPressed: () {
+                        Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                      },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green[800],
                     shape: RoundedRectangleBorder(
@@ -159,12 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     minimumSize: Size(double.infinity, 60),
                   ),
-                  child: _isLoading
-                      ? SpinKitCircle(
-                          color: Colors.white,
-                          size: 26,
-                        )
-                      : Text(
+                  child: Text(
                           "Entrar",
                           style: GoogleFonts.oswald(
                             fontWeight: FontWeight.bold,
@@ -213,34 +158,6 @@ class _LoginPageState extends State<LoginPage> {
 ),
 
                 SizedBox(height: 40),
-                StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('suaColecao')
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Erro ao carregar os dados');
-                    }
-
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text('Carregando...');
-                    }
-
-                    return ListView(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> data =
-                            document.data() as Map<String, dynamic>;
-                        return ListTile(
-                          title: Text(data['email']),
-                          subtitle: Text(data['uid']),
-                        );
-                      }).toList(),
-                    );
-                  },
-                ),
               ],
             ),
           ],

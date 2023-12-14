@@ -1,5 +1,4 @@
 import 'package:app/pages/validation.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,12 +10,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int botaoSelecionado = 0;
-  @override
-  void initState() {
-    super.initState();
-    Firebase.initializeApp();
-  }
 
   @override
   Widget build(BuildContext context) {
