@@ -8,6 +8,17 @@ class Validation extends StatefulWidget {
 }
 
 class _ValidationState extends State<Validation> {
+  late String getEmail;
+  late String getMatricula;
+
+  pegarEmail(email) {
+    this.getEmail = email;
+  }
+
+  pegarMatricula(matricula) {
+    this.getMatricula = matricula;
+  }
+
   String selectedValueVinculo = 'Professor';
   String? selectedValueTipo;
   String? selectedValueCurso;
@@ -54,18 +65,24 @@ class _ValidationState extends State<Validation> {
   ];
 
   enviarValidacao() {
-    CollectionReference validations =
-        FirebaseFirestore.instance.collection("validações");
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection("validações").doc(getMatricula as String?);
 
-    validations.add({
-      // You can add the data you want to store in the document here
-      "email": selectedValueVinculo,
-      // Add other fields as needed
+    Map<String, dynamic> validacao = {
+      "email": getEmail,
+      "matricula": getMatricula,
+      "vinculo": {
+        "curso": selectedValueCurso,
+        "tempo": selectedValuePeriodo,
+        "tipoCurso": selectedValueTipo,
+        "tipoVinculo": selectedValueVinculo,
+      },
+    };
+
+    documentReference.set(validacao).whenComplete(() {
+      print("Criado");
     });
-    print("enviado");
   }
-
-  // Rest of your code...
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +122,9 @@ class _ValidationState extends State<Validation> {
                       Container(
                         width: 0.9 * MediaQuery.of(context).size.width,
                         child: TextField(
+                          onChanged: (String email) {
+                            pegarEmail(email);
+                          },
                           decoration: InputDecoration(
                             hintText: "nome.sobrenome@aluno.ifsertao-pe.edu.br",
                             hintStyle: TextStyle(
@@ -139,6 +159,9 @@ class _ValidationState extends State<Validation> {
                       Container(
                         width: 0.9 * MediaQuery.of(context).size.width,
                         child: TextField(
+                          onChanged: (String matricula) {
+                            pegarMatricula(matricula);
+                          },
                           decoration: InputDecoration(
                             hintText: "202300000000",
                             hintStyle: TextStyle(
@@ -387,8 +410,6 @@ class _ValidationState extends State<Validation> {
                     child: ElevatedButton(
                       onPressed: () {
                         enviarValidacao();
-                        // Adicione aqui a lógica para processar e enviar as informações
-                        // Pode chamar uma função para isso.
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green[800],
