@@ -19,109 +19,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  FirebaseDatabase database = FirebaseDatabase.instance;
-  DatabaseReference ref = FirebaseDatabase.instance.ref('users');
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
-  bool _isLoading = false;
-  bool _obscurePassword = true; 
-  final FirebaseStorage storage = FirebaseStorage.instance;
-  Future<void> _registerUser(BuildContext context) async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passController.text,
-      );
-      User? user = userCredential.user;
-      if (user != null) {
-        await user.updateDisplayName(nameController.text);
-        String? imagePath = await pickAndUploadImage();
-        if (imagePath != null) {
-          await user.updatePhotoURL(imagePath);
-        }
-        DatabaseReference newUserRef = ref.push(); // Cria uma nova referência com uma chave única
-        await newUserRef.set({
-          "nome": nameController.text,
-          "email": emailController.text,
-          "senha": passController.text,
-          "foto": imagePath,
-          "biometria": 0,
-          "credencial": 0,
-        });
-      }
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Conta criada! Faça o login.'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Ok'),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-              ),
-            ],
-          );
-        },
-      );
-      
-      // _showAlertDialog(context);
-      
-    } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Erro no cadastro'),
-                content: Text('A senha deve ter no mínimo 6 caracteres.'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('Ok'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-          // print('The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Erro no cadastro'),
-                content: Text('Essa conta já está vínculada a um E-mail.'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('Ok'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        }
-    }
-    catch (e) {
-      print('Error: $e');
-    }
-    setState(() {
-      _isLoading = false;
-    });
-    
-  }
 
+  bool _obscurePassword = true; 
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -154,7 +54,6 @@ class _RegisterPageState extends State<RegisterPage> {
             // ElevatedButton.icon(onPressed: pickAndUploadImage, icon: Icon(Icons.upload), label: Text('Enviar imagem')),
             SizedBox(height: 50),
             TextField(
-              controller: nameController,
               decoration: InputDecoration(
                 labelText: 'Nome',
                 filled: true,
@@ -171,7 +70,6 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 30),
             TextField(
-              controller: emailController,
               decoration: InputDecoration(
                 labelText: 'E-mail',
                 filled: true,
@@ -188,7 +86,6 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 30),
             TextField(
-              controller: passController,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
                 labelText: 'Senha',
@@ -216,7 +113,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 50),
             ElevatedButton(
-              onPressed: _isLoading ? null : () => _registerUser(context),
+              onPressed: (){
+
+              },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 0, 127, 54),
                 shape: RoundedRectangleBorder(
@@ -224,11 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 minimumSize: Size(double.infinity, 60),
               ),
-              child: _isLoading ? SpinKitCircle(
-                    color: Colors.white,
-                    size: 26,
-                  )
-                : Text(
+              child: Text(
                     "Enviar",
                     style: GoogleFonts.oswald(
                       fontWeight: FontWeight.bold,
@@ -278,30 +173,5 @@ class _RegisterPageState extends State<RegisterPage> {
     );
     
   }
-  Future<XFile?> getImage() async{
-    final ImagePicker _picker = ImagePicker();
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    return image;
+  
   }
-  Future<void> upload(String path) async{
-    File file = File(path);
-    try{
-      String ref = 'image/img-${DateTime.now().toString()}.jpg';
-      await storage.ref(ref).putFile(file);
-    } on FirebaseException catch(e){
-      throw Exception("Erro no upload: ${e.code}");
-    }
-  }
-  Future<String?> pickAndUploadImage() async {
-    final ImagePicker _picker = ImagePicker();
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      Reference storageReference = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
-      UploadTask uploadTask = storageReference.putFile(File(image.path));
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-      String imageUrl = await taskSnapshot.ref.getDownloadURL();
-      return imageUrl;
-    }
-    return null;
-  }
-}
