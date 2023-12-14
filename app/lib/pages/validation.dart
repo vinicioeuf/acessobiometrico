@@ -1,4 +1,4 @@
-import 'package:app/pages/profile_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -52,6 +52,20 @@ class _ValidationState extends State<Validation> {
     '5º período',
     '6º período'
   ];
+
+  enviarValidacao() {
+    CollectionReference validations =
+        FirebaseFirestore.instance.collection("validações");
+
+    validations.add({
+      // You can add the data you want to store in the document here
+      "email": selectedValueVinculo,
+      // Add other fields as needed
+    });
+    print("enviado");
+  }
+
+  // Rest of your code...
 
   @override
   Widget build(BuildContext context) {
@@ -372,6 +386,7 @@ class _ValidationState extends State<Validation> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
+                        enviarValidacao();
                         // Adicione aqui a lógica para processar e enviar as informações
                         // Pode chamar uma função para isso.
                       },
@@ -396,13 +411,9 @@ class _ValidationState extends State<Validation> {
                   SizedBox(height: 20),
                 ],
               )
-              
             ],
-            
           ),
-          
         ),
-        
       ),
     );
   }
