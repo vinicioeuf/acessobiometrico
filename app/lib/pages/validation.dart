@@ -66,7 +66,9 @@ class _ValidationState extends State<Validation> {
   ];
 
   enviarValidacao() {
-    if (getMatricula == null || getEmail == null) {
+    RegExp alunoRegex = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@aluno\.ifsertao-pe\.edu\.br$');
+    RegExp professorRegex = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@ifsertao-pe\.edu\.br$');
+    if (getMatricula == null || getEmail == null || (!alunoRegex.hasMatch(getEmail!) && !professorRegex.hasMatch(getEmail!))) {
       // Se um deles for nulo, defina a variável booleana como verdadeira
       setState(() {
         exibirMensagem = true;
@@ -418,12 +420,16 @@ class _ValidationState extends State<Validation> {
                   if(exibirMensagem)
                   if (exibirMensagem)
             Text(
-              'Matrícula ou e-mail inválido',
+              'Matrícula ou E-mail inválido',
               style: TextStyle(
                 color: Colors.red,
-                fontSize: 16,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'oswald',
+
               ),
             ),
+            SizedBox(height: 20),
                   Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
                     height: 50,
