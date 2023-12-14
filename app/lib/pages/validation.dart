@@ -8,8 +8,8 @@ class Validation extends StatefulWidget {
 }
 
 class _ValidationState extends State<Validation> {
-  late String getEmail;
-  late String getMatricula;
+  String? getEmail = null;
+  String? getMatricula = null;
 
   pegarEmail(email) {
     this.getEmail = email;
@@ -19,10 +19,11 @@ class _ValidationState extends State<Validation> {
     this.getMatricula = matricula;
   }
 
-  String selectedValueVinculo = 'Professor';
+  String? selectedValueVinculo = null;
   String? selectedValueTipo;
   String? selectedValueCurso;
   String? selectedValuePeriodo;
+  bool exibirMensagem = false;
 
   List<String> tiposPorVinculo = ['Médio Integrado', 'Subsequente', 'Superior'];
 
@@ -65,23 +66,33 @@ class _ValidationState extends State<Validation> {
   ];
 
   enviarValidacao() {
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection("validações").doc(getMatricula as String?);
+    if (getMatricula == null || getEmail == null) {
+      // Se um deles for nulo, defina a variável booleana como verdadeira
+      setState(() {
+        exibirMensagem = true;
+      });
+      print("Número de matrícula ou e-mail inválido");
+    } else {
+      // Se ambos não forem nulos, prossiga com o envio para o Firestore
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection("validações")
+          .doc(getMatricula!);
 
-    Map<String, dynamic> validacao = {
-      "email": getEmail,
-      "matricula": getMatricula,
-      "vinculo": {
-        "curso": selectedValueCurso,
-        "tempo": selectedValuePeriodo,
-        "tipoCurso": selectedValueTipo,
-        "tipoVinculo": selectedValueVinculo,
-      },
-    };
+      Map<String, dynamic> validacao = {
+        "email": getEmail,
+        "matricula": getMatricula,
+        "vinculo": {
+          "curso": selectedValueCurso,
+          "tempo": selectedValuePeriodo,
+          "tipoCurso": selectedValueTipo,
+          "tipoVinculo": selectedValueVinculo,
+        },
+      };
 
-    documentReference.set(validacao).whenComplete(() {
-      print("Criado");
-    });
+      documentReference.set(validacao).whenComplete(() {
+        print("Criado");
+      });
+    }
   }
 
   @override
@@ -404,6 +415,15 @@ class _ValidationState extends State<Validation> {
                       ],
                     ),
                   SizedBox(height: 20),
+                  if(exibirMensagem)
+                  if (exibirMensagem)
+            Text(
+              'Matrícula ou e-mail inválido',
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 16,
+              ),
+            ),
                   Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
                     height: 50,
