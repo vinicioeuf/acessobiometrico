@@ -97,11 +97,14 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
-                        Navigator.push(
+                    Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                        settings: RouteSettings(name: 'HomePage'),
+                      ),
                     );
-                      },
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green[800],
                     shape: RoundedRectangleBorder(
