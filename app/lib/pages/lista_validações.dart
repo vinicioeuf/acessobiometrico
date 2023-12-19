@@ -37,33 +37,21 @@ class _ListaValidacoes extends State<Lista_Validacoes> {
                   stream: FirebaseFirestore.instance
                       .collection("validações")
                       .snapshots(),
-                  builder: (context,
-                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                          snapshot) {
-                    if (snapshot.hasData) {
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text("Erro: ${snapshot.error}");
+                    }
+                    else {
+                      var docs = snapshot.data!.docs;
                       return ListView.builder(
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
-                          DocumentSnapshot<Map<String, dynamic>>
-                              documentSnapshot = snapshot.data!.docs[index];
-                          return Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(documentSnapshot['email']),
-                              ),
-                              Expanded(
-                                child: Text(documentSnapshot['matricula']),
-                              ),
-                            ],
+                          return ListTile(
+                            title: Text(docs[index]['email'].toString(), style: TextStyle(color: Colors.black),),
                           );
                         },
                       );
-                    } else if (snapshot.hasError) {
-                      return Text("Erro: ${snapshot.error}");
-                    } else {
-                      return CircularProgressIndicator(
-                        color: Colors.green[800],
-                      );
+                      
                     }
                   },
                 ),
