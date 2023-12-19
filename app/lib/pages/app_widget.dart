@@ -7,7 +7,7 @@ import 'package:app/pages/about_page.dart';
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/team_dev.dart';
 import 'package:flutter/material.dart';
-
+import 'package:app/pages/show_data.dart';
 
 class AppWidget extends StatelessWidget {
   final String title;
@@ -41,6 +41,7 @@ class AppWidget extends StatelessWidget {
         '/access': (_) => AccessPage(),
         '/profile': (_) => ProfilePage(),
         '/teamDev': (_) => TeamDevPage(),
+        '/show': (_) => ValidacoesScreen(),
       },
       home: Scaffold(
         body: HomePage(),
