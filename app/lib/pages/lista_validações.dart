@@ -34,13 +34,18 @@ class _ListaValidacoes extends State<Lista_Validacoes> {
                 alignment: Alignment.center,
                 width: 0.9 * MediaQuery.of(context).size.width,
                 child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection("validacoes").snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                  stream: FirebaseFirestore.instance
+                      .collection("validações")
+                      .snapshots(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
-                          DocumentSnapshot<Map<String, dynamic>> documentSnapshot = snapshot.data!.docs[index];
+                          DocumentSnapshot<Map<String, dynamic>>
+                              documentSnapshot = snapshot.data!.docs[index];
                           return Row(
                             children: <Widget>[
                               Expanded(
@@ -56,7 +61,9 @@ class _ListaValidacoes extends State<Lista_Validacoes> {
                     } else if (snapshot.hasError) {
                       return Text("Erro: ${snapshot.error}");
                     } else {
-                      return CircularProgressIndicator(color: Colors.green[800],);
+                      return CircularProgressIndicator(
+                        color: Colors.green[800],
+                      );
                     }
                   },
                 ),
@@ -68,4 +75,3 @@ class _ListaValidacoes extends State<Lista_Validacoes> {
     );
   }
 }
-
