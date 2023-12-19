@@ -1,3 +1,4 @@
+import 'package:app/pages/lista_valida%C3%A7%C3%B5es.dart';
 import 'package:app/pages/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,6 +53,34 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       child: Text(
                         'Solictar Acesso',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    width: 300,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Lista_Validacoes()),
+                    );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        'Solicitações',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
                             fontSize: 20.0, // Tamanho de fonte aumentado

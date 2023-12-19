@@ -99,6 +99,9 @@ void enviarValidacao() {
     Map<String, dynamic> validacao = {
       "email": getEmail,
       "matricula": getMatricula,
+      "aguardando": true,
+      "autorizado": false,
+      "negado": false,
       "vinculo": {
         "curso": selectedValueCurso,
         "tempo": selectedValuePeriodo,
