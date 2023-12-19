@@ -2,6 +2,8 @@ import 'package:app/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+// ignore: depend_on_referenced_packages
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Validation extends StatefulWidget {
   @override
@@ -66,42 +68,72 @@ class _ValidationState extends State<Validation> {
     '6º período'
   ];
 
-  enviarValidacao() {
-    RegExp alunoRegex =
-        RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@aluno\.ifsertao-pe\.edu\.br$');
-    RegExp professorRegex =
-        RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@ifsertao-pe\.edu\.br$');
-    if (getMatricula == null ||
-        getEmail == null ||
-        (!alunoRegex.hasMatch(getEmail!) &&
-            !professorRegex.hasMatch(getEmail!))) {
-      // Se um deles for nulo, defina a variável booleana como verdadeira
-      setState(() {
-        exibirMensagem = true;
-      });
-      print("Número de matrícula ou e-mail inválido");
-    } else {
-      // Se ambos não forem nulos, prossiga com o envio para o Firestore
-      DocumentReference documentReference = FirebaseFirestore.instance
-          .collection("validações")
-          .doc(getMatricula!);
 
-      Map<String, dynamic> validacao = {
-        "email": getEmail,
-        "matricula": getMatricula,
-        "vinculo": {
-          "curso": selectedValueCurso,
-          "tempo": selectedValuePeriodo,
-          "tipoCurso": selectedValueTipo,
-          "tipoVinculo": selectedValueVinculo,
+void enviarValidacao() {
+  RegExp alunoRegex = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@aluno\.ifsertao-pe\.edu\.br$');
+  RegExp professorRegex = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@ifsertao-pe\.edu\.br$');
+
+  if (getMatricula == null ||
+      getEmail == null ||
+      (!alunoRegex.hasMatch(getEmail!) && !professorRegex.hasMatch(getEmail!))) {
+    setState(() {
+      exibirMensagem = true;
+    });
+    print("Número de matrícula ou e-mail inválido");
+
+    // Mostra um Toast para alertar o usuário sobre o erro
+    Fluttertoast.showToast(
+      msg: "Número de matrícula ou e-mail inválido",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  } else {
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection("validações")
+        .doc(getMatricula!);
+
+    Map<String, dynamic> validacao = {
+      "email": getEmail,
+      "matricula": getMatricula,
+      "vinculo": {
+        "curso": selectedValueCurso,
+        "tempo": selectedValuePeriodo,
+        "tipoCurso": selectedValueTipo,
+        "tipoVinculo": selectedValueVinculo,
+      },
+    };
+
+    documentReference.set(validacao).whenComplete(() {
+      // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Sucesso'),
+            content: Text('A validação foi enviada com sucesso.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Fecha o AlertDialog
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
         },
-      };
-
-      documentReference.set(validacao).whenComplete(() {
-        print("Criado");
-      });
-    }
+      );
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
