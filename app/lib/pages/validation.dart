@@ -145,17 +145,24 @@ void enviarValidacao() {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-        title: Text(
-          "SOLICITAR ACESSO",
-          style: TextStyle(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          title: Text(
+            "SOLICITAR ACESSO",
+            style: TextStyle(
               fontFamily: 'oswald',
               fontWeight: FontWeight.bold,
-              color: Colors.green[800]),
+              color: Colors.green[800],
+            ),
+          ),
+          backgroundColor: Colors.white,
+          shadowColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.green[800]),
         ),
-        backgroundColor: Colors.white,
-        shadowColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.green[800]),
-      ),
         body: SingleChildScrollView(
           child: Column(
             children: [
