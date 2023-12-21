@@ -144,24 +144,25 @@ void enviarValidacao() {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+        title: Text(
+          "SOLICITAR ACESSO",
+          style: TextStyle(
+              fontFamily: 'oswald',
+              fontWeight: FontWeight.bold,
+              color: Colors.green[800]),
+        ),
+        backgroundColor: Colors.white,
+        shadowColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.green[800]),
+      ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(height: 40),
               Container(
                 alignment: Alignment.center,
-                child: Text(
-                  'SOLICITAR ACESSO',
-                  style: GoogleFonts.oswald(
-                    textStyle: TextStyle(
-                      color: Colors.green[800],
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
               ),
-              SizedBox(height: 40),
               Column(
                 children: [
                   Column(

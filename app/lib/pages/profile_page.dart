@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       child: Text(
-                        'Solictar Acesso',
+                        'Solicitar Acesso',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
                             fontSize: 20.0, // Tamanho de fonte aumentado
