@@ -1,4 +1,5 @@
-import 'package:app/pages/lista_valida%C3%A7%C3%B5es.dart';
+
+import 'package:app/pages/show_data.dart';
 import 'package:app/pages/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -70,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: () {
                         Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Lista_Validacoes()),
+                      MaterialPageRoute(builder: (context) => ValidacoesScreen()),
                     );
                       },
                       style: ElevatedButton.styleFrom(

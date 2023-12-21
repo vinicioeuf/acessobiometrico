@@ -8,23 +8,12 @@ class TeamDevPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+   appBar: AppBar(title: Text("EQUIPE DE DESENVOLVIMENTO", style: TextStyle(fontFamily:'oswald', fontWeight: FontWeight.bold, color: Colors.green[800]),), backgroundColor: Colors.white, shadowColor: Colors.white, iconTheme: IconThemeData(color: Colors.green[800]),),
         body: Center(
           child: ListView(
             shrinkWrap: true,
             padding: EdgeInsets.all(20),
             children: <Widget>[
-              Image.asset("assets/imagens/labmaker-navbar2.jpg"),
-              SizedBox(height: 10),
-              Container(height: 1, color: Colors.grey[300]),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Equipe de Desenvolvimento',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green[700]),
-                  textAlign: TextAlign.center,
-                ),
-              ),
               SizedBox(height: 10),
               buildTeamMember('assets/imagens/leoCampello.jpg', 'Leonardo Campello', 'Desenvolvedor Full Stack', 'Mestre em Ciências (UNIVASF). Graduado em Engenharia de Computação (UNIVASF e University of Idaho). Professor EBTT do IFSertãoPE - Campus Salgueiro.'),
               SizedBox(height: 10),

@@ -1,4 +1,5 @@
 import 'package:app/pages/home_page.dart';
+import 'package:app/pages/profile_page.dart';
 import 'package:app/pages/show_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -125,7 +126,7 @@ void enviarValidacao() {
                   Navigator.of(context).pop(); // Fecha o AlertDialog
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ValidacoesScreen()),
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
                   );
                 },
                 child: Text('OK'),
