@@ -1,6 +1,12 @@
+import 'dart:io';
+
+import 'package:app/pages/home_page.dart';
 import 'package:app/services/auth_service.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key});
@@ -10,10 +16,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // FirebaseDatabase database = FirebaseDatabase.instance;
+  // DatabaseReference ref = FirebaseDatabase.instance.ref('users');
+  // final FirebaseStorage storage = FirebaseStorage.instance;
+  
   bool _obscurePassword = true;
   final formKey = GlobalKey<FormState>();
+  final nomeController = TextEditingController();
   final email = TextEditingController();
   final senha = TextEditingController();
+  final foto = TextEditingController();
   bool isLogin = true;
   late String titulo;
   late String actionButton;
@@ -25,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     setFormAction(true);
+    
   }
 
   setFormAction(bool acao) {
@@ -45,6 +58,8 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  bool _loggedIn = false;
+
   login() async {
     final authService = AuthService();
     setState(() {
@@ -52,7 +67,10 @@ class _LoginPageState extends State<LoginPage> {
     });
     try {
       await authService.login(email.text, senha.text);
-      Navigator.pushReplacementNamed(context, '/home');
+      setState(() {
+        _loggedIn = true;
+      });
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message),
@@ -70,8 +88,23 @@ class _LoginPageState extends State<LoginPage> {
     });
     final authService = AuthService();
     try {
-      await authService.registrar(email.text, senha.text);
-      Navigator.pushReplacementNamed(context, '/home');
+      await authService.registrar(nomeController.text, email.text, senha.text, foto.text);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Conta criada! Faça o login.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/login'); // Substitui a rota da página atual pela página de login
+                },
+              ),
+            ],
+          );
+        },
+      );
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message),
@@ -83,6 +116,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -117,6 +151,31 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 50),
+                  if (!isLogin)
+                   // Condição para exibir o campo de input do nome apenas quando não estiver logando
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 238, 244, 236),
+                        labelStyle: TextStyle(
+                          color: Colors.green[800],
+                          fontWeight: FontWeight.bold,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      controller: nomeController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Informe seu nome";
+                        }
+                        return null;
+                      },
+                    ),
+                  SizedBox(height: 30),
                   TextFormField(
                       decoration: InputDecoration(
                         labelText: 'E-mail',
@@ -178,6 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                         return null;
                       }),
+                  
                   SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: loading
@@ -246,4 +306,30 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  // Future<XFile?> getImage() async{
+  //   final ImagePicker _picker = ImagePicker();
+  //   XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  //   return image;
+  // }
+  // Future<void> upload(String path) async{
+  //   File file = File(path);
+  //   try{
+  //     String ref = 'image/img-${DateTime.now().toString()}.jpg';
+  //     await storage.ref(ref).putFile(file);
+  //   } on FirebaseException catch(e){
+  //     throw Exception("Erro no upload: ${e.code}");
+  //   }
+  // }
+  // Future<String?> pickAndUploadImage() async {
+  //   final ImagePicker _picker = ImagePicker();
+  //   XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  //   if (image != null) {
+  //     Reference storageReference = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
+  //     UploadTask uploadTask = storageReference.putFile(File(image.path));
+  //     TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+  //     String imageUrl = await taskSnapshot.ref.getDownloadURL();
+  //     return imageUrl;
+  //   }
+  //   return null;
+  // }
 }
