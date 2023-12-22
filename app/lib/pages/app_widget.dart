@@ -1,11 +1,11 @@
 import 'package:app/pages/slash_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/login_page.dart';
-import 'package:app/pages/register_page.dart';
 import 'package:app/pages/profile_page.dart';
 import 'package:app/pages/about_page.dart';
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/team_dev.dart';
+import 'package:app/widgets/auth_check.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/show_data.dart';
 
@@ -33,19 +33,17 @@ class AppWidget extends StatelessWidget {
       ),
       initialRoute: '/splash',
       routes: {
-        '/splash': (_) => const SplashPage(),
-        '/login': (_) => const LoginPage(),
-        '/register': (_) => const RegisterPage(),
-        '/home': (_) => HomePage(),
-        '/about': (_) => AboutPage(),
-        '/access': (_) => AccessPage(),
-        '/profile': (_) => ProfilePage(),
-        '/teamDev': (_) => TeamDevPage(),
-        '/show': (_) => ValidacoesScreen(),
-      },
-      home: Scaffold(
-        body: HomePage(),
-      ),
+  '/splash': (_) => const SplashPage(),
+  '/login': (_) => const LoginPage(),
+  '/home': (_) => HomePage(),
+  '/about': (_) => AboutPage(),
+  '/access': (_) => AccessPage(),
+  '/profile': (_) => ProfilePage(),
+  '/teamDev': (_) => TeamDevPage(),
+  '/show': (_) => ValidacoesScreen(),
+},
+
+      home: AuthCheck(),
     );
   }
 }

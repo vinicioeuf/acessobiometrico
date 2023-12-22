@@ -6,8 +6,9 @@ import 'package:app/firebase_options.dart';
 // void main() {
 //   runApp(AppWidget(title: 'Tomi',));
 // }
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

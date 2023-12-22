@@ -1,6 +1,4 @@
-import 'package:app/pages/home_page.dart';
 import 'package:app/pages/profile_page.dart';
-import 'package:app/pages/show_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
