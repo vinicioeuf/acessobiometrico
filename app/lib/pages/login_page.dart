@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:app/pages/home_page.dart';
 import 'package:app/services/auth_service.dart';
 import 'package:firebase_database/firebase_database.dart';

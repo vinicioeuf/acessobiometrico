@@ -108,6 +108,7 @@ void enviarValidacao() {
         "tipoCurso": selectedValueTipo,
         "tipoVinculo": selectedValueVinculo,
       },
+
     };
 
     documentReference.set(validacao).whenComplete(() {
