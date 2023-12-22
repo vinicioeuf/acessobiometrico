@@ -1,5 +1,6 @@
 import 'package:app/pages/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // ignore: depend_on_referenced_packages
@@ -11,9 +12,16 @@ class Validation extends StatefulWidget {
 }
 
 class _ValidationState extends State<Validation> {
+  late User? user;
+  late String? photoURL;
   String? getEmail = null;
   String? getMatricula = null;
-
+  @override
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser;
+    photoURL = user?.photoURL;
+  }
   pegarEmail(email) {
     this.getEmail = email;
   }
@@ -21,7 +29,7 @@ class _ValidationState extends State<Validation> {
   pegarMatricula(matricula) {
     this.getMatricula = matricula;
   }
-
+  
   String? selectedValueVinculo = null;
   String? selectedValueTipo;
   String? selectedValueCurso;
@@ -108,7 +116,7 @@ void enviarValidacao() {
         "tipoCurso": selectedValueTipo,
         "tipoVinculo": selectedValueVinculo,
       },
-
+      "foto": photoURL
     };
 
     documentReference.set(validacao).whenComplete(() {

@@ -12,7 +12,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "VALIDAÇÕES",
+          "SOLICITAÇÕES",
           style: TextStyle(
               fontFamily: 'oswald',
               fontWeight: FontWeight.bold,
@@ -45,10 +45,11 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                 String email = data['email'];
                 String matricula = data['matricula'];
                 String vinculo = data['vinculo']['tipoVinculo'];
-                
+                String? foto = data['foto'] as String?;
                 return ListTile(
                   contentPadding: EdgeInsets.all(8),
                   leading: CircleAvatar(
+                    backgroundImage: foto != null ? NetworkImage(foto) : null,
                     radius: 50,
                     backgroundColor: Colors.green[800],
                   ),
@@ -62,7 +63,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                     height: 35,
                     color: Colors.green[800],
                     child: Text(
-                      "Autorizar",
+                      "Aprovar",
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'oswlad',
