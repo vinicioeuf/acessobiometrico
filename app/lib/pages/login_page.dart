@@ -46,31 +46,42 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   login() async {
-  final authService = AuthService();
-  try {
-    await authService.login(email.text, senha.text);
-    Navigator.pushReplacementNamed(context, '/home'); // ou outra rota desejada
-  } catch (e) {
-    print('Erro no login_page.dart: $e');
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Erro no login. Verifique suas credenciais e tente novamente.'),
-    ));
+    final authService = AuthService();
+    setState(() {
+      loading = true;
+    });
+    try {
+      await authService.login(email.text, senha.text);
+      Navigator.pushReplacementNamed(context, '/home');
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+      ));
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
   }
-}
 
-registrar() async {
-  final authService = AuthService();
-  try {
-    await authService.registrar(email.text, senha.text);
-    Navigator.pushReplacementNamed(context, '/home'); // ou outra rota desejada
-  } catch (e) {
-    print('Erro no login_page.dart: $e');
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Erro no registro. Tente novamente.'),
-    ));
+  registrar() async {
+    setState(() {
+      loading = true;
+    });
+    final authService = AuthService();
+    try {
+      await authService.registrar(email.text, senha.text);
+      Navigator.pushReplacementNamed(context, '/home');
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+      ));
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -169,15 +180,17 @@ registrar() async {
                       }),
                   SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        if (isLogin) {
-                          login();
-                        } else {
-                          registrar();
-                        }
-                      }
-                    },
+                    onPressed: loading
+                        ? null
+                        : () {
+                            if (formKey.currentState!.validate()) {
+                              if (isLogin) {
+                                login();
+                              } else {
+                                registrar();
+                              }
+                            }
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[800],
                       shape: RoundedRectangleBorder(
@@ -185,14 +198,16 @@ registrar() async {
                       ),
                       minimumSize: Size(double.infinity, 60),
                     ),
-                    child: Text(
-                      actionButton,
-                      style: GoogleFonts.oswald(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child: loading
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            actionButton,
+                            style: GoogleFonts.oswald(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
                   ),
                   SizedBox(height: 20),
                   Container(
