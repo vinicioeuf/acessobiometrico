@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class ValidacoesScreen extends StatefulWidget {
   @override
   _ValidacoesScreenState createState() => _ValidacoesScreenState();
@@ -13,8 +13,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
       appBar: AppBar(
         title: Text(
           "SOLICITAÇÕES",
-          style: TextStyle(
-              fontFamily: 'oswald',
+          style: GoogleFonts.oswald(
               fontWeight: FontWeight.bold,
               color: Colors.green[800]),
         ),
@@ -85,28 +84,36 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                       children: [
                         Text(
                           nome,
-                          style: TextStyle(
+                          style: GoogleFonts.oswald(
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'oswald',
                           ),
                         ),
                         Text(
                           vinculo,
-                          style: TextStyle(
+                          style: GoogleFonts.oswald(
                             color: Colors.green[800],
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'oswald',
                           ),
                         ),
-                        Container(
-                          constraints: BoxConstraints(maxWidth: 200), // Define um máximo de 200 de largura
-                          child: Text(
-                            'Curso: $tempo $curso',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'oswald',
+                        SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 200),
+                              child: Text(
+                                'Curso: $tempo $curso',
+                                style: GoogleFonts.oswald(),
+                              ),
                             ),
-                          ),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 200), // Define um máximo de 200 de largura
+                              child: Text(
+                                'E-mail: $email',
+                                style: GoogleFonts.oswald(),
+                              ),
+                            ),
+                          ],
                         ),
                         
                       ],
@@ -115,6 +122,14 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        Text(
+                          "10:32PM  ",
+                          style: GoogleFonts.oswald(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(width: 12),
                         ElevatedButton(
                           onPressed: () {
                             // Lógica para aprovar
@@ -122,8 +137,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                           style: ElevatedButton.styleFrom(
                             primary: Colors.green[800],
                             onPrimary: Colors.white, // Cor do texto
-                            textStyle: TextStyle(
-                              fontFamily: 'oswald',
+                            textStyle: GoogleFonts.oswald(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -137,20 +151,17 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                           style: ElevatedButton.styleFrom(
                             primary: Colors.red[800],
                             onPrimary: Colors.white, // Cor do texto
-                            textStyle: TextStyle(
-                              fontFamily: 'oswald',
+                            textStyle: GoogleFonts.oswald(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          child: Text('Negar'),
+                          child: Text(' Negar  '),
                         ),
                       ],
                     ),
                   ],
                 ),
               );
-
-
             }).toList(),
           );
 
