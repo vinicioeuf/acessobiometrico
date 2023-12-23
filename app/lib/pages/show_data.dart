@@ -68,6 +68,9 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
               String tempo = data['vinculo']['tempo'];
               String curso = data['vinculo']['curso'];
               String? foto = data['foto'] as String?;
+              // if(aguardando == false){
+                
+              // }
               return Container(
                 width: 0.9 * MediaQuery.of(context).size.width,
                 margin: EdgeInsets.all(1),
