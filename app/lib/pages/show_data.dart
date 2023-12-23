@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class ValidacoesScreen extends StatefulWidget {
   @override
   _ValidacoesScreenState createState() => _ValidacoesScreenState();
@@ -14,8 +15,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
         title: Text(
           "SOLICITAÇÕES",
           style: GoogleFonts.oswald(
-              fontWeight: FontWeight.bold,
-              color: Colors.green[800]),
+              fontWeight: FontWeight.bold, color: Colors.green[800]),
         ),
         backgroundColor: Colors.white,
         shadowColor: Colors.white,
@@ -37,7 +37,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
               ),
             );
           }
-          
+
           // return MaterialApp(
           //   home: Row(
           //     mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +55,8 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
           // );
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
-              Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+              Map<String, dynamic> data =
+                  document.data() as Map<String, dynamic>;
               String email = data['email'];
               String nome = data['nome'];
               String matricula = data['matricula'];
@@ -64,42 +65,57 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
               String curso = data['vinculo']['curso'];
               String? foto = data['foto'] as String?;
               return Container(
-                margin: EdgeInsets.all(8),
-                padding: EdgeInsets.all(8),
+                width: double.infinity,
+                margin: EdgeInsets.all(1),
+                padding: EdgeInsets.all(1),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(100, 225, 244, 203),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start, // Alinha os elementos ao topo
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      backgroundImage: foto != null ? NetworkImage(foto) : null,
-                      radius: 25,
-                      backgroundColor: Colors.green[800],
-                    ),
-                    SizedBox(width: 10), // Espaçamento entre a imagem e o texto
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          nome,
-                          style: GoogleFonts.oswald(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          vinculo,
-                          style: GoogleFonts.oswald(
-                            color: Colors.green[800],
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  foto != null ? NetworkImage(foto) : null,
+                              radius: 25,
+                              backgroundColor: Colors.green[800],
+                            ),
+                            SizedBox(
+                                width:
+                                    10), // Espaçamento entre a imagem e o texto
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  nome,
+                                  style: GoogleFonts.oswald(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  vinculo,
+                                  style: GoogleFonts.oswald(
+                                    color: Colors.green[800],
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                         SizedBox(height: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              width: 0.6 * MediaQuery.of(context).size.width,
                               constraints: BoxConstraints(maxWidth: 200),
                               child: Text(
                                 'Curso: $tempo $curso',
@@ -107,7 +123,10 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                               ),
                             ),
                             Container(
-                              constraints: BoxConstraints(maxWidth: 200), // Define um máximo de 200 de largura
+                              width: 0.6 * MediaQuery.of(context).size.width,
+                              constraints: BoxConstraints(
+                                  maxWidth:
+                                      200), // Define um máximo de 200 de largura
                               child: Text(
                                 'E-mail: $email',
                                 style: GoogleFonts.oswald(),
@@ -115,56 +134,61 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                             ),
                           ],
                         ),
-                        
                       ],
                     ),
-                    Spacer(), // Empurra o botão para a extremidade direita
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "10:32PM  ",
-                          style: GoogleFonts.oswald(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Lógica para aprovar
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green[800],
-                            onPrimary: Colors.white, // Cor do texto
-                            textStyle: GoogleFonts.oswald(
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            "10:32PM  ",
+                            style: GoogleFonts.oswald(
                               fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
                           ),
-                          child: Text('Aprovar'),
-                        ),
-                        SizedBox(height: 2), // Espaçamento entre os botões
-                        ElevatedButton(
-                          onPressed: () {
-                            // Lógica para negar
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red[800],
-                            onPrimary: Colors.white, // Cor do texto
-                            textStyle: GoogleFonts.oswald(
-                              fontWeight: FontWeight.bold,
+                          SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Lógica para aprovar
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.green[800],
+                              onPrimary: Colors.white, // Cor do texto
+                              textStyle: GoogleFonts.oswald(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
                             ),
+                            child: Text('Aprovar'),
                           ),
-                          child: Text(' Negar  '),
-                        ),
-                      ],
+                          SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Lógica para negar
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.red[800],
+                              onPrimary: Colors.white, // Cor do texto
+                              textStyle: GoogleFonts.oswald(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            child: Text(' Negar  '),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               );
             }).toList(),
           );
-
         },
       ),
     );
