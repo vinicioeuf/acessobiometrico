@@ -14,6 +14,7 @@ class Validation extends StatefulWidget {
 class _ValidationState extends State<Validation> {
   late User? user;
   late String? photoURL;
+  late String? nome;
   String? getEmail = null;
   String? getMatricula = null;
   @override
@@ -21,6 +22,7 @@ class _ValidationState extends State<Validation> {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
     photoURL = user?.photoURL;
+    nome = user?.displayName;
   }
   pegarEmail(email) {
     this.getEmail = email;
@@ -116,7 +118,8 @@ void enviarValidacao() {
         "tipoCurso": selectedValueTipo,
         "tipoVinculo": selectedValueVinculo,
       },
-      "foto": photoURL
+      "foto": photoURL,
+      "nome": nome
     };
 
     documentReference.set(validacao).whenComplete(() {
@@ -292,6 +295,7 @@ void enviarValidacao() {
                             'Estudante',
                             'Professor',
                             'Bolsista',
+                            'Voluntário',
                             'Estagiário'
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(

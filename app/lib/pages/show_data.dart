@@ -58,45 +58,99 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
               Map<String, dynamic> data = document.data() as Map<String, dynamic>;
               String email = data['email'];
+              String nome = data['nome'];
               String matricula = data['matricula'];
               String vinculo = data['vinculo']['tipoVinculo'];
+              String tempo = data['vinculo']['tempo'];
+              String curso = data['vinculo']['curso'];
               String? foto = data['foto'] as String?;
               return Container(
                 margin: EdgeInsets.all(8),
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(120, 225, 244, 203),
+                  color: Color.fromARGB(100, 225, 244, 203),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  leading: CircleAvatar(
-                    backgroundImage: foto != null ? NetworkImage(foto) : null,
-                    radius: 50,
-                    backgroundColor: Colors.green[800],
-                  ),
-                  title: Text(email),
-                  subtitle: Text("$vinculo - $matricula"),
-                  trailing: ClipRRect(
-                    borderRadius: BorderRadius.circular(30.0),
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 100,
-                      height: 35,
-                      color: Colors.green[800],
-                      child: Text(
-                        "Aprovar",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'oswlad',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start, // Alinha os elementos ao topo
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: foto != null ? NetworkImage(foto) : null,
+                      radius: 25,
+                      backgroundColor: Colors.green[800],
                     ),
-                  ),
+                    SizedBox(width: 10), // Espaçamento entre a imagem e o texto
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          nome,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'oswald',
+                          ),
+                        ),
+                        Text(
+                          vinculo,
+                          style: TextStyle(
+                            color: Colors.green[800],
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'oswald',
+                          ),
+                        ),
+                        Container(
+                          constraints: BoxConstraints(maxWidth: 200), // Define um máximo de 200 de largura
+                          child: Text(
+                            'Curso: $tempo $curso',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'oswald',
+                            ),
+                          ),
+                        ),
+                        
+                      ],
+                    ),
+                    Spacer(), // Empurra o botão para a extremidade direita
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            // Lógica para aprovar
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green[800],
+                            onPrimary: Colors.white, // Cor do texto
+                            textStyle: TextStyle(
+                              fontFamily: 'oswald',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          child: Text('Aprovar'),
+                        ),
+                        SizedBox(height: 2), // Espaçamento entre os botões
+                        ElevatedButton(
+                          onPressed: () {
+                            // Lógica para negar
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red[800],
+                            onPrimary: Colors.white, // Cor do texto
+                            textStyle: TextStyle(
+                              fontFamily: 'oswald',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          child: Text('Negar'),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               );
+
+
             }).toList(),
           );
 
