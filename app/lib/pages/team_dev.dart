@@ -71,15 +71,24 @@ Widget buildTeamMember(
               backgroundImage: AssetImage(imagePath),
             ),
             SizedBox(height: 10),
-            Column(
+            const Column(
               children: [
                 Icon(Icons.mail, color: Colors.black),
-                SizedBox(height: 10), // Ajuste no espaçamento
-                Icon(Icons.phone, color: Colors.black),
                 SizedBox(height: 10),
                 CircleAvatar(
-                  backgroundImage: AssetImage('assets/imagens/github.png'),
-                )
+                  radius: 20,
+                  backgroundImage: AssetImage('assets/imagens/github.png') ,
+            ),
+            SizedBox(height: 10),
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage: AssetImage('assets/imagens/linkedin.png') ,
+            ),
+            SizedBox(height: 10),
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage: AssetImage('assets/imagens/instagram.png') ,
+            ),
               ],
             ),
           ],
@@ -100,6 +109,7 @@ Widget buildTeamMember(
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'oswald',
                     color: Colors.green[800]),
               ),
               SizedBox(height: 5),
@@ -108,12 +118,13 @@ Widget buildTeamMember(
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.red,
+                    fontFamily: 'oswald',
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 5),
               Text(
                 description,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, fontFamily: 'oswald'),
               ),
             ],
           ),
