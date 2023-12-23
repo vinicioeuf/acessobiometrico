@@ -23,42 +23,44 @@ class AboutPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                'Sobre o Lab Maker', // Passo 3
+                'Sobre o LabMaker', // Passo 3
                 style: GoogleFonts.oswald(
                         textStyle: TextStyle(
                           color: Color.fromARGB(255, 61, 96, 47),
-                          fontSize: 40,
+                          fontSize: 35,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                   
               ),
             ),
-            Image.asset('assets/imagens/labMaker.jpg'), // Passo 4
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Descrição sobre o Lab Maker', // Passo 5
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ),
+            Image.asset('assets/imagens/labMaker.jpg'), 
             SizedBox(height: 20),
-            Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+            Container(
+              width:double.infinity,
+              height: 200,
+              alignment: Alignment.topCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 400,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
+                  SizedBox(width:5),
+                    //Botões
+                    Container(
+                      alignment: Alignment.topCenter,
+                      width: 0.5 * MediaQuery.of(context).size.width,
+                      
+                    child: Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
                         Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => TeamMakerPage()),
                     );
                       },
-                      style: ElevatedButton.styleFrom(
+                         style: ElevatedButton.styleFrom(
+                         fixedSize: Size(200, 50),
                         primary: Colors.green[800],
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -68,44 +70,60 @@ class AboutPage extends StatelessWidget {
                         'Equipe Maker',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
-                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            fontSize: 20.0,
                             color: Colors.white,
                           ),
-                        ),
+                        )
+                      )
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 10.0), // Espaçamento entre os botões
-                  Container(
-                    width: 400, // Largura desejada
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
                         Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => TeamDevPage()),
                     );
                       },
-                      style: ElevatedButton.styleFrom(
+                         style: ElevatedButton.styleFrom(
+                          fixedSize: Size(200, 50),
                         primary: Colors.green[800],
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
                       child: Text(
-                        'Equipe de Desenvolvimento',
+                        'Equipe de Devs',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
-                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            fontSize: 20.0,
                             color: Colors.white,
                           ),
-                        ),
-                      ),
-                    ),
+                        )
+                      )
+                      )
+                    ],
                   ),
-                  SizedBox(height: 20.0), // Espaçamento entre os botões
+                  ),
+                  SizedBox(width: 10),
+                  //Barra
+                  Container(
+                    width: 1,
+                    height: 200 ,
+                    color: Colors.green[800],
+                  ),
+                  SizedBox(width: 10),
+                  Container(
+                    width:  0.4 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width,
+                    alignment: Alignment.topCenter,
+                  //Descrição
+                  child: Text("Lorem ipsum dolor sit ametr egesa curae; Mat dapibus in in turpis. Vivamus ac neque libero. t non hendrerit eget, interdum nec nisl. Pellentesque ipsum est, mattis ut condimentum et, tincidunt et lorem. Fusce in urna et ante lobortis bibendum ut ut erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas quis dui eu orci semper fermentum. Ut sollicitudin lacinia mauris in fermentum. Ut semper pellentesque est, sit amet rhoncus tellus faucibus in. Nullam sed nisi auctor, dignissim nulla commodo, pulvinar urna. Etiam vitae dolor mollis mi placerat dapibus in in turpis. Vivamus ac neque libero.",
+                  style: TextStyle(color: Colors.black, fontFamily: 'oswald', fontSize: 15),)
+                  ),
+                  SizedBox(height: 50),
                 ],
               ),
+            )
           ],
         ),
       ),
