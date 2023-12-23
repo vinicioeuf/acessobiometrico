@@ -76,6 +76,10 @@ Widget buildTeamMember(
                 Icon(Icons.mail, color: Colors.black),
                 SizedBox(height: 10), // Ajuste no espaçamento
                 Icon(Icons.phone, color: Colors.black),
+                SizedBox(height: 10),
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/imagens/github.png'),
+                )
               ],
             ),
           ],

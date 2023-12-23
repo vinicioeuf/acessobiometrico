@@ -25,6 +25,8 @@ dependencies:
   firebase_messaging: ^14.7.9
   fluttertoast: ^8.2.4
 
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -51,6 +53,7 @@ flutter:
     - assets/imagens/vicCarlos.jpg
     - assets/imagens/viniEufrazio.jpg
     - assets/imagens/PLemos.jpg
+    - assets/imagens/github.png
 
 
 
