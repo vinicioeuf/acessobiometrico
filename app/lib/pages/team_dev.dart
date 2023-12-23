@@ -7,20 +7,23 @@ class TeamDevPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          leading: Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
+          
+          leading: IconButton(
+            icon: Icon(Icons.arrow_circle_left_outlined, size: 40),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           title: Text(
-            "EQUIPE DE DESENVOLVIMENTO",
+            "EQUIPE DE DEVS",
             style: TextStyle(
                 fontFamily: 'oswald',
                 fontWeight: FontWeight.bold,
-                color: Colors.green[800]),
+                color: const Color.fromARGB(255, 255, 255, 255)),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.green[800],
           shadowColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.green[800]),
+          iconTheme: IconThemeData(color: const Color.fromARGB(255, 255, 255, 255)),
         ),
         body: Center(
           child: ListView(
@@ -52,86 +55,87 @@ class TeamDevPage extends StatelessWidget {
 
   int selectedIndex = 0;
 
-
-Widget buildTeamMember(
-    String imagePath, String name, String role, String description) {
-  return Container(
-    alignment: Alignment.topCenter,
-    width: double.infinity,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.start, // Alteração aqui
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start, // Alteração aqui
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage(imagePath),
-            ),
-            SizedBox(height: 10),
-            const Column(
-              children: [
-                Icon(Icons.mail, color: Colors.black),
-                SizedBox(height: 10),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundImage: AssetImage('assets/imagens/github.png') ,
-            ),
-            SizedBox(height: 10),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundImage: AssetImage('assets/imagens/linkedin.png') ,
-            ),
-            SizedBox(height: 10),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundImage: AssetImage('assets/imagens/instagram.png') ,
-            ),
-              ],
-            ),
-          ],
-        ),
-        SizedBox(width: 50),
-        Container(
-          width: 1,
-          height: 200,
-          color: Colors.green[800],
-        ),
-        SizedBox(width: 50),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  Widget buildTeamMember(
+      String imagePath, String name, String role, String description) {
+    return Container(
+      alignment: Alignment.topCenter,
+      width: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start, // Alteração aqui
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start, // Alteração aqui
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                name,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'oswald',
-                    color: Colors.green[800]),
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage(imagePath),
               ),
-              SizedBox(height: 5),
-              Text(
-                role,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.red,
-                    fontFamily: 'oswald',
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 5),
-              Text(
-                description,
-                style: TextStyle(fontSize: 16, fontFamily: 'oswald'),
+              SizedBox(height: 30),
+              const Column(
+                children: [
+                  Icon(Icons.mail, color: Colors.black),
+                  SizedBox(height: 20),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 13,
+                    backgroundImage: AssetImage('assets/imagens/github.png'),
+                  ),
+                  SizedBox(height: 20),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 13,
+                    backgroundImage: AssetImage('assets/imagens/linkedin.png'),
+                  ),
+                  SizedBox(height: 20),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 13,
+                    backgroundImage: AssetImage('assets/imagens/instagram.png'),
+                  ),
+                ],
               ),
             ],
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+          SizedBox(width: 50),
+          Container(
+            width: 1,
+            height: 200,
+            color: Colors.green[800],
+          ),
+          SizedBox(width: 50),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'oswald',
+                      color: Colors.green[800]),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  role,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.red,
+                      fontFamily: 'oswald',
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  description,
+                  style: TextStyle(fontSize: 16, fontFamily: 'oswald'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
