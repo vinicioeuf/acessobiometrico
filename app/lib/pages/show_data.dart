@@ -38,16 +38,38 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
               ),
             );
           }
-
+          
+          // return MaterialApp(
+          //   home: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Container(
+          //         width: MediaQuery.of(context).size.width * 0.9,
+          //         height: 110,
+          //         decoration: BoxDecoration(
+          //           color: Colors.blue,
+          //           borderRadius: BorderRadius.circular(10),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // );
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
               Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                String email = data['email'];
-                String matricula = data['matricula'];
-                String vinculo = data['vinculo']['tipoVinculo'];
-                String? foto = data['foto'] as String?;
-                return ListTile(
-                  contentPadding: EdgeInsets.all(8),
+              String email = data['email'];
+              String matricula = data['matricula'];
+              String vinculo = data['vinculo']['tipoVinculo'];
+              String? foto = data['foto'] as String?;
+              return Container(
+                margin: EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(120, 225, 244, 203),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ListTile(
+                  contentPadding: EdgeInsets.all(0),
                   leading: CircleAvatar(
                     backgroundImage: foto != null ? NetworkImage(foto) : null,
                     radius: 50,
@@ -56,19 +78,21 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                   title: Text(email),
                   subtitle: Text("$vinculo - $matricula"),
                   trailing: ClipRRect(
-                  borderRadius: BorderRadius.circular(30.0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 100,
-                    height: 35,
-                    color: Colors.green[800],
-                    child: Text(
-                      "Aprovar",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'oswlad',
-                        fontWeight: FontWeight.bold,
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 100,
+                      height: 35,
+                      color: Colors.green[800],
+                      child: Text(
+                        "Aprovar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'oswlad',
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                      
                     ),
                   ),
                 ),
