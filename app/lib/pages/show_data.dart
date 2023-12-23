@@ -56,16 +56,20 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
               Map<String, dynamic> data =
-                  document.data() as Map<String, dynamic>;
+                document.data() as Map<String, dynamic>;
               String email = data['email'];
+              String hora = data['hora'];
               String nome = data['nome'];
+              bool aguardando = data['aguardando'];
+              bool autorizado = data['autorizado'];
+              bool negado = data['negado'];
               String matricula = data['matricula'];
               String vinculo = data['vinculo']['tipoVinculo'];
               String tempo = data['vinculo']['tempo'];
               String curso = data['vinculo']['curso'];
               String? foto = data['foto'] as String?;
               return Container(
-                width: double.infinity,
+                width: 0.9 * MediaQuery.of(context).size.width,
                 margin: EdgeInsets.all(1),
                 padding: EdgeInsets.all(1),
                 decoration: BoxDecoration(
@@ -75,10 +79,10 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    
                     Column(
                       children: [
                         Row(
-                          
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CircleAvatar(
@@ -141,7 +145,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "10:32PM  ",
+                            "$hora  ",
                             style: GoogleFonts.oswald(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -150,7 +154,26 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                           SizedBox(height: 10),
                           ElevatedButton(
                             onPressed: () {
-                              // Lógica para aprovar
+                              FirebaseFirestore.instance.collection('validações').doc(document.id).update({
+                                'autorizado': true,
+                                'aguardando': false,
+                              });
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Solicitação aprovada!'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Ok'),
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacementNamed('/show'); // Substitui a rota da página atual pela página de login
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.green[800],
@@ -167,7 +190,26 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                           SizedBox(height: 10),
                           ElevatedButton(
                             onPressed: () {
-                              // Lógica para negar
+                              FirebaseFirestore.instance.collection('validações').doc(document.id).update({
+                                'negado': true,
+                                'aguardando': false,
+                              });
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Solicitação negada!'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Ok'),
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacementNamed('/show'); // Substitui a rota da página atual pela página de login
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.red[800],
@@ -182,6 +224,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                             child: Text(' Negar  '),
                           ),
                         ],
+              
                       ),
                     ),
                   ],

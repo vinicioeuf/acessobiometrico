@@ -60,26 +60,25 @@ class _LoginPageState extends State<LoginPage> {
   bool _loggedIn = false;
 
   login() async {
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false);
-    // final authService = AuthService();
-    // setState(() {
-    //   loading = true;
-    // });
-    // try {
-    //   await authService.login(email.text, senha.text);
-    //   setState(() {
-    //     _loggedIn = true;
-    //   });
-    //   Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
-    // } on AuthException catch (e) {
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //     content: Text(e.message),
-    //   ));
-    // } finally {
-    //   setState(() {
-    //     loading = false;
-    //   });
-    // }
+    final authService = AuthService();
+    setState(() {
+      loading = true;
+    });
+    try {
+      await authService.login(email.text, senha.text);
+      setState(() {
+        _loggedIn = true;
+      });
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+      ));
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   registrar() async {
@@ -192,13 +191,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       controller: email,
                       keyboardType: TextInputType.emailAddress,
-                      // validator: (value) {
-                      //   if (value!.isEmpty) {
-                      //     return "Informe seu e-mail";
-                      //   }
-                      //   return null;
-                      // }
-                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Informe seu e-mail";
+                        }
+                        return null;
+                      }),
                   SizedBox(height: 30),
                   TextFormField(
                       obscureText:
@@ -230,15 +228,14 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       controller: senha,
-                      // validator: (value) {
-                      //   if (value!.isEmpty) {
-                      //     return "Informe sua senha";
-                      //   } else if (value.length < 6) {
-                      //     return "Senha fraca. Tente outra";
-                      //   }
-                      //   return null;
-                      // }
-                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Informe sua senha";
+                        } else if (value.length < 6) {
+                          return "Senha fraca. Tente outra";
+                        }
+                        return null;
+                      }),
                   
                   SizedBox(height: 30),
                   ElevatedButton(

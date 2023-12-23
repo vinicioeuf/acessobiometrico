@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // ignore: depend_on_referenced_packages
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class Validation extends StatefulWidget {
   @override
@@ -17,12 +20,25 @@ class _ValidationState extends State<Validation> {
   late String? nome;
   String? getEmail = null;
   String? getMatricula = null;
+  late String agora;
+
+  Future<String> _getHoraBrasil() async {
+    tz.initializeTimeZones();
+    final location = tz.getLocation('America/Sao_Paulo');
+    final now = tz.TZDateTime.now(location);
+    return DateFormat.jm().format(now);
+  }
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
     photoURL = user?.photoURL;
     nome = user?.displayName;
+    _getHoraBrasil().then((hora) {
+      setState(() {
+        agora = hora;
+      });
+    });
   }
   pegarEmail(email) {
     this.getEmail = email;
@@ -90,7 +106,7 @@ void enviarValidacao() {
       exibirMensagem = true;
     });
     print("Número de matrícula ou e-mail inválido");
-
+    
     // Mostra um Toast para alertar o usuário sobre o erro
     Fluttertoast.showToast(
       msg: "Número de matrícula ou e-mail inválido",
@@ -119,7 +135,8 @@ void enviarValidacao() {
         "tipoVinculo": selectedValueVinculo,
       },
       "foto": photoURL,
-      "nome": nome
+      "nome": nome,
+      "hora": agora
     };
 
     documentReference.set(validacao).whenComplete(() {
