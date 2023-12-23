@@ -45,7 +45,7 @@ class TeamMakerPage extends StatelessWidget {
                 radius: 50,
                 backgroundImage: AssetImage(imagePath),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 15),
               const Column(
                 children: [
                   Icon(Icons.mail, color: Colors.black),

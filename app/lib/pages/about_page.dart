@@ -117,7 +117,7 @@ class AboutPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.width,
                     alignment: Alignment.topCenter,
                   //Descrição
-                  child: Text("Lorem ipsum dolor sit ametr egesa curae; Mat dapibus in in turpis. Vivamus ac neque libero. t non hendrerit eget, interdum nec nisl. Pellentesque ipsum est, mattis ut condimentum et, tincidunt et lorem. Fusce in urna et ante lobortis bibendum ut ut erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas quis dui eu orci semper fermentum. Ut sollicitudin lacinia mauris in fermentum. Ut semper pellentesque est, sit amet rhoncus tellus faucibus in. Nullam sed nisi auctor, dignissim nulla commodo, pulvinar urna. Etiam vitae dolor mollis mi placerat dapibus in in turpis. Vivamus ac neque libero.",
+                  child: Text("O Labmaker tem como meta criar um ambiente propício para o surgimento de agentes transformadores da realidade através da participação ativa em diversos problemas da sociedade, materializando ideias e criando oportunidades de aprendizagem para pessoas. ",
                   style: TextStyle(color: Colors.black, fontFamily: 'oswald', fontSize: 15),)
                   ),
                   SizedBox(height: 50),
