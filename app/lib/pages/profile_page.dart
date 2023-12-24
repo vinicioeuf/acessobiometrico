@@ -19,20 +19,19 @@ class _ProfilePageState extends State<ProfilePage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 5),
               Container(
-                width: double.infinity,
+                width:0.9 * double.infinity,
                 height: 150,
                 decoration: BoxDecoration(
                   color: Colors.green[700],
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(0),
-                    bottomLeft: Radius.circular(200),
-                    bottomRight: Radius.circular(200),
+                    bottomLeft: Radius.circular(100),
+                    bottomRight: Radius.circular(100),
                   ),
                 ),
               ),
-              Align(
+              Container(
                 alignment: Alignment.center,
                 child: Transform.translate(
                   offset: Offset(0, -80),
@@ -40,9 +39,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     future: FirebaseAuth.instance.authStateChanges().first,
                     builder:
                         (BuildContext context, AsyncSnapshot<User?> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else {
                         if (snapshot.hasData) {
                           User? user = snapshot.data;
                           return Column(
@@ -53,18 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 alignment:Alignment.center,
                                 children:[
                               Container(
-                                width: 150,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(top: 0),
+                                //padding: EdgeInsets.only(top: 0),
                                 child:
                                 CircleAvatar(
                                   backgroundImage:
@@ -96,18 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 alignment:Alignment.center,
                                 children:[
                               Container(
-                                width: 150,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(top: 0),
+                                //padding: EdgeInsets.only(top: 0),
                                 child:
                                 CircleAvatar(
                                   radius: 75,
@@ -122,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           );
                         }
-                      }
+                      
                     },
                   ),
                 ),

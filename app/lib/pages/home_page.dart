@@ -15,35 +15,7 @@ class HomePageState extends State<HomePage> {
   int paginaAtual = 0;
   late PageController pc;
 
-  Widget buildBox(IconData icon, String text, int index) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
-      height: 100,
-      decoration: BoxDecoration(
-        color: Colors.green[800],
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: Colors.white,
-            size: 50,
-          ),
-          SizedBox(width: 10),
-          Text(
-            text,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+ 
 
   @override
   void initState() {
