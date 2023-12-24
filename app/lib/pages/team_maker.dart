@@ -8,7 +8,25 @@ class TeamMakerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-   appBar: AppBar(title: Text("EQUIPE MAKER", style: TextStyle(fontFamily:'oswald', fontWeight: FontWeight.bold, color: Colors.green[800]),), backgroundColor: Colors.white, shadowColor: Colors.white, iconTheme: IconThemeData(color: Colors.green[800]),),
+   appBar: AppBar(
+          
+          leading: IconButton(
+            icon: Icon(Icons.arrow_circle_left_outlined, size: 40),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text(
+            "EQUIPE MAKER",
+            style: TextStyle(
+                fontFamily: 'oswald',
+                fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 255, 255, 255)),
+          ),
+          backgroundColor: Colors.green[800],
+          shadowColor: Colors.white,
+          iconTheme: IconThemeData(color: const Color.fromARGB(255, 255, 255, 255)),
+        ),
         body: Center(
           child: ListView(
             shrinkWrap: true,

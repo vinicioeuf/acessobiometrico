@@ -172,23 +172,23 @@ void enviarValidacao() {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_circle_left_outlined, size: 40),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             },
           ),
           title: Text(
             "SOLICITAR ACESSO",
             style: TextStyle(
-              fontFamily: 'oswald',
-              fontWeight: FontWeight.bold,
-              color: Colors.green[800],
-            ),
+                fontFamily: 'oswald',
+                fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 255, 255, 255)),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.green[800],
           shadowColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.green[800]),
+          iconTheme: IconThemeData(color: const Color.fromARGB(255, 255, 255, 255)),
         ),
         body: SingleChildScrollView(
           child: Column(

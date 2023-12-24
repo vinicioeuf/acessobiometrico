@@ -14,15 +14,24 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "SOLICITAÇÕES",
-          style: GoogleFonts.oswald(
-              fontWeight: FontWeight.bold, color: Colors.green[800]),
+          
+          leading: IconButton(
+            icon: Icon(Icons.arrow_circle_left_outlined, size: 40),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text(
+            "SOLICITAÇÕES",
+            style: TextStyle(
+                fontFamily: 'oswald',
+                fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 255, 255, 255)),
+          ),
+          backgroundColor: Colors.green[800],
+          shadowColor: Colors.white,
+          iconTheme: IconThemeData(color: const Color.fromARGB(255, 255, 255, 255)),
         ),
-        backgroundColor: Colors.white,
-        shadowColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.green[800]),
-      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('validações').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
