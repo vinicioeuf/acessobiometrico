@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.only(top: 150),
+                                padding: EdgeInsets.only(top: 0),
                                 child:
                                 CircleAvatar(
                                   backgroundImage:
