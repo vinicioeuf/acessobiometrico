@@ -51,15 +51,21 @@ class AuthService extends ChangeNotifier {
         if (foto != null) {
           await user.updatePhotoURL(foto);
         }
-        DatabaseReference newUserRef = ref.push(); // Cria uma nova referência com uma chave única
-        await newUserRef.set({
-          "nome": nome,
-          "email": email,
-          "senha": senha,
-          "foto": foto,
-          "biometria": null,
-          "credencial": 0,
-        });
+        if (user != null) {
+          String uid = user.uid; // Obter o UID do usuário
+          DatabaseReference newUserRef = ref.child(uid); // Usar o UID como nome da referência
+          await newUserRef.set({
+            "nome": nome,
+            "email": email,
+            "senha": senha,
+            "foto": foto,
+            "biometria": null,
+            "credencial": 0,
+            "solicitou": false,
+            "aprovado": false,
+            "negado": false,
+          });
+        }
       }
 
       _getUser();

@@ -1,6 +1,8 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ValidacoesScreen extends StatefulWidget {
   @override
@@ -159,6 +161,13 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                                 'autorizado': true,
                                 'aguardando': false,
                               });
+                              User? user = FirebaseAuth.instance.currentUser;
+                              String uid = user!.uid;
+                              // ignore: deprecated_member_use
+                              DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
+                              userRef.update({
+                                'aprovado': true,
+                              });
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -190,10 +199,17 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                           ),
                           SizedBox(height: 10),
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async{
                               FirebaseFirestore.instance.collection('validações').doc(document.id).update({
                                 'negado': true,
                                 'aguardando': false,
+                              });
+                              User? user = FirebaseAuth.instance.currentUser;
+                              String uid = user!.uid;
+                              // ignore: deprecated_member_use
+                              DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
+                              userRef.update({
+                                'negado': true,
                               });
                               showDialog(
                                 context: context,
