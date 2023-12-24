@@ -73,8 +73,8 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
               if (aguardando) {
                 return Container(
                 width: 0.9 * MediaQuery.of(context).size.width,
-                margin: EdgeInsets.all(1),
-                padding: EdgeInsets.all(1),
+                margin: EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(100, 225, 244, 203),
                   borderRadius: BorderRadius.circular(10),
@@ -82,11 +82,12 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
                     Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        Container(
+                          width: 0.6 * MediaQuery.of(context).size.width,
+                          child:
+                       Wrap(
                           children: [
                             CircleAvatar(
                               backgroundImage:
@@ -117,13 +118,17 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                             )
                           ],
                         ),
+                        ),
                         SizedBox(height: 10),
+                        Container(
+                          width: 0.6 * MediaQuery.of(context).size.width,
+                          child:
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               width: 0.6 * MediaQuery.of(context).size.width,
-                              constraints: BoxConstraints(maxWidth: 200),
+                              constraints: BoxConstraints(maxWidth: 300),
                               child: Text(
                                 'Curso: $tempo $curso',
                                 style: GoogleFonts.oswald(),
@@ -133,13 +138,14 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                               width: 0.6 * MediaQuery.of(context).size.width,
                               constraints: BoxConstraints(
                                   maxWidth:
-                                      200), // Define um máximo de 200 de largura
+                                      300), // Define um máximo de 200 de largura
                               child: Text(
                                 'E-mail: $email',
                                 style: GoogleFonts.oswald(),
                               ),
                             ),
                           ],
+                        ),
                         ),
                       ],
                     ),
@@ -248,7 +254,10 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                 ),
               );
               } else {
-                return Container();
+                return Container(
+                  alignment: Alignment.center,
+                  child: Text("Não há solicitações"),
+                );
               }
               
             }).toList(),

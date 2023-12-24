@@ -57,63 +57,63 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  bool _loggedIn = false;
+  // bool _loggedIn = false;
 
-  login() async {
-    final authService = AuthService();
-    setState(() {
-      loading = true;
-    });
-    try {
-      await authService.login(email.text, senha.text);
-      setState(() {
-        _loggedIn = true;
-      });
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
-    } on AuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
-      ));
-    } finally {
-      setState(() {
-        loading = false;
-      });
-    }
-  }
+  // login() async {
+  //   final authService = AuthService();
+  //   setState(() {
+  //     loading = true;
+  //   });
+  //   try {
+  //     await authService.login(email.text, senha.text);
+  //     setState(() {
+  //       _loggedIn = true;
+  //     });
+  //     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
+  //   } on AuthException catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text(e.message),
+  //     ));
+  //   } finally {
+  //     setState(() {
+  //       loading = false;
+  //     });
+  //   }
+  // }
 
-  registrar() async {
-    setState(() {
-      loading = true;
-    });
-    final authService = AuthService();
-    try {
-      await authService.registrar(nomeController.text, email.text, senha.text, foto.text);
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Conta criada! Faça o login.'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/login'); // Substitui a rota da página atual pela página de login
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } on AuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
-      ));
-    } finally {
-      setState(() {
-        loading = false;
-      });
-    }
-  }
+  // registrar() async {
+  //   setState(() {
+  //     loading = true;
+  //   });
+  //   final authService = AuthService();
+  //   try {
+  //     await authService.registrar(nomeController.text, email.text, senha.text, foto.text);
+  //     showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text('Conta criada! Faça o login.'),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text('Ok'),
+  //               onPressed: () {
+  //                 Navigator.of(context).pushReplacementNamed('/login'); // Substitui a rota da página atual pela página de login
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   } on AuthException catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text(e.message),
+  //     ));
+  //   } finally {
+  //     setState(() {
+  //       loading = false;
+  //     });
+  //   }
+  // }
 
   
   @override
@@ -239,17 +239,23 @@ class _LoginPageState extends State<LoginPage> {
                   
                   SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: loading
-                        ? null
-                        : () {
-                            if (formKey.currentState!.validate()) {
-                              if (isLogin) {
-                                login();
-                              } else {
-                                registrar();
-                              }
-                            }
-                          },
+                    onPressed: () {
+                        Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                      },
+                    // onPressed: loading
+                    //     ? null
+                    //     : () {
+                    //         if (formKey.currentState!.validate()) {
+                    //           if (isLogin) {
+                    //             login();
+                    //           } else {
+                    //             registrar();
+                    //           }
+                    //         }
+                    //       },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[800],
                       shape: RoundedRectangleBorder(
