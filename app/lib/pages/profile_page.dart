@@ -145,8 +145,63 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 15,),
+                  Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Container(
+      width: 100,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: () {
+          // Adicione a ação desejada aqui
+        },
+        style: ElevatedButton.styleFrom(
+          primary: Colors.green[800],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
+        child: Text(
+          'ID:',
+          style: GoogleFonts.oswald(
+            textStyle: TextStyle(
+              fontSize: 20.0,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ),
+    SizedBox(width: 0), // Espaçamento entre os botões
+    Padding(
+      padding: EdgeInsets.only(left: 10), // Ajuste o valor do recuo à esquerda conforme necessário
+      child: Container(
+        width: 200,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30.0),
+          color: Color.fromARGB(100, 225, 244, 203),
+        ),
+        child: Center(
+          child: Text(
+            '123456',
+            style: GoogleFonts.oswald(
+              textStyle: TextStyle(
+                fontSize: 20.0,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+
+
                 ],
-              )
+              ),
             ],
           ),
         ),
