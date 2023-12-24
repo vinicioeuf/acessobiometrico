@@ -73,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               Text(
                                 '${user.displayName}',
-                                style: TextStyle(
+                                style: GoogleFonts.oswald(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),

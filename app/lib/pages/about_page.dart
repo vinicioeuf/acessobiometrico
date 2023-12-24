@@ -117,7 +117,7 @@ class AboutPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.width,
                     alignment: Alignment.topCenter,
                   //Descrição
-                  child: Text("O Labmaker tem como meta criar um ambiente propício para o surgimento de agentes transformadores da realidade através da participação ativa em diversos problemas da sociedade, materializando ideias e criando oportunidades de aprendizagem para pessoas. ",
+                  child: Text("O Labmaker tem como meta criar um ambiente propício para o surgimento de agentes transformadores da realidade através da participação ativa em diversos problemas da sociedade.",
                   style: TextStyle(color: Colors.black, fontFamily: 'oswald', fontSize: 15),)
                   ),
                   SizedBox(height: 50),
