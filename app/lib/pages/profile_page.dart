@@ -3,19 +3,15 @@ import 'package:app/pages/validation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
-  
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -52,6 +48,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              Padding(padding: EdgeInsets.all(8),
+                              child: Stack(
+                                alignment:Alignment.center,
+                                children:[
                               Container(
                                 width: 150,
                                 height: 150,
@@ -62,11 +62,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                     width: 2,
                                   ),
                                 ),
-                                child: CircleAvatar(
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 150),
+                                child:
+                                CircleAvatar(
                                   backgroundImage:
                                       NetworkImage(user!.photoURL ?? ''),
                                   radius: 75,
                                 ),
+                              )
+                                ],
+                              ),
                               ),
                               SizedBox(
                                 height: 10,
@@ -81,7 +88,39 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           );
                         } else {
-                          return Text('Usuário não autenticado');
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(padding: EdgeInsets.all(8),
+                              child: Stack(
+                                alignment:Alignment.center,
+                                children:[
+                              Container(
+                                width: 150,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 0),
+                                child:
+                                CircleAvatar(
+                                  radius: 75,
+                                ),
+                              )
+                                ],
+                              ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          );
                         }
                       }
                     },
@@ -96,9 +135,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Validation()),
-                    );
+                          context,
+                          MaterialPageRoute(builder: (context) => Validation()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green[800],
@@ -124,9 +163,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ValidacoesScreen()),
-                    );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ValidacoesScreen()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green[800],
@@ -145,61 +185,63 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    Container(
-      width: 100,
-      height: 50,
-      child: ElevatedButton(
-        onPressed: () {
-          // Adicione a ação desejada aqui
-        },
-        style: ElevatedButton.styleFrom(
-          primary: Colors.green[800],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-        ),
-        child: Text(
-          'ID:',
-          style: GoogleFonts.oswald(
-            textStyle: TextStyle(
-              fontSize: 20.0,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    ),
-    SizedBox(width: 0), // Espaçamento entre os botões
-    Padding(
-      padding: EdgeInsets.only(left: 10), // Ajuste o valor do recuo à esquerda conforme necessário
-      child: Container(
-        width: 200,
-        height: 50,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30.0),
-          color: Color.fromARGB(100, 225, 244, 203),
-        ),
-        child: Center(
-          child: Text(
-            '123456',
-            style: GoogleFonts.oswald(
-              textStyle: TextStyle(
-                fontSize: 20.0,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-  ],
-),
-
-
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Adicione a ação desejada aqui
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green[800],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          child: Text(
+                            'ID:',
+                            style: GoogleFonts.oswald(
+                              textStyle: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 0), // Espaçamento entre os botões
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left:
+                                10), // Ajuste o valor do recuo à esquerda conforme necessário
+                        child: Container(
+                          width: 200,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Color.fromARGB(100, 225, 244, 203),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '123456',
+                              style: GoogleFonts.oswald(
+                                textStyle: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ],

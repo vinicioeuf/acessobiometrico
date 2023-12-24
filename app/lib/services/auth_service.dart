@@ -51,6 +51,7 @@ class AuthService extends ChangeNotifier {
         if (foto != null) {
           await user.updatePhotoURL(foto);
         }
+        // ignore: unnecessary_null_comparison
         if (user != null) {
           String uid = user.uid; // Obter o UID do usuário
           DatabaseReference newUserRef = ref.child(uid); // Usar o UID como nome da referência
