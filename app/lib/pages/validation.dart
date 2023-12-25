@@ -159,10 +159,7 @@ void enviarValidacao() {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Fecha o AlertDialog
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
+                  Navigator.of(context).pushReplacementNamed('/home');
                 },
                 child: Text('OK'),
               ),

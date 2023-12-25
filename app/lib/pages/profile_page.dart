@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 0,
                             ),
                             Text(
                               '${user.displayName}',
@@ -130,77 +130,84 @@ class _ProfilePageState extends State<ProfilePage> {
               Column(
                 children: [
                   SizedBox(
-                    height: 15,
+                    height: 0,
                   ),
-                  info(context, "ID:","ID:" ,"3277247099032978773", true, 0),
-                  SizedBox(height: 10),
-                  info(context, "E-MAIL:", "E-MAIL",
-                      'alvaro.victor@aluno.ifsertao-pe.edu.br', true, 1),
-                  SizedBox(height: 10),
-                  info(context, "MAT:", 'MATRÍCULA', "2023140001", true, 2),
-                  SizedBox(height: 10),
-                  info(context, "VIN:", 'VÍNCULO', "Bolsista", false, 3),
-                  SizedBox(height: 10),
-                  info(context, "CUR:", 'CURSO', "Sistemas para Internet", false, 4),
-                  SizedBox(height: 10),
-                  info(context, "P/A:", 'PERÍODO/ANO', "3º Período", false, 5),
-                  SizedBox(height: 30),
-                  Container(
-                    width: 300,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Validation()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[800],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+                  if(dados == true)
+                    Column(children: [
+                      info(context, "ID:","ID:" ,"3277247099032978773", true, 0),
+                      SizedBox(height: 10),
+                      info(context, "E-MAIL:", "E-MAIL",
+                          'alvaro.victor@aluno.ifsertao-pe.edu.br', true, 1),
+                      SizedBox(height: 10),
+                      info(context, "MAT:", 'MATRÍCULA', "2023140001", true, 2),
+                      SizedBox(height: 10),
+                      info(context, "VIN:", 'VÍNCULO', "Bolsista", false, 3),
+                      SizedBox(height: 10),
+                      info(context, "CUR:", 'CURSO', "Sistemas para Internet", false, 4),
+                      SizedBox(height: 10),
+                      info(context, "P/A:", 'PERÍODO/ANO', "3º Período", false, 5),
+                      SizedBox(height: 30),
+                    ],
+                  ),
+                  
+                  if(dados == false)
+                    Container(
+                      width: 300,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Validation()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green[800],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Solicitar Acesso',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            fontSize: 20.0, // Tamanho de fonte aumentado
-                            color: Colors.white,
+                        child: Text(
+                          'Solicitar Acesso',
+                          style: GoogleFonts.oswald(
+                            textStyle: TextStyle(
+                              fontSize: 20.0, // Tamanho de fonte aumentado
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                   SizedBox(height: 10),
-                  Container(
-                    width: 300,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ValidacoesScreen()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[800],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+                  if(dados == false)
+                    Container(
+                      width: 300,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ValidacoesScreen()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green[800],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Solicitações',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            fontSize: 20.0, // Tamanho de fonte aumentado
-                            color: Colors.white,
+                        child: Text(
+                          'Solicitações',
+                          style: GoogleFonts.oswald(
+                            textStyle: TextStyle(
+                              fontSize: 20.0, // Tamanho de fonte aumentado
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ],
@@ -211,6 +218,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget info(context, String titulo, String tituloCompleto, String dado, bool copy, int index) {
+    
     return Container(
       width: 0.9 * MediaQuery.of(context).size.width,
       child: Stack(
