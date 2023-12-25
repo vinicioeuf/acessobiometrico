@@ -163,47 +163,59 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
-                    alignment: Alignment.center,
-                    child: Row(
+                    child: Stack(
+                      alignment: Alignment.centerLeft,
                       children: [
-                        // Primeiro Container (o que estará abaixo)
-                        Positioned(
-                          top: 2.5,
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 80,
-                            height: 50,
-                            decoration: BoxDecoration(
-                            color: Colors.green[800],
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                            child: Center(
-                              child: Text('ID:',
-                                  style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255))),
-                            ),
-                          ),
-                        ),
-                        // Segundo Container 
-                        Positioned(
-                        top: 2.5,
-                        right: 30,
-                        child:
-                        
                         Container(
-                          width: 0.65 * MediaQuery.of(context).size.width,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(10),
+                          width: 0.9 * MediaQuery.of(context).size.width,
                           height: 45,
-                          alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 126, 154, 127),
-                            borderRadius: BorderRadius.circular(30),
+                            color: Color.fromARGB(255, 157, 246, 152),
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
-                          child: Center(
-                            child: Text(
-                              '28238082802...',
-                              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                          width: 0.4 * MediaQuery.of(context).size.width,
+                                
+                                alignment: Alignment.center,
+                                
+                                child:
+                            Text(
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              "209390644666474270420707924",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 16, 16, 16),
+                                  fontFamily: 'oswald',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ),
+                              ),
+                            SizedBox(width: 10),
+                          Icon(Icons.copy_sharp, color: Colors.green[800],)
+                            ],
                         ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: 0.25 * MediaQuery.of(context).size.width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.green[700],
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: Text(
+                            "ID:",
+                            style: TextStyle(
+                                color: const Color.fromARGB(255, 255, 255, 255),
+                                fontFamily: 'oswald',
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ],
                     ),
