@@ -102,6 +102,21 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Column(
                 children: [
+                  SizedBox(
+                    height: 15,
+                  ),
+                  info(context, "ID:", "3277247099032978773"),
+                  SizedBox(height: 10),
+                  info(context, "E-MAIL:", 'alvaro.victor@aluno.ifsertao-pe.edu.br'),
+                  SizedBox(height: 10),
+                  info(context, "MAT:", "2023140001"),
+                  SizedBox(height: 10),
+                  info(context, "VIN:", "Bolsista"),
+                  SizedBox(height: 10),
+                  info(context, "CUR:", "Sistemas para Internet"),
+                  SizedBox(height: 10),
+                  info(context, "P/A:", "3º Período"),
+                  SizedBox(height: 30),
                   Container(
                     width: 300,
                     height: 50,
@@ -129,7 +144,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
+                  
                   Container(
                     width: 300,
                     height: 50,
@@ -158,21 +174,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  info(context, "ID:", "3277247099032978773"),
-                  SizedBox(height: 10),
-                  info(context, "E-MAIL:", 'alvaro.victor@aluno.ifsertao-pe.edu.br'),
-                  SizedBox(height: 10),
-                  info(context, "MAT:", "2023140001"),
-                  SizedBox(height: 10),
-                  info(context, "VIN:", "Bolsista"),
-                  SizedBox(height: 10),
-                  info(context, "CUR:", "Sistemas para Internet"),
-                  SizedBox(height: 10),
-                  info(context, "P/A:", "3º Período"),
-                  SizedBox(height: 10),
                  
                  
                 ],
