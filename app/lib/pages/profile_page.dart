@@ -107,18 +107,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 15,
                   ),
-                  info(context, "ID:", "3277247099032978773", true, 0),
+                  info(context, "ID:","ID:" ,"3277247099032978773", true, 0),
                   SizedBox(height: 10),
-                  info(context, "E-MAIL:",
+                  info(context, "E-MAIL:", "E-MAIL",
                       'alvaro.victor@aluno.ifsertao-pe.edu.br', true, 1),
                   SizedBox(height: 10),
-                  info(context, "MAT:", "2023140001", true, 2),
+                  info(context, "MAT:", 'MATRÍCULA', "2023140001", true, 2),
                   SizedBox(height: 10),
-                  info(context, "VIN:", "Bolsista", false, 3),
+                  info(context, "VIN:", 'VÍNCULO', "Bolsista", false, 3),
                   SizedBox(height: 10),
-                  info(context, "CUR:", "Sistemas para Internet", false, 4),
+                  info(context, "CUR:", 'CURSO', "Sistemas para Internet", false, 4),
                   SizedBox(height: 10),
-                  info(context, "P/A:", "3º Período", false, 5),
+                  info(context, "P/A:", 'PERÍODO/ANO', "3º Período", false, 5),
                   SizedBox(height: 30),
                   Container(
                     width: 300,
@@ -185,7 +185,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget info(context, String titulo, String dado, bool copy, int index) {
+  Widget info(context, String titulo, String tituloCompleto, String dado, bool copy, int index) {
     return Container(
       width: 0.9 * MediaQuery.of(context).size.width,
       child: Stack(
@@ -242,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: AnimatedContainer(
               width: esconderList[index]
                   ? 0.9 * MediaQuery.of(context).size.width
-                  : 0.25 * MediaQuery.of(context).size.width,
+                  : 0.33 * MediaQuery.of(context).size.width,
               height: 50,
               alignment: Alignment.center,
               duration: const Duration(seconds: 1),
@@ -254,7 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: Center(
                   child: Text(
-                    titulo,
+                    esconderList[index]? tituloCompleto : titulo,
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontFamily: 'oswald',
