@@ -161,7 +161,32 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 15,
                   ),
-                  Container(
+                  info(context, "ID:", "3277247099032978773"),
+                  SizedBox(height: 10),
+                  info(context, "E-MAIL:", 'alvaro.victor@aluno.ifsertao-pe.edu.br'),
+                  SizedBox(height: 10),
+                  info(context, "MAT:", "2023140001"),
+                  SizedBox(height: 10),
+                  info(context, "VIN:", "Bolsista"),
+                  SizedBox(height: 10),
+                  info(context, "CUR:", "Sistemas para Internet"),
+                  SizedBox(height: 10),
+                  info(context, "P/A:", "3º Período"),
+                  SizedBox(height: 10),
+                 
+                 
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget info(context, String titulo, String dado){
+    return  Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
                     child: Stack(
                       alignment: Alignment.centerLeft,
@@ -172,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: 0.9 * MediaQuery.of(context).size.width,
                           height: 45,
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 157, 246, 152),
+                            color: Color.fromARGB(255, 203, 255, 200),
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                           child: Row(
@@ -187,7 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Text(
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              "209390644666474270420707924",
+                              dado,
                               style: TextStyle(
                                   color: Color.fromARGB(255, 16, 16, 16),
                                   fontFamily: 'oswald',
@@ -209,23 +234,17 @@ class _ProfilePageState extends State<ProfilePage> {
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                           child: Text(
-                            "ID:",
+                            titulo,
                             style: TextStyle(
                                 color: const Color.fromARGB(255, 255, 255, 255),
                                 fontFamily: 'oswald',
-                                fontSize: 25,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                  );
+
   }
 }
