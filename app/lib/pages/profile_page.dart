@@ -2,6 +2,7 @@ import 'package:app/pages/show_data.dart';
 import 'package:app/pages/validation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -105,17 +106,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 15,
                   ),
-                  info(context, "ID:", "3277247099032978773"),
+                  info(context, "ID:", "3277247099032978773", true),
                   SizedBox(height: 10),
-                  info(context, "E-MAIL:", 'alvaro.victor@aluno.ifsertao-pe.edu.br'),
+                  info(context, "E-MAIL:",
+                      'alvaro.victor@aluno.ifsertao-pe.edu.br', true),
                   SizedBox(height: 10),
-                  info(context, "MAT:", "2023140001"),
+                  info(context, "MAT:", "2023140001", true),
                   SizedBox(height: 10),
-                  info(context, "VIN:", "Bolsista"),
+                  info(context, "VIN:", "Bolsista", false),
                   SizedBox(height: 10),
-                  info(context, "CUR:", "Sistemas para Internet"),
+                  info(context, "CUR:", "Sistemas para Internet", false),
                   SizedBox(height: 10),
-                  info(context, "P/A:", "3º Período"),
+                  info(context, "P/A:", "3º Período", false),
                   SizedBox(height: 30),
                   Container(
                     width: 300,
@@ -145,7 +147,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  
                   Container(
                     width: 300,
                     height: 50,
@@ -174,8 +175,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                 
-                 
                 ],
               ),
             ],
@@ -185,67 +184,80 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
-  Widget info(context, String titulo, String dado){
-    return  Container(
-                    width: 0.9 * MediaQuery.of(context).size.width,
-                    child: Stack(
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.all(10),
-                          width: 0.9 * MediaQuery.of(context).size.width,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 203, 255, 200),
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                          width: 0.4 * MediaQuery.of(context).size.width,
-                                
-                                alignment: Alignment.center,
-                                
-                                child:
-                            Text(
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              dado,
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 16, 16, 16),
-                                  fontFamily: 'oswald',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                              ),
-                            SizedBox(width: 10),
-                          Icon(Icons.copy_sharp, color: Colors.green[800],)
-                            ],
-                        ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: 0.25 * MediaQuery.of(context).size.width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.green[700],
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          child: Text(
-                            titulo,
-                            style: TextStyle(
-                                color: const Color.fromARGB(255, 255, 255, 255),
-                                fontFamily: 'oswald',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-
+  Widget info(context, String titulo, String dado, bool copy) {
+    return Container(
+      width: 0.9 * MediaQuery.of(context).size.width,
+      child: Stack(
+        alignment: Alignment.centerLeft,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(10),
+            width: 0.9 * MediaQuery.of(context).size.width,
+            height: 45,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 203, 255, 200),
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  width: 0.4 * MediaQuery.of(context).size.width,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    dado,
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 16, 16, 16),
+                        fontFamily: 'oswald',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(width: 10),
+                if(copy)
+                GestureDetector(
+                  onTap: () {
+                    _copyToClipboard(dado);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content:
+                            Text('Copiado'),
+                      ),
+                    );
+                  },
+                  child:
+                    Icon(Icons.copy_sharp,
+                    color: Colors.green[800]),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            width: 0.25 * MediaQuery.of(context).size.width,
+            height: 50,
+            decoration: BoxDecoration(
+              color: Colors.green[700],
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            child: Text(
+              titulo,
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  fontFamily: 'oswald',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
   }
+}
+
+void _copyToClipboard(String s) {
+  Clipboard.setData(ClipboardData(text: s));
 }
