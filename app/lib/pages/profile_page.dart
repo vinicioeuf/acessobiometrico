@@ -13,6 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  List<bool> esconderList = [false, false, false, false, false, false];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -106,18 +107,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 15,
                   ),
-                  info(context, "ID:", "3277247099032978773", true),
+                  info(context, "ID:", "3277247099032978773", true, 0),
                   SizedBox(height: 10),
                   info(context, "E-MAIL:",
-                      'alvaro.victor@aluno.ifsertao-pe.edu.br', true),
+                      'alvaro.victor@aluno.ifsertao-pe.edu.br', true, 1),
                   SizedBox(height: 10),
-                  info(context, "MAT:", "2023140001", true),
+                  info(context, "MAT:", "2023140001", true, 2),
                   SizedBox(height: 10),
-                  info(context, "VIN:", "Bolsista", false),
+                  info(context, "VIN:", "Bolsista", false, 3),
                   SizedBox(height: 10),
-                  info(context, "CUR:", "Sistemas para Internet", false),
+                  info(context, "CUR:", "Sistemas para Internet", false, 4),
                   SizedBox(height: 10),
-                  info(context, "P/A:", "3º Período", false),
+                  info(context, "P/A:", "3º Período", false, 5),
                   SizedBox(height: 30),
                   Container(
                     width: 300,
@@ -184,7 +185,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget info(context, String titulo, String dado, bool copy) {
+  Widget info(context, String titulo, String dado, bool copy, int index) {
     return Container(
       width: 0.9 * MediaQuery.of(context).size.width,
       child: Stack(
@@ -217,39 +218,52 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 SizedBox(width: 10),
-                if(copy)
-                GestureDetector(
-                  onTap: () {
-                    _copyToClipboard(dado);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content:
-                            Text('Copiado'),
-                      ),
-                    );
-                  },
-                  child:
-                    Icon(Icons.copy_sharp,
-                    color: Colors.green[800]),
-                ),
+                if (copy)
+                  GestureDetector(
+                    onTap: () {
+                      _copyToClipboard(dado);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Copiado'),
+                        ),
+                      );
+                    },
+                    child: Icon(Icons.copy_sharp, color: Colors.green[800]),
+                  ),
               ],
             ),
           ),
-          Container(
-            alignment: Alignment.center,
-            width: 0.25 * MediaQuery.of(context).size.width,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.green[700],
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Text(
-              titulo,
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  fontFamily: 'oswald',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                esconderList[index] = !esconderList[index];
+              });
+            },
+            child: AnimatedContainer(
+              width: esconderList[index]
+                  ? 0.9 * MediaQuery.of(context).size.width
+                  : 0.25 * MediaQuery.of(context).size.width,
+              height: 50,
+              alignment: Alignment.center,
+              duration: const Duration(seconds: 1),
+              curve: Curves.fastOutSlowIn,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.green[800],
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: Center(
+                  child: Text(
+                    titulo,
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      fontFamily: 'oswald',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ],
