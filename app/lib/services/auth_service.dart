@@ -65,6 +65,7 @@ class AuthService extends ChangeNotifier {
             "solicitou": false,
             "aprovado": false,
             "negado": false,
+            "matricula": null,
           });
         }
       }

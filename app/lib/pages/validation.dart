@@ -1,3 +1,4 @@
+import 'package:app/pages/home_page.dart';
 import 'package:app/pages/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -147,6 +148,7 @@ void enviarValidacao() {
       DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
       userRef.update({
         'solicitou': true,
+        'matricula': getMatricula
       });
       // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
       showDialog(
@@ -159,7 +161,10 @@ void enviarValidacao() {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Fecha o AlertDialog
-                  Navigator.of(context).pushReplacementNamed('/home');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage())
+                  );
                 },
                 child: Text('OK'),
               ),

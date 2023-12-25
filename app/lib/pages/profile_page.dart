@@ -21,6 +21,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   List<bool> esconderList = [false, false, false, false, false, false];
   Object? dados;
+  Object? mat;
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('validações');
@@ -67,6 +68,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             // print(data);
                             setState(() {
                               dados = data;
+                            });
+                        });
+                        DatabaseReference starCountRef2 =
+                                FirebaseDatabase.instance.ref('users/$uid/matricula');
+                        starCountRef.onValue.listen((DatabaseEvent event) {
+                            final data = event.snapshot.value;
+                            // print(data);
+                            setState(() {
+                              mat = data;
                             });
                         });
                         
@@ -138,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     
                   if(dados == true)
                     FutureBuilder<DocumentSnapshot>(
-                      future: users.doc('2023192800').get(),
+                      future: users.doc(mat as String?).get(),
                       builder:
                           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
