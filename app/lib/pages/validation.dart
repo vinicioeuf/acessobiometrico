@@ -1,6 +1,7 @@
 import 'package:app/pages/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // ignore: depend_on_referenced_packages
@@ -140,6 +141,13 @@ void enviarValidacao() {
     };
 
     documentReference.set(validacao).whenComplete(() {
+      User? user = FirebaseAuth.instance.currentUser;
+      String uid = user!.uid;
+      // ignore: deprecated_member_use
+      DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
+      userRef.update({
+        'solicitou': true,
+      });
       // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
       showDialog(
         context: context,

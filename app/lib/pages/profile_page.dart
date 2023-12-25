@@ -1,6 +1,11 @@
+// import 'dart:js_interop_unsafe';
+
+import 'dart:async';
+
 import 'package:app/pages/show_data.dart';
 import 'package:app/pages/validation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +19,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   List<bool> esconderList = [false, false, false, false, false, false];
+  bool solicitou = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,16 +40,22 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
+              
               Container(
                 alignment: Alignment.center,
                 child: Transform.translate(
                   offset: Offset(0, -80),
                   child: FutureBuilder<User?>(
+                    
                     future: FirebaseAuth.instance.authStateChanges().first,
                     builder:
                         (BuildContext context, AsyncSnapshot<User?> snapshot) {
+                          
                       if (snapshot.hasData) {
                         User? user = snapshot.data;
+                        if(solicitou == false){
+                          
+                        }
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -102,6 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
+              
               Column(
                 children: [
                   SizedBox(
@@ -271,6 +285,10 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+
+
+
+
 
 void _copyToClipboard(String s) {
   Clipboard.setData(ClipboardData(text: s));
