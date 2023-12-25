@@ -108,13 +108,13 @@ class AboutPage extends StatelessWidget {
                   //Barra
                   Container(
                     width: 1,
-                    height: 200 ,
+                    height: 250 ,
                     color: Colors.green[800],
                   ),
                   SizedBox(width: 10),
                   Container(
                     width:  0.4 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width,
+                    height: 0.95*MediaQuery.of(context).size.width,
                     alignment: Alignment.topCenter,
                   //Descrição
                   child: Text("O Labmaker tem como meta criar um ambiente propício para o surgimento de agentes transformadores da realidade através da participação ativa em diversos problemas da sociedade.",
