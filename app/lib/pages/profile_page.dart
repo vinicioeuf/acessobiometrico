@@ -19,8 +19,31 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   List<bool> esconderList = [false, false, false, false, false, false];
-  bool solicitou = false;
-  
+  // late bool solicitou;
+  // bool? solicitouValue;
+  //   Future<void> fetchData() async {
+  //     solicitouValue = await teste();
+  //     // Now you can use this.solicitouValue outside of fetchData
+  //   }
+  // Future<bool?> teste() async {
+  //   User? usuario = FirebaseAuth.instance.currentUser;
+  //   String uid = usuario!.uid;
+  //   final ref = FirebaseDatabase.instance.ref();
+    
+  //   // Fetch data from Realtime Database
+  //   final snapshot = await ref.child('users/$uid').get();
+    
+  //   // Check if data exists
+  //   if (snapshot.exists) {
+  //     // Check if snapshot.value is of the expected type
+  //     if (snapshot.value is Map<String, dynamic>) {
+  //       // Cast snapshot.value to Map<String, dynamic> and then access the "solicitou" field
+  //       bool? solicitou = (snapshot.value as Map<String, dynamic>)['solicitou'];
+  //       return solicitou;
+  //     }
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -53,9 +76,18 @@ class _ProfilePageState extends State<ProfilePage> {
                           
                       if (snapshot.hasData) {
                         User? user = snapshot.data;
-                        if(solicitou == false){
-                          
-                        }
+                        User? usuario = FirebaseAuth.instance.currentUser;
+                        String uid = usuario!.uid;
+                        // ignore: deprecated_member_use
+                        // DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
+                        // print(userRef.once().then((value) => null));
+                        DatabaseReference starCountRef =
+                                FirebaseDatabase.instance.ref('users/$uid');
+                        starCountRef.onValue.listen((DatabaseEvent event) {
+                            final data = event.snapshot.value;
+                            print(data);
+                        });
+                        
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -79,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               height: 10,
                             ),
                             Text(
-                              '${user.displayName}',
+                              '${user.displayName} ${starCountRef}',
                               style: GoogleFonts.oswald(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
