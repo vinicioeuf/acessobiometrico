@@ -21,7 +21,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   List<bool> esconderList = [false, false, false, false, false, false];
   Object? dados;
-  Object? mat;
+  String? uu;
+  // String? mat;
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('validações');
@@ -72,13 +73,22 @@ class _ProfilePageState extends State<ProfilePage> {
                         });
                         DatabaseReference starCountRef2 =
                                 FirebaseDatabase.instance.ref('users/$uid/matricula');
-                        starCountRef.onValue.listen((DatabaseEvent event) {
+                        starCountRef2.onValue.listen((DatabaseEvent event) {
                             final data = event.snapshot.value;
                             // print(data);
                             setState(() {
-                              mat = data;
+                              uu = data as String?;
                             });
                         });
+                        // DatabaseReference starCountRef2 =
+                        //         FirebaseDatabase.instance.ref('users/$uid/matricula');
+                        // starCountRef.onValue.listen((DatabaseEvent event) {
+                        //     final data = event.snapshot.value;
+                        //     // print(data);
+                        //     setState(() {
+                        //       mat = data as String?;
+                        //     });
+                        // });
                         
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -147,8 +157,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                                     
                   if(dados == true)
+                  
                     FutureBuilder<DocumentSnapshot>(
-                      future: users.doc(mat as String?).get(),
+                      
+                      future: users.doc(uu).get(),
                       builder:
                           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
