@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   FirebaseDatabase database = FirebaseDatabase.instance;
   DatabaseReference ref = FirebaseDatabase.instance.ref('users');
   final FirebaseStorage storage = FirebaseStorage.instance;
-  
+
   bool _obscurePassword = true;
   final formKey = GlobalKey<FormState>();
   final nomeController = TextEditingController();
@@ -36,7 +36,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     setFormAction(true);
-    
   }
 
   setFormAction(bool acao) {
@@ -115,7 +114,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -151,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 50),
                   if (!isLogin)
-                   // Condição para exibir o campo de input do nome apenas quando não estiver logando
+                    // Condição para exibir o campo de input do nome apenas quando não estiver logando
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Nome',
@@ -236,7 +234,6 @@ class _LoginPageState extends State<LoginPage> {
                         }
                         return null;
                       }),
-                  
                   SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: loading
@@ -250,6 +247,10 @@ class _LoginPageState extends State<LoginPage> {
                               }
                             }
                           },
+                    // onPressed: () {
+                    //   Navigator.push(context,
+                    //       MaterialPageRoute(builder: (context) => HomePage()));
+                    // },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[800],
                       shape: RoundedRectangleBorder(
@@ -258,15 +259,15 @@ class _LoginPageState extends State<LoginPage> {
                       minimumSize: Size(double.infinity, 60),
                     ),
                     child: loading
-                      ? CircularProgressIndicator(color: Colors.white)
-                      : Text(
-                          actionButton,
-                          style: GoogleFonts.oswald(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white,
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            actionButton,
+                            style: GoogleFonts.oswald(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
                   ),
                   SizedBox(height: 20),
                   Container(
@@ -305,25 +306,30 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  Future<XFile?> getImage() async{
+
+  Future<XFile?> getImage() async {
     final ImagePicker _picker = ImagePicker();
     XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     return image;
   }
-  Future<void> upload(String path) async{
+
+  Future<void> upload(String path) async {
     File file = File(path);
-    try{
+    try {
       String ref = 'image/img-${DateTime.now().toString()}.jpg';
       await storage.ref(ref).putFile(file);
-    } on FirebaseException catch(e){
+    } on FirebaseException catch (e) {
       throw Exception("Erro no upload: ${e.code}");
     }
   }
+
   Future<String?> pickAndUploadImage() async {
     final ImagePicker _picker = ImagePicker();
     XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      Reference storageReference = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
+      Reference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('images/${DateTime.now().millisecondsSinceEpoch}');
       UploadTask uploadTask = storageReference.putFile(File(image.path));
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
       String imageUrl = await taskSnapshot.ref.getDownloadURL();

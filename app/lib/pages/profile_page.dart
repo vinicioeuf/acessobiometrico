@@ -1,9 +1,7 @@
 // import 'dart:js_interop_unsafe';
-
-import 'dart:async';
-
 import 'package:app/pages/show_data.dart';
 import 'package:app/pages/validation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -39,17 +37,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              
               Container(
                 alignment: Alignment.center,
                 child: Transform.translate(
                   offset: Offset(0, -80),
                   child: FutureBuilder<User?>(
-                    
                     future: FirebaseAuth.instance.authStateChanges().first,
                     builder:
                         (BuildContext context, AsyncSnapshot<User?> snapshot) {
-                          
                       if (snapshot.hasData) {
                         User? user = snapshot.data;
                         User? usuario = FirebaseAuth.instance.currentUser;
@@ -66,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               dados = data;
                             });
                         });
-                        
+
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -126,88 +121,139 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              
               Column(
                 children: [
                   SizedBox(
                     height: 0,
                   ),
-                  if(dados == true)
-                    Column(children: [
-                      info(context, "ID:","ID:" ,"3277247099032978773", true, 0),
-                      SizedBox(height: 10),
-                      info(context, "E-MAIL:", "E-MAIL",
-                          'alvaro.victor@aluno.ifsertao-pe.edu.br', true, 1),
-                      SizedBox(height: 10),
-                      info(context, "MAT:", 'MATRÍCULA', "2023140001", true, 2),
-                      SizedBox(height: 10),
-                      info(context, "VIN:", 'VÍNCULO', "Bolsista", false, 3),
-                      SizedBox(height: 10),
-                      info(context, "CUR:", 'CURSO', "Sistemas para Internet", false, 4),
-                      SizedBox(height: 10),
-                      info(context, "P/A:", 'PERÍODO/ANO', "3º Período", false, 5),
-                      SizedBox(height: 30),
-                    ],
+
+                  if(dados == false)
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('validações')
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text('Erro: ${snapshot.error}'),
+                        );
+                      }
+
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.green[800],
+                          ),
+                        );
+                      }
+                      return ListView(
+                        children: snapshot.data!.docs
+                            .map((DocumentSnapshot document) {
+                          Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
+                          String email = data['email'];
+                          String matricula = data['matricula'];
+                          String vinculo = data['vinculo']['tipoVinculo'];
+                          String tempo = data['vinculo']['tempo'];
+                          String curso = data['vinculo']['curso'];
+                          bool aguardando = data['aguardando'];
+
+                          if (aguardando) {
+                            return Column(
+                              children: [
+                                info(context, "ID:", "ID:",
+                                    "3277247099032978773", true, 0),
+                                SizedBox(height: 10),
+                                info(
+                                    context,
+                                    "E-MAIL:",
+                                    "E-MAIL",
+                                    email,
+                                    true,
+                                    1),
+                                SizedBox(height: 10),
+                                info(context, "MAT:", 'MATRÍCULA', matricula,
+                                    true, 2),
+                                SizedBox(height: 10),
+                                info(context, "VIN:", 'VÍNCULO', vinculo,
+                                    false, 3),
+                                SizedBox(height: 10),
+                                info(context, "CUR:", 'CURSO',
+                                    curso, false, 4),
+                                SizedBox(height: 10),
+                                info(context, "P/A:", tempo,
+                                    "3º Período", false, 5),
+                                SizedBox(height: 30),
+                              ],
+                            );
+                          } else {
+                            return Container(
+                              alignment: Alignment.center,
+                              child: Text("Não há solicitações"),
+                            );
+                          }
+                        }).toList(),
+                      );
+                    },
                   ),
-                  
-                  if(dados == false)
-                    Container(
-                      width: 300,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Validation()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.green[800],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
+                  SizedBox(height: 30),
+                  Container(
+                    width: 300,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Validation()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
-                        child: Text(
-                          'Solicitar Acesso',
-                          style: GoogleFonts.oswald(
-                            textStyle: TextStyle(
-                              fontSize: 20.0, // Tamanho de fonte aumentado
-                              color: Colors.white,
-                            ),
+                      ),
+                      child: Text(
+                        'Solicitar Acesso',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
                           ),
                         ),
                       ),
                     ),
+                  ),
                   SizedBox(height: 10),
-                  if(dados == false)
-                    Container(
-                      width: 300,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ValidacoesScreen()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.green[800],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
+                  Container(
+                    width: 300,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ValidacoesScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
-                        child: Text(
-                          'Solicitações',
-                          style: GoogleFonts.oswald(
-                            textStyle: TextStyle(
-                              fontSize: 20.0, // Tamanho de fonte aumentado
-                              color: Colors.white,
-                            ),
+                      ),
+                      child: Text(
+                        'Solicitações',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
                           ),
                         ),
                       ),
                     ),
+                  ),
                 ],
               ),
             ],
@@ -217,8 +263,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget info(context, String titulo, String tituloCompleto, String dado, bool copy, int index) {
-    
+  Widget info(context, String titulo, String tituloCompleto, String dado,
+      bool copy, int index) {
     return Container(
       width: 0.9 * MediaQuery.of(context).size.width,
       child: Stack(
@@ -287,7 +333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: Center(
                   child: Text(
-                    esconderList[index]? tituloCompleto : titulo,
+                    esconderList[index] ? tituloCompleto : titulo,
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontFamily: 'oswald',
@@ -304,10 +350,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-
-
-
 
 void _copyToClipboard(String s) {
   Clipboard.setData(ClipboardData(text: s));
