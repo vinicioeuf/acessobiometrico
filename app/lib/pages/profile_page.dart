@@ -20,7 +20,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   List<bool> esconderList = [false, false, false, false, false, false];
   bool solicitou = false;
-
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
