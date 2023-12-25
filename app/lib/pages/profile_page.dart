@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:app/pages/show_data.dart';
 import 'package:app/pages/validation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Object? dados;
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection('validações');
+
     return MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(
@@ -151,6 +154,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   
                   if(dados == false)
+                    FutureBuilder<DocumentSnapshot>(
+                      future: users.doc('2023192800').get(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                          return Text("Full Name: ${data['nome']} ${data['email']}");
+                      },
+                    ),
                     Container(
                       width: 300,
                       height: 50,
