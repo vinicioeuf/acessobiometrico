@@ -159,7 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       builder:
                           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                           Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-                          return info(context, "E-MAIL", 'E-MAIL', data['email'], true, 0);
+                          return Text("Full Name: ${data['nome']} ${data['email']}");
                       },
                     ),
                     Container(
