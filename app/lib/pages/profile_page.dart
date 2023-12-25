@@ -139,6 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                             ),
+                            info(context, 'MAT', 'MATRÍCULA', '29830083200820042', true, 0),
                             SizedBox(
                               height: 10,
                             ),
@@ -338,14 +339,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Center(
-                  child: Text(
-                    esconderList[index]? tituloCompleto : titulo,
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      fontFamily: 'oswald',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Container(
+                    child:
+                    esconderList[index] ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.lock_outline_rounded, color: Colors.white,), Text(tituloCompleto, style: TextStyle(color: Colors.white, fontFamily: 'oswald', fontWeight: FontWeight.bold, fontSize: 18),)]) : Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.lock_open_rounded, color: Colors.white), Text(titulo,  style: TextStyle(color: Colors.white, fontFamily: 'oswald', fontWeight: FontWeight.bold, fontSize: 18))]) ,
                   ),
                 ),
               ),
