@@ -19,31 +19,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   List<bool> esconderList = [false, false, false, false, false, false];
-  // late bool solicitou;
-  // bool? solicitouValue;
-  //   Future<void> fetchData() async {
-  //     solicitouValue = await teste();
-  //     // Now you can use this.solicitouValue outside of fetchData
-  //   }
-  // Future<bool?> teste() async {
-  //   User? usuario = FirebaseAuth.instance.currentUser;
-  //   String uid = usuario!.uid;
-  //   final ref = FirebaseDatabase.instance.ref();
-    
-  //   // Fetch data from Realtime Database
-  //   final snapshot = await ref.child('users/$uid').get();
-    
-  //   // Check if data exists
-  //   if (snapshot.exists) {
-  //     // Check if snapshot.value is of the expected type
-  //     if (snapshot.value is Map<String, dynamic>) {
-  //       // Cast snapshot.value to Map<String, dynamic> and then access the "solicitou" field
-  //       bool? solicitou = (snapshot.value as Map<String, dynamic>)['solicitou'];
-  //       return solicitou;
-  //     }
-  //   }
-  // }
-
+  Object? dados;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -82,10 +58,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         // DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
                         // print(userRef.once().then((value) => null));
                         DatabaseReference starCountRef =
-                                FirebaseDatabase.instance.ref('users/$uid');
+                                FirebaseDatabase.instance.ref('users/$uid/solicitou');
                         starCountRef.onValue.listen((DatabaseEvent event) {
                             final data = event.snapshot.value;
-                            print(data);
+                            // print(data);
+                            setState(() {
+                              dados = data;
+                            });
                         });
                         
                         return Column(
@@ -111,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               height: 10,
                             ),
                             Text(
-                              '${user.displayName} ${starCountRef}',
+                              '${user.displayName}',
                               style: GoogleFonts.oswald(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
