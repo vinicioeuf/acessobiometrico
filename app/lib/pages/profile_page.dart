@@ -23,8 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Object? dados;
   @override
   Widget build(BuildContext context) {
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('validações');
+    CollectionReference users = FirebaseFirestore.instance.collection('validações');
 
     return MaterialApp(
       home: Scaffold(
@@ -43,14 +42,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
+              
               Container(
                 alignment: Alignment.center,
                 child: Transform.translate(
                   offset: Offset(0, -80),
                   child: FutureBuilder<User?>(
+                    
                     future: FirebaseAuth.instance.authStateChanges().first,
                     builder:
                         (BuildContext context, AsyncSnapshot<User?> snapshot) {
+                          
                       if (snapshot.hasData) {
                         User? user = snapshot.data;
                         User? usuario = FirebaseAuth.instance.currentUser;
@@ -58,17 +60,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         // ignore: deprecated_member_use
                         // DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
                         // print(userRef.once().then((value) => null));
-                        DatabaseReference starCountRef = FirebaseDatabase
-                            .instance
-                            .ref('users/$uid/solicitou');
+                        DatabaseReference starCountRef =
+                                FirebaseDatabase.instance.ref('users/$uid/solicitou');
                         starCountRef.onValue.listen((DatabaseEvent event) {
-                          final data = event.snapshot.value;
-                          // print(data);
-                          setState(() {
-                            dados = data;
-                          });
+                            final data = event.snapshot.value;
+                            // print(data);
+                            setState(() {
+                              dados = data;
+                            });
                         });
-
+                        
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -128,159 +129,78 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
+              
               Column(
                 children: [
                   SizedBox(
                     height: 0,
                   ),
-                  if (dados == true)
-                    Column(
-                      children: [
-                        info(context, "ID:", "ID:", "3277247099032978773", true,
-                            0),
-                        SizedBox(height: 10),
-                        info(context, "E-MAIL:", "E-MAIL",
-                            'alvaro.victor@aluno.ifsertao-pe.edu.br', true, 1),
-                        SizedBox(height: 10),
-                        info(context, "MAT:", 'MATRÍCULA', "2023140001", true,
-                            2),
-                        SizedBox(height: 10),
-                        info(context, "VIN:", 'VÍNCULO', "Bolsista", false, 3),
-                        SizedBox(height: 10),
-                        info(context, "CUR:", 'CURSO', "Sistemas para Internet",
-                            false, 4),
-                        SizedBox(height: 10),
-                        info(context, "P/A:", 'PERÍODO/ANO', "3º Período",
-                            false, 5),
-                        SizedBox(height: 30),
-                      ],
-                    ),
-                  if (dados == false)
+                  if(dados == true)
+                    Column(children: [
+                      info(context, "ID:","ID:" ,"3277247099032978773", true, 0),
+                      SizedBox(height: 10),
+                      info(context, "E-MAIL:", "E-MAIL",
+                          'alvaro.victor@aluno.ifsertao-pe.edu.br', true, 1),
+                      SizedBox(height: 10),
+                      info(context, "MAT:", 'MATRÍCULA', "2023140001", true, 2),
+                      SizedBox(height: 10),
+                      info(context, "VIN:", 'VÍNCULO', "Bolsista", false, 3),
+                      SizedBox(height: 10),
+                      info(context, "CUR:", 'CURSO', "Sistemas para Internet", false, 4),
+                      SizedBox(height: 10),
+                      info(context, "P/A:", 'PERÍODO/ANO', "3º Período", false, 5),
+                      SizedBox(height: 30),
+                    ],
+                  ),
+                  
+                  if(dados == false)
                     FutureBuilder<DocumentSnapshot>(
                       future: users.doc('2023192800').get(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        Map<String, dynamic> data =
-                            snapshot.data!.data() as Map<String, dynamic>;
-                        return Container(
-                          width: 0.9 * MediaQuery.of(context).size.width,
-                          child: Stack(
-                            alignment: Alignment.centerLeft,
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.all(10),
-                                width: 0.9 * MediaQuery.of(context).size.width,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 203, 255, 200),
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      width: 0.4 *
-                                          MediaQuery.of(context).size.width,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        data['email'],
-                                        style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 16, 16, 16),
-                                            fontFamily: 'oswald',
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    GestureDetector(
-                                      onTap: () {
-                                        _copyToClipboard(data['email']);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text('Copiado'),
-                                          ),
-                                        );
-                                      },
-                                      child: Icon(Icons.copy_sharp,
-                                          color: Colors.green[800]),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    esconderList[0] = !esconderList[0];
-                                  });
-                                },
-                                child: AnimatedContainer(
-                                  width: esconderList[0]
-                                      ? 0.9 * MediaQuery.of(context).size.width
-                                      : 0.33 *
-                                          MediaQuery.of(context).size.width,
-                                  height: 50,
-                                  alignment: Alignment.center,
-                                  duration: const Duration(seconds: 1),
-                                  curve: Curves.fastOutSlowIn,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.green[800],
-                                      borderRadius: BorderRadius.circular(30.0),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        esconderList[0] ? "E-MAIL" : 'E-MAIL',
-                                        style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 255, 255, 255),
-                                          fontFamily: 'oswald',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+                      builder:
+                          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+                        if (snapshot.hasError) {
+                          return Text("Something went wrong");
+                        }
+
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                          return Text("Full Name: ${data['nome']} ${data['email']}");
+                        }
+                        else{
+                          return Text("Document does not exist");
+                        }
                       },
                     ),
-                  Container(
-                    width: 300,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Validation()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[800],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+                    Container(
+                      width: 300,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Validation()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green[800],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Solicitar Acesso',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            fontSize: 20.0, // Tamanho de fonte aumentado
-                            color: Colors.white,
+                        child: Text(
+                          'Solicitar Acesso',
+                          style: GoogleFonts.oswald(
+                            textStyle: TextStyle(
+                              fontSize: 20.0, // Tamanho de fonte aumentado
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                   SizedBox(height: 10),
-                  if (dados == false)
+                  if(dados == false)
                     Container(
                       width: 300,
                       height: 50,
@@ -318,8 +238,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget info(context, String titulo, String tituloCompleto, String dado,
-      bool copy, int index) {
+  Widget info(context, String titulo, String tituloCompleto, String dado, bool copy, int index) {
+    
     return Container(
       width: 0.9 * MediaQuery.of(context).size.width,
       child: Stack(
@@ -388,7 +308,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: Center(
                   child: Text(
-                    esconderList[index] ? tituloCompleto : titulo,
+                    esconderList[index]? tituloCompleto : titulo,
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontFamily: 'oswald',
@@ -405,6 +325,10 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+
+
+
+
 
 void _copyToClipboard(String s) {
   Clipboard.setData(ClipboardData(text: s));
