@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               SizedBox(height: 5),
               Container(
-                width:0.9 * double.infinity,
+                width: 0.9 * double.infinity,
                 height: 150,
                 decoration: BoxDecoration(
                   color: Colors.green[700],
@@ -39,64 +39,63 @@ class _ProfilePageState extends State<ProfilePage> {
                     future: FirebaseAuth.instance.authStateChanges().first,
                     builder:
                         (BuildContext context, AsyncSnapshot<User?> snapshot) {
-                        if (snapshot.hasData) {
-                          User? user = snapshot.data;
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(padding: EdgeInsets.all(8),
+                      if (snapshot.hasData) {
+                        User? user = snapshot.data;
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8),
                               child: Stack(
-                                alignment:Alignment.center,
-                                children:[
-                              Container(
-                                //padding: EdgeInsets.only(top: 0),
-                                child:
-                                CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(user!.photoURL ?? ''),
-                                  radius: 75,
-                                ),
-                              )
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    //padding: EdgeInsets.only(top: 0),
+                                    child: CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(user!.photoURL ?? ''),
+                                      radius: 75,
+                                    ),
+                                  )
                                 ],
                               ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              '${user.displayName}',
+                              style: GoogleFonts.oswald(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                '${user.displayName}',
-                                style: GoogleFonts.oswald(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          );
-                        } else {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(padding: EdgeInsets.all(8),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8),
                               child: Stack(
-                                alignment:Alignment.center,
-                                children:[
-                              Container(
-                                //padding: EdgeInsets.only(top: 0),
-                                child:
-                                CircleAvatar(
-                                  radius: 75,
-                                ),
-                              )
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    //padding: EdgeInsets.only(top: 0),
+                                    child: CircleAvatar(
+                                      radius: 75,
+                                    ),
+                                  )
                                 ],
                               ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          );
-                        }
-                      
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        );
+                      }
                     },
                   ),
                 ),
@@ -162,59 +161,52 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Adicione a ação desejada aqui
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green[800],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
+                  Container(
+                    width: 0.9 * MediaQuery.of(context).size.width,
+                    alignment: Alignment.center,
+                    child: Row(
+                      children: [
+                        // Primeiro Container (o que estará abaixo)
+                        Positioned(
+                          top: 2.5,
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 80,
+                            height: 50,
+                            decoration: BoxDecoration(
+                            color: Colors.green[800],
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          child: Text(
-                            'ID:',
-                            style: GoogleFonts.oswald(
-                              textStyle: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                              ),
+                            child: Center(
+                              child: Text('ID:',
+                                  style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255))),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 0), // Espaçamento entre os botões
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left:
-                                10), // Ajuste o valor do recuo à esquerda conforme necessário
-                        child: Container(
-                          width: 200,
-                          height: 50,
+                        // Segundo Container 
+                        Positioned(
+                        top: 2.5,
+                        right: 30,
+                        child:
+                        
+                        Container(
+                          width: 0.65 * MediaQuery.of(context).size.width,
+                          height: 45,
+                          alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.0),
-                            color: Color.fromARGB(100, 225, 244, 203),
+                            color: const Color.fromARGB(255, 126, 154, 127),
+                            borderRadius: BorderRadius.circular(30),
                           ),
                           child: Center(
                             child: Text(
-                              '123456',
-                              style: GoogleFonts.oswald(
-                                textStyle: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.black,
-                                ),
-                              ),
+                              '28238082802...',
+                              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

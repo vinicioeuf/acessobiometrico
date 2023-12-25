@@ -72,9 +72,9 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
               String hora = data['hora'];
               String nome = data['nome'];
               bool aguardando = data['aguardando'];
-              bool autorizado = data['autorizado'];
-              bool negado = data['negado'];
-              String matricula = data['matricula'];
+              // bool autorizado = data['autorizado'];
+              // bool negado = data['negado'];
+              // String matricula = data['matricula'];
               String vinculo = data['vinculo']['tipoVinculo'];
               String tempo = data['vinculo']['tempo'];
               String curso = data['vinculo']['curso'];
