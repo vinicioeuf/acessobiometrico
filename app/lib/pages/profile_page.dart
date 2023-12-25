@@ -135,33 +135,44 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 0,
                   ),
+                                    
                   if(dados == true)
-                    Column(children: [
-                      info(context, "ID:","ID:" ,"3277247099032978773", true, 0),
-                      SizedBox(height: 10),
-                      info(context, "E-MAIL:", "E-MAIL",
-                          'alvaro.victor@aluno.ifsertao-pe.edu.br', true, 1),
-                      SizedBox(height: 10),
-                      info(context, "MAT:", 'MATRÍCULA', "2023140001", true, 2),
-                      SizedBox(height: 10),
-                      info(context, "VIN:", 'VÍNCULO', "Bolsista", false, 3),
-                      SizedBox(height: 10),
-                      info(context, "CUR:", 'CURSO', "Sistemas para Internet", false, 4),
-                      SizedBox(height: 10),
-                      info(context, "P/A:", 'PERÍODO/ANO', "3º Período", false, 5),
-                      SizedBox(height: 30),
-                    ],
-                  ),
-                  
-                  if(dados == false)
                     FutureBuilder<DocumentSnapshot>(
                       future: users.doc('2023192800').get(),
                       builder:
                           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-                          return Text("Full Name: ${data['nome']} ${data['email']}");
+
+                        // if (snapshot.hasError) {
+                        //   return Text("Something went wrong");
+                        // }
+
+                        // if (snapshot.hasData && !snapshot.data!.exists) {
+                        //   return Text("Document does not exist");
+                        // }
+
+                        // if (snapshot.connectionState == ConnectionState.done) {
+                        //   Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                        //   return Text("Full Name: ${data['nome']}");
+                        // }
+                        Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                        return Column(children:[
+                          info(context, "ID:","ID:" ,"3277247099032978773", true, 0),
+                          SizedBox(height: 10),
+                          info(context, "E-MAIL:", "E-MAIL",
+                              '${data['email']}', true, 1),
+                          SizedBox(height: 10),
+                          info(context, "MAT:", 'MATRÍCULA', "${data['matricula']}", true, 2),
+                          SizedBox(height: 10),
+                          info(context, "VIN:", 'VÍNCULO', "${data['vinculo']['tipoVinculo']}", false, 3),
+                          SizedBox(height: 10),
+                          info(context, "CUR:", 'CURSO', "${data['vinculo']['tipoCurso']}", false, 4),
+                          SizedBox(height: 10),
+                          info(context, "P/A:", 'PERÍODO/ANO', "${data['vinculo']['tempo']}", false, 5),
+                          SizedBox(height: 30),
+                        ]);
                       },
                     ),
+                  if(dados == false)
                     Container(
                       width: 300,
                       height: 50,
