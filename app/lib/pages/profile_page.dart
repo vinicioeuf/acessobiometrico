@@ -154,7 +154,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         //   Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
                         //   return Text("Full Name: ${data['nome']}");
                         // }
-                        Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                        Map<String, dynamic> data = {};
+                        if (snapshot.data?.data() != null) {
+                          data = snapshot.data!.data() as Map<String, dynamic>;
+                        }
+
                         return Column(children:[
                           info(context, "ID:","ID:" ,"3277247099032978773", true, 0),
                           SizedBox(height: 10),
@@ -163,12 +167,16 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(height: 10),
                           info(context, "MAT:", 'MATRÍCULA', "${data['matricula']}", true, 2),
                           SizedBox(height: 10),
-                          info(context, "VIN:", 'VÍNCULO', "${data['vinculo']['tipoVinculo']}", false, 3),
-                          SizedBox(height: 10),
-                          info(context, "CUR:", 'CURSO', "${data['vinculo']['tipoCurso']}", false, 4),
-                          SizedBox(height: 10),
-                          info(context, "P/A:", 'PERÍODO/ANO', "${data['vinculo']['tempo']}", false, 5),
-                          SizedBox(height: 30),
+                          if (data['vinculo'] != null && data['vinculo']['tipoVinculo'] != null) 
+                            info(context, "VIN:", 'VÍNCULO', '${data['vinculo']['tipoVinculo']}', false, 3),
+                            SizedBox(height: 10),
+                          
+                          if (data['vinculo'] != null && data['vinculo']['tipoCurso'] != null) 
+                            info(context, "CUR:", 'CURSO', '${data['vinculo']['tipoCurso']}', false, 4),
+                            SizedBox(height: 10),
+                          if (data['vinculo'] != null && data['vinculo']['tempo'] != null) 
+                            info(context, "P/A:", 'PERÍODO/ANO', '${data['vinculo']['tempo']}', false, 5),
+                            SizedBox(height: 30),
                         ]);
                       },
                     ),
