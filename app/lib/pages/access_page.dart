@@ -227,10 +227,11 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
           ),
         ),
         Container(
-            width:00.5*MediaQuery.of(context).size.width,
+            width: 0.2*MediaQuery.of(context).size.width,
+            height: 60,
             alignment: Alignment.centerRight,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
           onTap: () {
@@ -242,7 +243,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
           },
           child: Icon(
             Icons.double_arrow_sharp,
-            size: 25.0,
+            size: 35.0,
             color: Colors.green[800],
           ),
         ),
