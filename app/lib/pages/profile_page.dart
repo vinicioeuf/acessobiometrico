@@ -17,6 +17,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   List<bool> esconderList = [false, false, false, false, false, false];
   Object? dados;
+  bool carregando = true;
   String? uu;
   // String? mat;
   @override
@@ -167,45 +168,51 @@ class _ProfilePageState extends State<ProfilePage> {
                         //   Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
                         //   return Text("Full Name: ${data['nome']}");
                         // }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        
+                        Map<String, dynamic> data = {};
+                        if (snapshot.data?.data() != null) {
+                          data = snapshot.data!.data() as Map<String, dynamic>;
+                        }
+                        if (snapshot.connectionState == ConnectionState.waiting && carregando == true) {
                           return Center(
                             child: CircularProgressIndicator(
                               color: Colors.green[800],
                             ),
                           );
+                          
+                        } else {
+                          carregando = false;
+                          return Column(children: [
+                            info(context, "ID:", "ID", "3277247099032978773",
+                                true, 0),
+                            SizedBox(height: 10),
+                            info(context, "E-MAIL:", "E-MAIL", '${data['email']}',
+                                true, 1),
+                            SizedBox(height: 10),
+                            info(context, "MAT:", 'MATRÍCULA',
+                                "${data['matricula']}", true, 2),
+                            SizedBox(height: 10),
+                            if (data['vinculo'] != null &&
+                                data['vinculo']['tipoVinculo'] != null)
+                              info(context, "VIN:", 'VÍNCULO',
+                                  '${data['vinculo']['tipoVinculo']}', false, 3),
+                            SizedBox(height: 10),
+                            if (data['vinculo'] != null &&
+                                data['vinculo']['tipoCurso'] != null)
+                              info(context, "CUR:", 'CURSO',
+                                  '${data['vinculo']['tipoCurso']}', false, 4),
+                            SizedBox(height: 10),
+                            if (data['vinculo'] != null &&
+                                data['vinculo']['tempo'] != null)
+                              info(context, "P/A:", 'PERÍODO/ANO',
+                                  '${data['vinculo']['tempo']}', false, 5),
+                            SizedBox(height: 30),
+                          ]);
                         }
-                        Map<String, dynamic> data = {};
-                        if (snapshot.data?.data() != null) {
-                          data = snapshot.data!.data() as Map<String, dynamic>;
-                        }
+                        
+                        
 
-                        return Column(children: [
-                          info(context, "ID:", "ID:", "3277247099032978773",
-                              true, 0),
-                          SizedBox(height: 10),
-                          info(context, "E-MAIL:", "E-MAIL", '${data['email']}',
-                              true, 1),
-                          SizedBox(height: 10),
-                          info(context, "MAT:", 'MATRÍCULA',
-                              "${data['matricula']}", true, 2),
-                          SizedBox(height: 10),
-                          if (data['vinculo'] != null &&
-                              data['vinculo']['tipoVinculo'] != null)
-                            info(context, "VIN:", 'VÍNCULO',
-                                '${data['vinculo']['tipoVinculo']}', false, 3),
-                          SizedBox(height: 10),
-                          if (data['vinculo'] != null &&
-                              data['vinculo']['tipoCurso'] != null)
-                            info(context, "CUR:", 'CURSO',
-                                '${data['vinculo']['tipoCurso']}', false, 4),
-                          SizedBox(height: 10),
-                          if (data['vinculo'] != null &&
-                              data['vinculo']['tempo'] != null)
-                            info(context, "P/A:", 'PERÍODO/ANO',
-                                '${data['vinculo']['tempo']}', false, 5),
-                          SizedBox(height: 30),
-                        ]);
+                        
                       },
                     ),
                   if (dados == false)
