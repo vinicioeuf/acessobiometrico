@@ -1,4 +1,5 @@
 
+import 'package:app/pages/team_dev.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -227,25 +228,60 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
         ),
         SizedBox(height: 15),
         Container(
-            width:MediaQuery.of(context).size.width,
+            width:40,//MediaQuery.of(context).size.width,
             height: 30,
             alignment: Alignment.center,
-            child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                  fixedSize: Size(MediaQuery.of(context).size.width, 50),
-                  primary: Colors.white,
-                ),
-                child: Text('Ver Mais',
-                    style: GoogleFonts.oswald(
-                      textStyle: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.green[800],
-                      ),
-                    )))),
+            child: Column(
+              children: [GestureDetector(
+          onTap: () {
+            // Navegar para a HomePage quando o ícone de perfil for clicado
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TeamDevPage()),
+            );
+          },
+          child: Icon(
+            Icons.account_circle,
+            size: 30.0,
+            color: Colors.green[800],
+          ),
+        ),
+        SizedBox(height: 10)
+,        GestureDetector(
+          onTap: () {
+            // Navegar para a HomePage quando o ícone de perfil for clicado
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TeamDevPage()),
+            );
+          },
+          child: Icon(
+            Icons.dangerous,
+            size: 30.0,
+            color: Color.fromARGB(255, 255, 0, 0),
+          ),
+        ),
+            ]
+            ),
+      ),
+            // child: ElevatedButton(
+            //     onPressed: () {},
+            //     style: ElevatedButton.styleFrom(
+            //       shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(30.0),
+            //             ),
+            //       fixedSize: Size(MediaQuery.of(context).size.width, 50),
+            //       primary: Colors.white,
+            //     ),
+            //     child: Text('Ver Mais',
+            //         style: GoogleFonts.oswald(
+            //           textStyle: TextStyle(
+            //             fontSize: 20.0,
+            //             color: Colors.green[800],
+            //           ),
+            //         )
+            //         )
+            //         )
       ],
     ),
   );

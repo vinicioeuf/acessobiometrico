@@ -1,7 +1,3 @@
-// import 'dart:js_interop_unsafe';
-
-import 'dart:async';
-
 import 'package:app/pages/show_data.dart';
 import 'package:app/pages/validation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
