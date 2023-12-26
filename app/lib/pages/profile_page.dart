@@ -20,19 +20,13 @@ class _ProfilePageState extends State<ProfilePage> {
   Object? dados;
   bool carregando = true;
   String? uu;
-  late User _user;
+  
   @override
   void initState() {
     super.initState();
-    _loadUserData(); // Método para carregar as informações do usuário
+     // Método para carregar as informações do usuário
   }
-   void _loadUserData() {
-    // Aqui você pode fazer a lógica para carregar as informações do usuário, por exemplo, de um banco de dados ou de uma API
-    // Após carregar as informações, você pode atualizar o estado do widget para exibi-las na tela
-    setState(() {
-      _user = FirebaseAuth.instance.currentUser!;
-    });
-  }
+   
   // String? mat;
   @override
   Widget build(BuildContext context) {
@@ -76,9 +70,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         starCountRef.onValue.listen((DatabaseEvent event) {
                           final data = event.snapshot.value;
                           // print(data);
-                          setState(() {
-                            dados = data;
-                          });
+                          
+                          dados = data;
+                            
+                          
+                          
                         });
                         DatabaseReference starCountRef2 = FirebaseDatabase
                             .instance
@@ -86,9 +82,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         starCountRef2.onValue.listen((DatabaseEvent event) {
                           final data = event.snapshot.value;
                           // print(data);
-                          setState(() {
-                            uu = data as String?;
-                          });
+                          
+                          uu = data as String?;
+                            
+                          
+                          
                         });
                         // DatabaseReference starCountRef2 =
                         //         FirebaseDatabase.instance.ref('users/$uid/matricula');
@@ -123,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               height: 0,
                             ),
                             Text(
-                              '${_user.displayName}',
+                              '${user.displayName}',
                               style: GoogleFonts.oswald(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -186,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (snapshot.data?.data() != null) {
                           data = snapshot.data!.data() as Map<String, dynamic>;
                         }
-                        if (snapshot.connectionState == ConnectionState.waiting && carregando == true) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(
                             child: CircularProgressIndicator(
                               color: Colors.green[800],
@@ -194,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           );
                           
                         } else {
-                          carregando = false;
+                         
                           return Column(children: [
                             info(context, "ID:", "ID", "3277247099032978773",
                                 true, 0),
