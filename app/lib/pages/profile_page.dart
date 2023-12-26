@@ -64,7 +64,12 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           children: [
             SizedBox(height: 5),
+            Transform.translate(
+              offset: Offset(0, -10),
+            child: 
             Container(
+              padding: EdgeInsets.all(10),
+              alignment: Alignment.topRight,
               width: 0.9 * double.infinity,
               height: 150,
               decoration: BoxDecoration(
@@ -74,6 +79,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   bottomRight: Radius.circular(100),
                 ),
               ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text("SAIR", style: GoogleFonts.oswald(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                  SizedBox(width: 5),
+                  Icon(Icons.login_outlined, color: Colors.white, size: 25,)
+                ],
+              ),
+            ),
             ),
             Container(
               alignment: Alignment.center,
@@ -166,6 +180,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       } else {
                         carregando = false;
                         return Column(children: [
+                          info(context, "STATUS::", "STATUS", "AUTORIZADO",
+                              false, 0),
+                          SizedBox(height: 10),
                           info(context, "ID:", "ID", "3277247099032978773",
                               true, 0),
                           SizedBox(height: 10),
@@ -286,11 +303,26 @@ class _ProfilePageState extends State<ProfilePage> {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     dado,
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 16, 16, 16),
+                    style: 
+                    dado=="AUTORIZADO" ? TextStyle(
+                        color: Colors.green[800],
                         fontFamily: 'oswald',
                         fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold) : 
+                    dado=='NEGADO' ? TextStyle(
+                        color: Colors.red,
+                        fontFamily: 'oswald',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold) :
+                    dado == "EM ESPERA" ? TextStyle(
+                        color: Colors.yellow,
+                        fontFamily: 'oswald',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold) : TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'oswald',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold) 
                   ),
                 ),
                 SizedBox(width: 10),
