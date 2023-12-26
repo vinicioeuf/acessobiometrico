@@ -173,6 +173,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (!hasLoadedData) {
                           // Atualizar os dados e marcar como carregados
                           setState(() {
+                            userData =
+                            snapshot.data!.data() as Map<String, dynamic>;
                             hasLoadedData = true;
                           });
                         }
