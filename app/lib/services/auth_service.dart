@@ -59,7 +59,6 @@ class AuthService extends ChangeNotifier {
           await newUserRef.set({
             "nome": nome,
             "email": email,
-            "senha": senha,
             "foto": foto,
             "biometria": null,
             "credencial": 0,
