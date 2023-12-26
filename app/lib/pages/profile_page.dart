@@ -157,13 +157,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       if (snapshot.data?.data() != null) {
                         data = snapshot.data!.data() as Map<String, dynamic>;
                       }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
+                      if (snapshot.connectionState == ConnectionState.waiting && carregando) {
                         return Center(
                           child: CircularProgressIndicator(
                             color: Colors.green[800],
                           ),
                         );
                       } else {
+                        carregando = false;
                         return Column(children: [
                           info(context, "ID:", "ID", "3277247099032978773",
                               true, 0),
