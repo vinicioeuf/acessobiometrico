@@ -135,8 +135,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                             ),
-                            info(context, 'MAT', 'MATRÍCULA',
-                                '29830083200820042', true, 0),
                             SizedBox(
                               height: 10,
                             ),

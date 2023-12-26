@@ -15,9 +15,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // FirebaseDatabase database = FirebaseDatabase.instance;
-  // DatabaseReference ref = FirebaseDatabase.instance.ref('users');
-  // final FirebaseStorage storage = FirebaseStorage.instance;
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  DatabaseReference ref = FirebaseDatabase.instance.ref('users');
+  final FirebaseStorage storage = FirebaseStorage.instance;
   
   bool _obscurePassword = true;
   final formKey = GlobalKey<FormState>();
@@ -59,61 +59,61 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _loggedIn = false;
 
-  // login() async {
-  //   final authService = AuthService();
-  //   setState(() {
-  //     loading = true;
-  //   });
-  //   try {
-  //     await authService.login(email.text, senha.text);
-  //     setState(() {
-  //       _loggedIn = true;
-  //     });
-  //     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
-  //   } on AuthException catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Text(e.message),
-  //     ));
-  //   } finally {
-  //     setState(() {
-  //       loading = false;
-  //     });
-  //   }
-  // }
+  login() async {
+    final authService = AuthService();
+    setState(() {
+      loading = true;
+    });
+    try {
+      await authService.login(email.text, senha.text);
+      setState(() {
+        _loggedIn = true;
+      });
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+      ));
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
 
-  // registrar() async {
-  //   setState(() {
-  //     loading = true;
-  //   });
-  //   final authService = AuthService();
-  //   try {
-  //     await authService.registrar(nomeController.text, email.text, senha.text, foto.text);
-  //     showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text('Conta criada! Faça o login.'),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               child: Text('Ok'),
-  //               onPressed: () {
-  //                 Navigator.of(context).pushReplacementNamed('/login'); // Substitui a rota da página atual pela página de login
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   } on AuthException catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Text(e.message),
-  //     ));
-  //   } finally {
-  //     setState(() {
-  //       loading = false;
-  //     });
-  //   }
-  // }
+  registrar() async {
+    setState(() {
+      loading = true;
+    });
+    final authService = AuthService();
+    try {
+      await authService.registrar(nomeController.text, email.text, senha.text, foto.text);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Conta criada! Faça o login.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/login'); // Substitui a rota da página atual pela página de login
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+      ));
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
 
   
   @override
@@ -239,23 +239,23 @@ class _LoginPageState extends State<LoginPage> {
                   
                   SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: () {
-                        Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
-                      },
-                    // onPressed: loading
-                    //     ? null
-                    //     : () {
-                    //         if (formKey.currentState!.validate()) {
-                    //           if (isLogin) {
-                    //             login();
-                    //           } else {
-                    //             registrar();
-                    //           }
-                    //         }
-                    //       },
+                    // onPressed: () {
+                    //     Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => HomePage()),
+                    // );
+                    //   },
+                    onPressed: loading
+                        ? null
+                        : () {
+                            if (formKey.currentState!.validate()) {
+                              if (isLogin) {
+                                login();
+                              } else {
+                                registrar();
+                              }
+                            }
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[800],
                       shape: RoundedRectangleBorder(
@@ -311,30 +311,30 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  // Future<XFile?> getImage() async{
-  //   final ImagePicker _picker = ImagePicker();
-  //   XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-  //   return image;
-  // }
-  // Future<void> upload(String path) async{
-  //   File file = File(path);
-  //   try{
-  //     String ref = 'image/img-${DateTime.now().toString()}.jpg';
-  //     await storage.ref(ref).putFile(file);
-  //   } on FirebaseException catch(e){
-  //     throw Exception("Erro no upload: ${e.code}");
-  //   }
-  // }
-  // Future<String?> pickAndUploadImage() async {
-  //   final ImagePicker _picker = ImagePicker();
-  //   XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-  //   if (image != null) {
-  //     Reference storageReference = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
-  //     UploadTask uploadTask = storageReference.putFile(File(image.path));
-  //     TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-  //     String imageUrl = await taskSnapshot.ref.getDownloadURL();
-  //     return imageUrl;
-  //   }
-  //   return null;
-  // }
+  Future<XFile?> getImage() async{
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+  Future<void> upload(String path) async{
+    File file = File(path);
+    try{
+      String ref = 'image/img-${DateTime.now().toString()}.jpg';
+      await storage.ref(ref).putFile(file);
+    } on FirebaseException catch(e){
+      throw Exception("Erro no upload: ${e.code}");
+    }
+  }
+  Future<String?> pickAndUploadImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      Reference storageReference = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
+      UploadTask uploadTask = storageReference.putFile(File(image.path));
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+      String imageUrl = await taskSnapshot.ref.getDownloadURL();
+      return imageUrl;
+    }
+    return null;
+  }
 }

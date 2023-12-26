@@ -136,7 +136,7 @@ class _AccessPageState extends State<AccessPage> {
                   "Professor",
                   "Saiu",
                   "13:56",
-                  "20/10/2023"),SizedBox(height: 25),
+                  "20/10/2023"),
               Acessos(
                   context,
                   'assets/imagens/viniEufrazio.jpg',
@@ -144,9 +144,9 @@ class _AccessPageState extends State<AccessPage> {
                   "Bolsista",
                   "Saiu",
                   "13:53",
-                  "20/10/2023"),SizedBox(height: 25),
+                  "20/10/2023"),
               Acessos(context, 'assets/imagens/vicCarlos.jpg', "Álvaro Victor",
-                  "Bolsista", "Saiu", "13:53", "20/10/2023"),SizedBox(height: 25),
+                  "Bolsista", "Saiu", "13:53", "20/10/2023"),
               Acessos(
                   context,
                   'assets/imagens/leoCampello.jpg',
@@ -154,7 +154,7 @@ class _AccessPageState extends State<AccessPage> {
                   "Professor",
                   "Entrou",
                   "07:53",
-                  "20/10/2023"),SizedBox(height: 25),
+                  "20/10/2023"),
               Acessos(
                   context,
                   'assets/imagens/viniEufrazio.jpg',
@@ -164,7 +164,7 @@ class _AccessPageState extends State<AccessPage> {
                   "07:45",
                   "20/10/2023"),
               Acessos(context, 'assets/imagens/vicCarlos.jpg', "Álvaro Victor",
-                  "Bolsista", "Entrou", "07:45", "20/10/2023"),SizedBox(height: 25),
+                  "Bolsista", "Entrou", "07:45", "20/10/2023"),
             ],
           ),
         ),
@@ -189,7 +189,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
         ),
         SizedBox(width: 10),
         Container(
-          width: 200,
+          width: 190,
           child: // Espaçamento entre a imagem e o texto
               Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,13 +226,13 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
             ],
           ),
         ),
-        SizedBox(height: 15),
         Container(
-            width:40,//MediaQuery.of(context).size.width,
-            height: 30,
-            alignment: Alignment.center,
+            width:30,//MediaQuery.of(context).size.width,
+            alignment: Alignment.centerLeft,
             child: Column(
-              children: [GestureDetector(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
           onTap: () {
             // Navegar para a HomePage quando o ícone de perfil for clicado
             Navigator.push(
@@ -242,12 +242,12 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
           },
           child: Icon(
             Icons.account_circle,
-            size: 30.0,
+            size: 25.0,
             color: Colors.green[800],
           ),
         ),
-        SizedBox(height: 10)
-,        GestureDetector(
+        SizedBox(height: 10),
+    GestureDetector(
           onTap: () {
             // Navegar para a HomePage quando o ícone de perfil for clicado
             Navigator.push(
@@ -256,8 +256,8 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
             );
           },
           child: Icon(
-            Icons.dangerous,
-            size: 30.0,
+            Icons.warning,
+            size: 25.0,
             color: Color.fromARGB(255, 255, 0, 0),
           ),
         ),
@@ -282,6 +282,12 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
             //         )
             //         )
             //         )
+            SizedBox(height: 5),
+      Container(
+        color: Colors.grey,
+        width: MediaQuery.of(context).size.width,
+        height: 1,
+      )
       ],
     ),
   );
