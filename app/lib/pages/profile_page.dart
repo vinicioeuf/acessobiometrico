@@ -16,6 +16,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  bool hasLoadedData = false;
+  Map<String, dynamic> userData = {};
   List<bool> esconderList = [false, false, false, false, false, false];
   Object? dados;
   bool carregando = true;
@@ -58,7 +60,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('validações');
-
+    if (!hasLoadedData) {
+      // Se ainda não foram carregados, chamar a função de inicialização
+      initializeData();
+    }
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -148,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(
                   height: 0,
                 ),
-                if (dados == true)
+                if (dados == true || (hasLoadedData && userData.isNotEmpty))
                   FutureBuilder<DocumentSnapshot>(
                     future: users.doc(uu).get(),
                     builder: (BuildContext context,
@@ -157,13 +162,22 @@ class _ProfilePageState extends State<ProfilePage> {
                       if (snapshot.data?.data() != null) {
                         data = snapshot.data!.data() as Map<String, dynamic>;
                       }
-                      if (snapshot.connectionState == ConnectionState.waiting && carregando) {
+                      if (snapshot.connectionState == ConnectionState.waiting &&
+                          carregando) {
                         return Center(
                           child: CircularProgressIndicator(
                             color: Colors.green[800],
                           ),
                         );
                       } else {
+                        if (!hasLoadedData) {
+                          // Atualizar os dados e marcar como carregados
+                          setState(() {
+                            userData =
+                            snapshot.data!.data() as Map<String, dynamic>;
+                            hasLoadedData = true;
+                          });
+                        }
                         carregando = false;
                         return Column(children: [
                           info(context, "ID:", "ID", "3277247099032978773",
