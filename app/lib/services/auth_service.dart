@@ -67,6 +67,13 @@ class AuthService extends ChangeNotifier {
             "aprovado": false,
             "negado": false,
             "matricula": null,
+            
+            "curso": null,
+            "tempo": null,
+            "tipoCurso": null,
+            "tipoVinculo": null,
+            
+            "hora": null,
           });
         }
       }
