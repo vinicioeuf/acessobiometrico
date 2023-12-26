@@ -38,7 +38,7 @@ class AboutPage extends StatelessWidget {
             SizedBox(height: 20),
             Container(
               width:double.infinity,
-              height: 200,
+              height: 250,
               alignment: Alignment.topCenter,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -21,4 +21,8 @@ class PrefsService{
     }return false;
 
   }
+  static logout() async{
+    var prefs = await SharedPreferences.getInstance();
+    prefs.remove(_key);
+  }
 }

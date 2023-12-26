@@ -97,6 +97,8 @@ class AuthService extends ChangeNotifier {
   Future<void> logout() async {
     try {
       await _auth.signOut();
+      // PrefsService.logout();
+      // Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => true);
       _getUser();
     } catch (e) {
       throw AuthException('Erro no logout. Tente novamente.');
