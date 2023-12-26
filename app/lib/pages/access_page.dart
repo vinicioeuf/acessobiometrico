@@ -227,8 +227,8 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
           ),
         ),
         Container(
-            width:30,//MediaQuery.of(context).size.width,
-            alignment: Alignment.centerLeft,
+            width:00.5*MediaQuery.of(context).size.width,
+            alignment: Alignment.centerRight,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -241,24 +241,9 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
             );
           },
           child: Icon(
-            Icons.account_circle,
+            Icons.double_arrow_sharp,
             size: 25.0,
             color: Colors.green[800],
-          ),
-        ),
-        SizedBox(height: 10),
-    GestureDetector(
-          onTap: () {
-            // Navegar para a HomePage quando o ícone de perfil for clicado
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TeamDevPage()),
-            );
-          },
-          child: Icon(
-            Icons.warning,
-            size: 25.0,
-            color: Color.fromARGB(255, 255, 0, 0),
           ),
         ),
             ]
