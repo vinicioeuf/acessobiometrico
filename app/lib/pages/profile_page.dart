@@ -1,4 +1,5 @@
 import 'package:app/pages/show_data.dart';
+import 'package:app/pages/about_page.dart';
 import 'package:app/pages/validation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,18 +18,28 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   List<bool> esconderList = [false, false, false, false, false, false];
   Object? dados;
-  
   bool carregando = true;
   String? uu;
-  
+  late User _user;
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData(); // Método para carregar as informações do usuário
+  }
+   void _loadUserData() {
+    // Aqui você pode fazer a lógica para carregar as informações do usuário, por exemplo, de um banco de dados ou de uma API
+    // Após carregar as informações, você pode atualizar o estado do widget para exibi-las na tela
+    setState(() {
+      _user = FirebaseAuth.instance.currentUser!;
+    });
+  }
   // String? mat;
   @override
   Widget build(BuildContext context) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('validações');
 
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -65,9 +76,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         starCountRef.onValue.listen((DatabaseEvent event) {
                           final data = event.snapshot.value;
                           // print(data);
-                          
-                          dados = data;
-                          print(dados);
+                          setState(() {
+                            dados = data;
+                          });
                         });
                         DatabaseReference starCountRef2 = FirebaseDatabase
                             .instance
@@ -75,9 +86,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         starCountRef2.onValue.listen((DatabaseEvent event) {
                           final data = event.snapshot.value;
                           // print(data);
-                          
-                          uu = data as String?;
-
+                          setState(() {
+                            uu = data as String?;
+                          });
                         });
                         // DatabaseReference starCountRef2 =
                         //         FirebaseDatabase.instance.ref('users/$uid/matricula');
@@ -112,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               height: 0,
                             ),
                             Text(
-                              '${user.displayName}',
+                              '${_user.displayName}',
                               style: GoogleFonts.oswald(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -153,9 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 0,
                   ),
-                  
                   if (dados == true)
-                  
                     FutureBuilder<DocumentSnapshot>(
                       future: users.doc(uu).get(),
                       builder: (BuildContext context,
@@ -283,8 +292,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget info(context, String titulo, String tituloCompleto, String dado,

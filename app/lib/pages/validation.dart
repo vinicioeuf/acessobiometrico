@@ -146,17 +146,8 @@ void enviarValidacao() {
       // ignore: deprecated_member_use
       DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
       userRef.update({
-        'matricula': getMatricula,
         'solicitou': true,
-        'aprovado': false,
-        'negado': false,
-        
-        'curso': selectedValueCurso,
-        'tempo': selectedValuePeriodo,
-        'tipoCurso': selectedValueTipo,
-        'tipoVinculo': selectedValueVinculo,
-        
-        'hora': agora,
+        'matricula': getMatricula
       });
       // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
       showDialog(
