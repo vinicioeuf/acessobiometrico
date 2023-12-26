@@ -1,3 +1,4 @@
+import 'package:app/services/prefs_service.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -16,9 +17,10 @@ class _SplashPageState extends State<SplashPage>
   @override
   void initState() {
     super.initState();
+       
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 3000),
+      duration: const Duration(milliseconds: 1590),
     );
     _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -32,9 +34,12 @@ class _SplashPageState extends State<SplashPage>
         curve: Curves.easeOutQuart,
       ),
     );
-    _animationController.forward().then(
-          (_) => Navigator.of(context).pushReplacementNamed('/login'),
-        );
+    Future.wait([
+      PrefsService.isAuth(),
+      Future.delayed(Duration(milliseconds: 2500)),
+        _animationController.forward(),
+      ]).then((value) => value[0] ? Navigator.of(context).pushReplacementNamed('/home') : Navigator.of(context).pushReplacementNamed('/login'));
+
   }
 
   @override

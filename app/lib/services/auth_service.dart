@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app/services/prefs_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -87,6 +88,7 @@ class AuthService extends ChangeNotifier {
 
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
+      PrefsService.save(email);
       _getUser();
     } catch (e) {
       throw AuthException('Erro no login. Verifique suas credenciais.');
