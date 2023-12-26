@@ -147,7 +147,11 @@ void enviarValidacao() {
       DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
       userRef.update({
         'solicitou': true,
-        'matricula': getMatricula
+        'matricula': getMatricula,
+        'vinculo': selectedValueVinculo,
+        'curso': selectedValueCurso,
+        'tempo': selectedValuePeriodo,
+        'tipoCurso': selectedValueTipo
       });
       // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
       showDialog(
