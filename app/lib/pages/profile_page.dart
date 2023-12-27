@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Object? dados;
   bool carregando = true;
   String? uu;
-
+  int? uu2;
   @override
   void initState() {
     super.initState();
@@ -51,6 +51,15 @@ class _ProfilePageState extends State<ProfilePage> {
         final data = event.snapshot.value;
         setState(() {
           uu = data as String?;
+        });
+      });
+
+      DatabaseReference starCountRef3=
+          FirebaseDatabase.instance.ref('users/$uid/credencial');
+      starCountRef3.onValue.listen((DatabaseEvent event) {
+        final data = event.snapshot.value;
+        setState(() {
+          uu2 = data as int?;
         });
       });
     }
@@ -253,7 +262,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 SizedBox(height: 10),
-                if (dados == false)
+                if (uu2 == 1)
                   Container(
                     width: 300,
                     height: 50,
