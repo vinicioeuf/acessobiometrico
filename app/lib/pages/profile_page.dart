@@ -345,7 +345,7 @@ void dispose() {
             alignment: Alignment.center,
             padding: EdgeInsets.all(10),
             width: 0.9 * MediaQuery.of(context).size.width,
-            height: 45,
+            height: 60,
             decoration: BoxDecoration(
                   color: Color.fromARGB(100, 225, 244, 203),
               borderRadius: BorderRadius.circular(30.0),
@@ -437,7 +437,7 @@ void dispose() {
                                 )
                               ])
                         : Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                                 Icon(Icons.lock_open_rounded,
                                     color: Colors.white),
