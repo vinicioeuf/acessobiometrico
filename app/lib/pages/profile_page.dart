@@ -184,6 +184,36 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(
                   height: 0,
                 ),
+                if (uu2 == 1)
+                  Container(
+                    width: 300,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ValidacoesScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        'Solicitações',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15,),
                 if (dados == true)
                   FutureBuilder<DocumentSnapshot>(
                     future: users.doc(uu).get(),
@@ -262,35 +292,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 SizedBox(height: 10),
-                if (uu2 == 1)
-                  Container(
-                    width: 300,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ValidacoesScreen()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[800],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      child: Text(
-                        'Solicitações',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            fontSize: 20.0, // Tamanho de fonte aumentado
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                
               ],
             ),
           ],
