@@ -25,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool carregando = true;
   String? uu;
   int? uu2;
+  late String estado;
   @override
   void initState() {
     super.initState();
@@ -253,9 +254,18 @@ void dispose() {
                           ),
                         );
                       } else {
+                        if(data['aguardando'] == true){
+                          estado = "EM ESPERA";
+                        }else if(data['autorizado']  == true){
+                          estado = "AUTORIZADO";
+                        }else if(data['negado']  == true){
+                          estado = "NEGADO";
+                        }else{
+                          estado = "Erro";
+                        }
                         carregando = false;
                         return Column(children: [
-                          info(context, "STATUS:", "STATUS", "AUTORIZADO",
+                          info(context, "STATUS:", "STATUS", estado,
                               false, 6),
                           SizedBox(height: 10),
                           info(context, "ID:", "ID", "3277247099032978773",
@@ -363,7 +373,7 @@ void dispose() {
                                   fontWeight: FontWeight.bold)
                               : dado == "EM ESPERA"
                                   ? TextStyle(
-                                      color: Colors.yellow,
+                                      color: Color.fromARGB(255, 190, 146, 0),
                                       fontFamily: 'oswald',
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)
