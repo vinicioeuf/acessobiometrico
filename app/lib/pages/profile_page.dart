@@ -207,7 +207,7 @@ void dispose() {
                 ),
                 if (uu2 == 1)
                   Container(
-                    width: 300,
+                    width: 0.9 * MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {

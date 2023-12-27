@@ -265,7 +265,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
               } else {
                 return Container(
                   alignment: Alignment.center,
-                  child: Text("Não há solicitações"),
+                  child: Text(""),
                 );
               }
               
