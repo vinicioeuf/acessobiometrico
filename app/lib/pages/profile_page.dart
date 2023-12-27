@@ -23,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool carregando = true;
   String? uu;
   int? uu2;
-  // late String estado;
+  
   @override
   void initState() {
     super.initState();
@@ -64,6 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
