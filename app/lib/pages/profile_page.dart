@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Object? dados;
   bool carregando = true;
   String? uu;
-
+  int? uu2;
   @override
   void initState() {
     super.initState();
@@ -51,6 +51,14 @@ class _ProfilePageState extends State<ProfilePage> {
         final data = event.snapshot.value;
         setState(() {
           uu = data as String?;
+        });
+      });
+      DatabaseReference starCountRef3 =
+          FirebaseDatabase.instance.ref('users/$uid/credencial');
+      starCountRef3.onValue.listen((DatabaseEvent event) {
+        final data = event.snapshot.value;
+        setState(() {
+          uu2 = data as int?;
         });
       });
     }
@@ -175,6 +183,36 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(
                   height: 0,
                 ),
+                if (uu2 == 1)
+                  Container(
+                    width: 0.9 * MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ValidacoesScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        'Solicitações',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                SizedBox(height: 10),
                 if (dados == true)
                   FutureBuilder<DocumentSnapshot>(
                     future: users.doc(uu).get(),
@@ -252,36 +290,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                SizedBox(height: 10),
-                if (dados == false)
-                  Container(
-                    width: 300,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ValidacoesScreen()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[800],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      child: Text(
-                        'Solicitações',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            fontSize: 20.0, // Tamanho de fonte aumentado
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                
+                
               ],
             ),
           ],
