@@ -47,6 +47,12 @@ class _DogPageState extends State<DogPage> {
           return ListTile(
             title: Text(breeds[index].breedName),
             subtitle: Text(breeds[index].breedType),
+            leading: Image.network(
+              breeds[index].imgThumb,
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+            ),
           );
         },
       ),
@@ -59,12 +65,14 @@ class DogBreed {
   final String breedName;
   final String breedType;
   final String breedDescription;
+  final String imgThumb;
 
   DogBreed({
     required this.id,
     required this.breedName,
     required this.breedType,
     required this.breedDescription,
+    required this.imgThumb,
   });
 
   factory DogBreed.fromJson(Map<String, dynamic> json) {
@@ -73,6 +81,7 @@ class DogBreed {
       breedName: json['breedName'],
       breedType: json['breedType'],
       breedDescription: json['breedDescription'],
+      imgThumb: json['imgThumb'] ?? '',
     );
   }
 }
