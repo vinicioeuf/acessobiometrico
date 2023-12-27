@@ -437,7 +437,7 @@ void dispose() {
                                 )
                               ])
                         : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                                 Icon(Icons.lock_open_rounded,
                                     color: Colors.white),

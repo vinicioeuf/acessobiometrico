@@ -1,6 +1,5 @@
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/profile_page.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'about_page.dart';
 
@@ -9,7 +8,6 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() {
     return HomePageState();
   }
-  
 }
 
 class HomePageState extends State<HomePage> {
@@ -21,11 +19,6 @@ class HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // AwesomeNotifications().isNotificationAllowed().then((value) => {
-    //   if(!value){
-    //     AwesomeNotifications().requestPermissionToSendNotifications(),
-    //   }
-    // });
     super.initState();
     pc = PageController(initialPage: paginaAtual);
   }
