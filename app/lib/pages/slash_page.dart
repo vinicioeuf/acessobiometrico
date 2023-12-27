@@ -1,3 +1,4 @@
+import 'package:app/pages/home_page.dart';
 import 'package:app/services/prefs_service.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class _SplashPageState extends State<SplashPage>
       PrefsService.isAuth(),
       Future.delayed(Duration(milliseconds: 2500)),
         _animationController.forward(),
-      ]).then((value) => value[0] ? Navigator.of(context).pushReplacementNamed('/home') : Navigator.of(context).pushReplacementNamed('/login'));
+      ]).then((value) => value[0] ? Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false) : Navigator.of(context).pushReplacementNamed('/login'));
 
   }
 
