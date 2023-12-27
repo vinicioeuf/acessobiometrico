@@ -1,3 +1,4 @@
+import 'package:app/pages/dog.dart';
 import 'package:app/pages/ver_acesso.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -237,7 +238,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
             // Navegar para a HomePage quando o ícone de perfil for clicado
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => VerAcesso()),
+              MaterialPageRoute(builder: (context) => DogPage()),
             );
           },
           child: Icon(
