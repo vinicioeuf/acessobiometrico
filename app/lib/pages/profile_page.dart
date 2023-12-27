@@ -243,7 +243,7 @@ class _ProfilePageState extends State<ProfilePage> {
                        
                         
                         return Column(children: [
-                          info(context, "STATUS:", "STATUS", "AUTORIZADO",
+                          info(context, "STATUS:", "STATUS", "APROVADO",
                               false, 6),
                           SizedBox(height: 10),
                           info(context, "ID:", "ID", "kULdOeL1EnQ4oxgecyA4EAHAee83",
