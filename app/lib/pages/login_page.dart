@@ -57,7 +57,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  bool _loggedIn = false;
   
   login() async {
     final authService = AuthService();
@@ -67,7 +66,6 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await authService.login(email.text, senha.text);
       setState(() {
-        _loggedIn = true;
       });
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
     } on AuthException catch (e) {

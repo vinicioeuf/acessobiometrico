@@ -1,6 +1,5 @@
 import 'package:app/pages/login_page.dart';
 import 'package:app/pages/show_data.dart';
-import 'package:app/pages/about_page.dart';
 import 'package:app/pages/validation.dart';
 import 'package:app/services/prefs_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -93,7 +92,7 @@ void dispose() {
             Transform.translate(
               offset: Offset(0, -10),
               child: Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(15),
                 alignment: Alignment.centerRight,
                 width: 0.9 * double.infinity,
                 height: 150,
@@ -208,7 +207,7 @@ void dispose() {
                 if (uu2 == 1)
                   Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
-                    height: 50,
+                    height: 60,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -283,13 +282,13 @@ void dispose() {
                                 '${data['vinculo']['tipoVinculo']}', false, 3),
                           SizedBox(height: 10),
                           if (data['vinculo'] != null &&
-                              data['vinculo']['tipoCurso'] != null)
+                              data['vinculo']['curso'] != null)
                             info(context, "CUR:", 'CURSO',
-                                '${data['vinculo']['tipoCurso']}', false, 4),
+                                '${data['vinculo']['curso']}', false, 4),
                           SizedBox(height: 10),
                           if (data['vinculo'] != null &&
                               data['vinculo']['tempo'] != null)
-                            info(context, "P/A:", 'PERÍODO/ANO',
+                            info(context, "P/A:", 'PER/ANO',
                                 '${data['vinculo']['tempo']}', false, 5),
                           SizedBox(height: 30),
                         ]);
@@ -346,7 +345,7 @@ void dispose() {
             width: 0.9 * MediaQuery.of(context).size.width,
             height: 45,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 203, 255, 200),
+                  color: Color.fromARGB(100, 225, 244, 203),
               borderRadius: BorderRadius.circular(30.0),
             ),
             child: Row(
@@ -408,9 +407,9 @@ void dispose() {
             child: AnimatedContainer(
               width: esconderList[index]
                   ? 0.9 * MediaQuery.of(context).size.width
-                  : 0.33 * MediaQuery.of(context).size.width,
-              height: 50,
-              alignment: Alignment.center,
+                  : 0.27 * MediaQuery.of(context).size.width,
+              height: 60,
+              alignment: Alignment.centerLeft,
               duration: const Duration(seconds: 1),
               curve: Curves.fastOutSlowIn,
               child: Container(
@@ -420,6 +419,7 @@ void dispose() {
                 ),
                 child: Center(
                   child: Container(
+                    padding: EdgeInsets.all(8),
                     child: esconderList[index]
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -438,7 +438,7 @@ void dispose() {
                                 )
                               ])
                         : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                                 Icon(Icons.lock_open_rounded,
                                     color: Colors.white),

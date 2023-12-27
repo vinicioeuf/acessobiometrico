@@ -167,7 +167,7 @@ class _VerAcessoState extends State<VerAcesso> {
                       )),
                   info(context, "STATUS", "AUTORIZADO"),
                   SizedBox(height: 15),
-                  info(context, "CURSO:", "SISTEMAS PARA INTENRET"),
+                  info(context, "CURSO:", "SISTEMAS PARA INTERNET"),
                   SizedBox(height: 15),
                   info(context, "PER/ANO:", "3º PERÍODO"),
                   SizedBox(height: 15),
@@ -210,7 +210,8 @@ class _VerAcessoState extends State<VerAcesso> {
             width: 0.9 * MediaQuery.of(context).size.width,
             height: 45,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 203, 255, 200),
+                  color: Color.fromARGB(100, 225, 244, 203),
+              
               borderRadius: BorderRadius.circular(30.0),
             ),
             child: Row(

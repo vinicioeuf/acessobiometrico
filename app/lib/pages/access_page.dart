@@ -1,5 +1,3 @@
-
-import 'package:app/pages/team_dev.dart';
 import 'package:app/pages/ver_acesso.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
