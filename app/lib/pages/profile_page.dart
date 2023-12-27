@@ -23,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool carregando = true;
   String? uu;
   int? uu2;
-  
+  late String estado;
   @override
   void initState() {
     super.initState();
@@ -235,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         // if(data['aguardando'] == true){
                         //   estado = "EM ESPERA";
                         // }else if(data['autorizado'] == true){
-                        //   estado = "APROVADO";
+                        //   estado = "AUTORIZADO";
                         // }else if(data['negado'] == true){
                         //   estado = "NEGADO";
                         // }
@@ -243,10 +243,10 @@ class _ProfilePageState extends State<ProfilePage> {
                        
                         
                         return Column(children: [
-                          info(context, "STATUS:", "STATUS", "AUTORIZADO",
+                          info(context, "STATUS:", "STATUS", "EM ESPERA",
                               false, 6),
                           SizedBox(height: 10),
-                          info(context, "ID:", "ID", "kULdOeL1EnQ4oxgecyA4EAHAee83",
+                          info(context, "ID:", "ID", "kULdOeL1EnQ4",
                               true, 0),
                           SizedBox(height: 10),
                           info(context, "E-MAIL:", "E-MAIL", '${data['email']}',
