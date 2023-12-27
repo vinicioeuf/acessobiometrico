@@ -18,6 +18,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+
   List<bool> esconderList = [false, false, false, false, false, false, false];
   Object? dados;
   bool carregando = true;
@@ -29,6 +31,12 @@ class _ProfilePageState extends State<ProfilePage> {
     // Método para carregar as informações do usuário
     initializeData();
   }
+  @override
+void dispose() {
+  // Limpeza de recursos, cancelamento de timers, etc.
+  super.dispose();
+}
+
 
   // New method to initialize data
   Future<void> initializeData() async {
@@ -40,27 +48,33 @@ class _ProfilePageState extends State<ProfilePage> {
           FirebaseDatabase.instance.ref('users/$uid/solicitou');
       starCountRef.onValue.listen((DatabaseEvent event) {
         final data = event.snapshot.value;
-        setState(() {
-          dados = data;
-        });
+        if (mounted) {
+          setState(() {
+            dados = data;
+          });
+        }
       });
 
       DatabaseReference starCountRef2 =
           FirebaseDatabase.instance.ref('users/$uid/matricula');
       starCountRef2.onValue.listen((DatabaseEvent event) {
         final data = event.snapshot.value;
-        setState(() {
-          uu = data as String?;
-        });
+        if (mounted) {
+          setState(() {
+            uu = data as String?;
+          });
+        }
       });
 
-      DatabaseReference starCountRef3=
+      DatabaseReference starCountRef3 =
           FirebaseDatabase.instance.ref('users/$uid/credencial');
       starCountRef3.onValue.listen((DatabaseEvent event) {
         final data = event.snapshot.value;
-        setState(() {
-          uu2 = data as int?;
-        });
+        if (mounted) {
+          setState(() {
+            uu2 = data as int?;
+          });
+        }
       });
     }
   }
@@ -77,39 +91,45 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(height: 5),
             Transform.translate(
               offset: Offset(0, -10),
-            child: 
-            Container(
-              padding: EdgeInsets.all(10),
-              alignment: Alignment.centerRight,
-              width: 0.9 * double.infinity,
-              height: 150,
-              decoration: BoxDecoration(
-                color: Colors.green[700],
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(100),
-                  bottomRight: Radius.circular(100),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                alignment: Alignment.centerRight,
+                width: 0.9 * double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.green[700],
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(100),
+                    bottomRight: Radius.circular(100),
+                  ),
+                ),
+                child: GestureDetector(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "SAIR",
+                        style: GoogleFonts.oswald(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      SizedBox(width: 5),
+                      Icon(
+                        Icons.login_outlined,
+                        color: Colors.white,
+                        size: 25,
+                      )
+                    ],
+                  ),
+                  onTap: () async {
+                    await FirebaseAuth.instance.signOut();
+                    PrefsService.logout();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  },
                 ),
               ),
-              child: GestureDetector(child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text("SAIR", 
-                  style: GoogleFonts.oswald(
-                    fontSize: 20, 
-                    fontWeight: FontWeight.bold, color: Colors.white),),
-                  
-                  SizedBox(width: 5),
-                  Icon(Icons.login_outlined, color: Colors.white, size: 25,)
-                  
-                ],
-                ),
-                onTap: () async{
-                  await FirebaseAuth.instance.signOut();
-                  PrefsService.logout();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-              ),
-            ),
             ),
             Container(
               alignment: Alignment.center,
@@ -213,7 +233,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 15,),
+                SizedBox(
+                  height: 15,
+                ),
                 if (dados == true)
                   FutureBuilder<DocumentSnapshot>(
                     future: users.doc(uu).get(),
@@ -223,7 +245,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       if (snapshot.data?.data() != null) {
                         data = snapshot.data!.data() as Map<String, dynamic>;
                       }
-                      if (snapshot.connectionState == ConnectionState.waiting && carregando) {
+                      if (snapshot.connectionState == ConnectionState.waiting &&
+                          carregando) {
                         return Center(
                           child: CircularProgressIndicator(
                             color: Colors.green[800],
@@ -292,7 +315,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 SizedBox(height: 10),
-                
               ],
             ),
           ],
@@ -324,30 +346,32 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: 0.4 * MediaQuery.of(context).size.width,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    dado,
-                    style: 
-                    dado=="AUTORIZADO" ? TextStyle(
-                        color: Colors.green[800],
-                        fontFamily: 'oswald',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold) : 
-                    dado=='NEGADO' ? TextStyle(
-                        color: Colors.red,
-                        fontFamily: 'oswald',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold) :
-                    dado == "EM ESPERA" ? TextStyle(
-                        color: Colors.yellow,
-                        fontFamily: 'oswald',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold) : TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'oswald',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold) 
-                  ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      dado,
+                      style: dado == "AUTORIZADO"
+                          ? TextStyle(
+                              color: Colors.green[800],
+                              fontFamily: 'oswald',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold)
+                          : dado == 'NEGADO'
+                              ? TextStyle(
+                                  color: Colors.red,
+                                  fontFamily: 'oswald',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold)
+                              : dado == "EM ESPERA"
+                                  ? TextStyle(
+                                      color: Colors.yellow,
+                                      fontFamily: 'oswald',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)
+                                  : TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'oswald',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
                 ),
                 SizedBox(width: 10),
                 if (copy)
@@ -428,4 +452,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void _copyToClipboard(String s) {
     Clipboard.setData(ClipboardData(text: s));
   }
+  
+
 }
