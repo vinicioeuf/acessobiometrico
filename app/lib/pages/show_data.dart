@@ -23,8 +23,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
           ),
           title: Text(
             "SOLICITAÇÕES",
-            style: TextStyle(
-                fontFamily: 'oswald',
+            style: GoogleFonts.oswald(
                 fontWeight: FontWeight.bold,
                 color: const Color.fromARGB(255, 255, 255, 255)),
           ),

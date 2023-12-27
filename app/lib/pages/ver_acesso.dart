@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class VerAcesso extends StatefulWidget {
   const VerAcesso({super.key});
@@ -23,8 +24,7 @@ class _VerAcessoState extends State<VerAcesso> {
               ),
               title: Text(
                 "VER MAIS",
-                style: TextStyle(
-                    fontFamily: 'oswald',
+                style: GoogleFonts.oswald(
                     fontWeight: FontWeight.bold,
                     color: const Color.fromARGB(255, 255, 255, 255)),
               ),
@@ -74,20 +74,18 @@ class _VerAcessoState extends State<VerAcesso> {
                             ),
                             Text(
                               "Álvaro Victor",
-                              style: TextStyle(
+                              style:GoogleFonts.oswald(
                                   color: Colors.black,
-                                  fontFamily: 'oswald',
                                   fontSize: 20,
-                                  fontWeight: FontWeight.w800),
+                                  fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 5),
                             Text(
                               "Bolsista",
-                              style: TextStyle(
+                              style: GoogleFonts.oswald(
                                   color: Colors.grey,
-                                  fontFamily: 'oswald',
                                   fontSize: 18,
-                                  fontWeight: FontWeight.w600),
+                                  fontWeight: FontWeight.bold),
                             )
                           ],
                         ),
@@ -105,17 +103,15 @@ class _VerAcessoState extends State<VerAcesso> {
                               children: [
                                 Text(
                                   "HORAS",
-                                  style: TextStyle(
+                                  style: GoogleFonts.oswald(
                                       color: Colors.black,
-                                      fontFamily: 'oswald',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
                                 ),
                                 Text(
                                   "67h",
-                                  style: TextStyle(
+                                  style: GoogleFonts.oswald(
                                       color: Colors.black,
-                                      fontFamily: 'oswald',
                                       fontSize: 15),
                                 )
                               ],
@@ -126,17 +122,15 @@ class _VerAcessoState extends State<VerAcesso> {
                               children: [
                                 Text(
                                   "ENTRADAS",
-                                  style: TextStyle(
+                                  style: GoogleFonts.oswald(
                                       color: Colors.black,
-                                      fontFamily: 'oswald',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
                                 ),
                                 Text(
                                   "13",
-                                  style: TextStyle(
+                                  style: GoogleFonts.oswald(
                                       color: Colors.black,
-                                      fontFamily: 'oswald',
                                       fontSize: 15),
                                 )
                               ],
@@ -147,17 +141,15 @@ class _VerAcessoState extends State<VerAcesso> {
                               children: [
                                 Text(
                                   "SAÍDAS",
-                                  style: TextStyle(
+                                  style: GoogleFonts.oswald(
                                       color: Colors.black,
-                                      fontFamily: 'oswald',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
                                 ),
                                 Text(
                                   "13",
-                                  style: TextStyle(
+                                  style: GoogleFonts.oswald(
                                       color: Colors.black,
-                                      fontFamily: 'oswald',
                                       fontSize: 15),
                                 )
                               ],
@@ -165,7 +157,7 @@ class _VerAcessoState extends State<VerAcesso> {
                           ],
                         ),
                       )),
-                  info(context, "STATUS", "AUTORIZADO"),
+                  info(context, "STATUS:", "AUTORIZADO"),
                   SizedBox(height: 15),
                   info(context, "CURSO:", "SISTEMAS PARA INTERNET"),
                   SizedBox(height: 15),
@@ -184,9 +176,8 @@ class _VerAcessoState extends State<VerAcesso> {
                       ),
                       child: Text(
                         "DENUNCIAR",
-                        style: TextStyle(
+                        style: GoogleFonts.oswald(
                           color: Color.fromARGB(255, 255, 255, 255),
-                          fontFamily: 'oswald',
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -225,15 +216,13 @@ class _VerAcessoState extends State<VerAcesso> {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: dado == "AUTORIZADO"
-                        ? TextStyle(
+                        ? GoogleFonts.oswald(
                             color: Colors.green[800],
-                            fontFamily: 'oswald',
                             fontSize: 18,
                             fontWeight: FontWeight.w900,
                           )
-                        : TextStyle(
+                        : GoogleFonts.oswald(
                             color: Color.fromARGB(255, 16, 16, 16),
-                            fontFamily: 'oswald',
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -257,9 +246,8 @@ class _VerAcessoState extends State<VerAcesso> {
                 ),
                 child: Text(
                   titulo,
-                  style: TextStyle(
+                  style: GoogleFonts.oswald(
                       color: const Color.fromARGB(255, 255, 255, 255),
-                      fontFamily: 'oswald',
                       fontSize: 20,
                       fontWeight: FontWeight.w800),
                 ),

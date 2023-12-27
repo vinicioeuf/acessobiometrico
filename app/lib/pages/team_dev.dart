@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable, use_key_in_widget_constructors
 class TeamDevPage extends StatelessWidget {
@@ -16,8 +17,7 @@ class TeamDevPage extends StatelessWidget {
           ),
           title: Text(
             "EQUIPE DE DEVS",
-            style: TextStyle(
-                fontFamily: 'oswald',
+            style: GoogleFonts.oswald(
                 fontWeight: FontWeight.bold,
                 color: const Color.fromARGB(255, 255, 255, 255)),
           ),
@@ -117,25 +117,23 @@ class TeamDevPage extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: TextStyle(
+                  style:  GoogleFonts.oswald(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'oswald',
                       color: Colors.green[800]),
                 ),
                 SizedBox(height: 5),
                 Text(
                   role,
-                  style: TextStyle(
+                  style:  GoogleFonts.oswald(
                       fontSize: 16,
                       color: Colors.red,
-                      fontFamily: 'oswald',
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 5),
                 Text(
                   description,
-                  style: TextStyle(fontSize: 16, fontFamily: 'oswald'),
+                  style:  GoogleFonts.oswald(fontSize: 16),
                 ),
               ],
             ),

@@ -190,8 +190,7 @@ void enviarValidacao() {
           ),
           title: Text(
             "SOLICITAR ACESSO",
-            style: TextStyle(
-                fontFamily: 'oswald',
+            style: GoogleFonts.oswald(
                 fontWeight: FontWeight.bold,
                 color: const Color.fromARGB(255, 255, 255, 255)),
           ),
@@ -213,7 +212,7 @@ void enviarValidacao() {
                     children: [
                       Text(
                         'E-mail Institucional:',
-                        style: TextStyle(
+                        style:  GoogleFonts.oswald(
                           fontSize: 16,
                           color: Colors.green[800],
                         ),
@@ -231,9 +230,8 @@ void enviarValidacao() {
                                 color: Color.fromARGB(255, 117, 115, 115)),
                             filled: true,
                             fillColor: Color.fromARGB(255, 238, 244, 236),
-                            labelStyle: TextStyle(
+                            labelStyle:  GoogleFonts.oswald(
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'oswald',
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -250,7 +248,7 @@ void enviarValidacao() {
                     children: [
                       Text(
                         'Número Matrícula:',
-                        style: TextStyle(
+                        style:  GoogleFonts.oswald(
                           fontSize: 16,
                           color: Colors.green[800],
                         ),
@@ -268,9 +266,8 @@ void enviarValidacao() {
                                 color: Color.fromARGB(255, 117, 115, 115)),
                             filled: true,
                             fillColor: Color.fromARGB(255, 238, 244, 236),
-                            labelStyle: TextStyle(
+                            labelStyle:  GoogleFonts.oswald(
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'oswald',
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -287,7 +284,7 @@ void enviarValidacao() {
                     children: [
                       Text(
                         'Vínculo:',
-                        style: TextStyle(
+                        style:  GoogleFonts.oswald(
                           fontSize: 16,
                           color: Colors.green[800],
                         ),
@@ -310,7 +307,7 @@ void enviarValidacao() {
                               selectedValuePeriodo = null;
                             });
                           },
-                          style: TextStyle(
+                          style:  GoogleFonts.oswald(
                               color: Color.fromARGB(255, 238, 244, 236),
                               fontSize: 16),
                           icon: Icon(Icons.arrow_drop_down,
@@ -330,7 +327,7 @@ void enviarValidacao() {
                                 padding: EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
                                   value,
-                                  style: TextStyle(
+                                  style:  GoogleFonts.oswald(
                                       color: Color.fromARGB(255, 117, 115, 115),
                                       fontSize: 16),
                                 ),
@@ -347,7 +344,7 @@ void enviarValidacao() {
                       children: [
                         Text(
                           'Tipo de Curso:',
-                          style: TextStyle(
+                          style:  GoogleFonts.oswald(
                             fontSize: 16,
                             color: Colors.green[800],
                           ),
@@ -368,7 +365,7 @@ void enviarValidacao() {
                                 selectedValuePeriodo = null;
                               });
                             },
-                            style: TextStyle(
+                            style:  GoogleFonts.oswald(
                                 color: Color.fromARGB(255, 238, 244, 236),
                                 fontSize: 16),
                             icon: Icon(Icons.arrow_drop_down,
@@ -382,7 +379,7 @@ void enviarValidacao() {
                                 value: value,
                                 child: Text(
                                   value,
-                                  style: TextStyle(
+                                  style:  GoogleFonts.oswald(
                                       color: Color.fromARGB(255, 117, 115, 115),
                                       fontSize: 16),
                                 ),
@@ -401,7 +398,7 @@ void enviarValidacao() {
                       children: [
                         Text(
                           'Curso:',
-                          style: TextStyle(
+                          style:  GoogleFonts.oswald(
                             fontSize: 16,
                             color: Colors.green[800],
                           ),
@@ -421,7 +418,7 @@ void enviarValidacao() {
                                 selectedValuePeriodo = null;
                               });
                             },
-                            style: TextStyle(
+                            style:  GoogleFonts.oswald(
                                 color: Color.fromARGB(255, 238, 244, 236),
                                 fontSize: 16),
                             icon: Icon(Icons.arrow_drop_down,
@@ -455,7 +452,7 @@ void enviarValidacao() {
                       children: [
                         Text(
                           'Período/Ano',
-                          style: TextStyle(
+                          style:  GoogleFonts.oswald(
                             fontSize: 16,
                             color: Colors.green[800],
                           ),
@@ -474,7 +471,7 @@ void enviarValidacao() {
                                 selectedValuePeriodo = newValue!;
                               });
                             },
-                            style: TextStyle(
+                            style:  GoogleFonts.oswald(
                                 color: Color.fromARGB(255, 238, 244, 236),
                                 fontSize: 16),
                             icon: Icon(Icons.arrow_drop_down,
@@ -493,7 +490,7 @@ void enviarValidacao() {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value,
-                                    style: TextStyle(
+                                    style:  GoogleFonts.oswald(
                                         color:
                                             Color.fromARGB(255, 117, 115, 115),
                                         fontSize: 16)),
@@ -508,11 +505,10 @@ void enviarValidacao() {
                   if (exibirMensagem)
                       Text(
                         'Matrícula ou E-mail inválido',
-                        style: TextStyle(
+                        style:  GoogleFonts.oswald(
                           color: Colors.red,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'oswald',
                         ),
                       ),
                   SizedBox(height: 20),
@@ -532,7 +528,6 @@ void enviarValidacao() {
                       child: Text(
                         'Enviar',
                         style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -540,7 +535,6 @@ void enviarValidacao() {
                         ),
                       ),
                     ),
-                  ),
                   SizedBox(height: 20),
                 ],
               )

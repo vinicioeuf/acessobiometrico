@@ -166,7 +166,7 @@ void dispose() {
                           Text(
                             '${user.displayName}',
                             style: GoogleFonts.oswald(
-                              fontSize: 18,
+                              fontSize: 25,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -223,9 +223,10 @@ void dispose() {
                         ),
                       ),
                       child: Text(
-                        'Solicitações',
+                        'SOLICITAÇÕES',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: 20.0, // Tamanho de fonte aumentado
                             color: Colors.white,
                           ),
@@ -313,10 +314,11 @@ void dispose() {
                         ),
                       ),
                       child: Text(
-                        'Solicitar Acesso',
+                        'SOLICITAR ACESSO',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
                             fontSize: 20.0, // Tamanho de fonte aumentado
+                            fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
                         ),
@@ -359,26 +361,24 @@ void dispose() {
                       maxLines: 1,
                       dado,
                       style: dado == "AUTORIZADO"
-                          ? TextStyle(
+                          ? GoogleFonts.oswald(
                               color: Colors.green[800],
-                              fontFamily: 'oswald',
                               fontSize: 18,
                               fontWeight: FontWeight.bold)
                           : dado == 'NEGADO'
-                              ? TextStyle(
+                              ? GoogleFonts.oswald(
                                   color: Colors.red,
-                                  fontFamily: 'oswald',
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold)
                               : dado == "EM ESPERA"
-                                  ? TextStyle(
+                                  ? GoogleFonts.oswald(
                                       color: Color.fromARGB(255, 190, 146, 0),
-                                      fontFamily: 'oswald',
+  
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)
-                                  : TextStyle(
+                                  : GoogleFonts.oswald(
                                       color: Colors.black,
-                                      fontFamily: 'oswald',
+  
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)),
                 ),
@@ -430,9 +430,8 @@ void dispose() {
                                 ),
                                 Text(
                                   tituloCompleto,
-                                  style: TextStyle(
+                                  style: GoogleFonts.oswald(
                                       color: Colors.white,
-                                      fontFamily: 'oswald',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
                                 )
@@ -443,9 +442,8 @@ void dispose() {
                                 Icon(Icons.lock_open_rounded,
                                     color: Colors.white),
                                 Text(titulo,
-                                    style: TextStyle(
+                                    style: GoogleFonts.oswald(
                                         color: Colors.white,
-                                        fontFamily: 'oswald',
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18))
                               ]),

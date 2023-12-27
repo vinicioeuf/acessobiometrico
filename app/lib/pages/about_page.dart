@@ -25,12 +25,10 @@ class AboutPage extends StatelessWidget {
               child: Text(
                 'Sobre o LabMaker', // Passo 3
                 style: GoogleFonts.oswald(
-                        textStyle: TextStyle(
-                          color: Color.fromARGB(255, 61, 96, 47),
-                          fontSize: 35,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                            fontSize: 35.0,
+                            color: Colors.green[800],
+                        )
                   
               ),
             ),
@@ -69,10 +67,9 @@ class AboutPage extends StatelessWidget {
                       child: Text(
                         'Equipe Maker',
                         style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
                             fontSize: 20.0,
                             color: Colors.white,
-                          ),
                         )
                       )
                       ),
@@ -94,10 +91,9 @@ class AboutPage extends StatelessWidget {
                       child: Text(
                         'Equipe de Devs',
                         style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
                             fontSize: 20.0,
                             color: Colors.white,
-                          ),
                         )
                       )
                       )
@@ -118,7 +114,10 @@ class AboutPage extends StatelessWidget {
                     alignment: Alignment.topCenter,
                   //Descrição
                   child: Text("O Labmaker tem como meta criar um ambiente propício para o surgimento de agentes transformadores da realidade através da participação ativa em diversos problemas da sociedade.",
-                  style: TextStyle(color: Colors.black, fontFamily: 'oswald', fontSize: 15),)
+                  style: GoogleFonts.oswald(
+                            fontSize: 15.0,
+                            color: Colors.black,
+                        ),)
                   ),
                   SizedBox(height: 50),
                 ],
