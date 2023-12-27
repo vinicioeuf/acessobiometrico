@@ -1,6 +1,8 @@
+import 'package:app/pages/login_page.dart';
 import 'package:app/pages/show_data.dart';
 import 'package:app/pages/about_page.dart';
 import 'package:app/pages/validation.dart';
+import 'package:app/services/prefs_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -16,7 +18,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  List<bool> esconderList = [false, false, false, false, false, false];
+  List<bool> esconderList = [false, false, false, false, false, false, false];
   Object? dados;
   bool carregando = true;
   String? uu;
@@ -69,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: 
             Container(
               padding: EdgeInsets.all(10),
-              alignment: Alignment.topRight,
+              alignment: Alignment.centerRight,
               width: 0.9 * double.infinity,
               height: 150,
               decoration: BoxDecoration(
@@ -79,13 +81,24 @@ class _ProfilePageState extends State<ProfilePage> {
                   bottomRight: Radius.circular(100),
                 ),
               ),
-              child: Row(
+              child: GestureDetector(child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("SAIR", style: GoogleFonts.oswald(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                  Text("SAIR", 
+                  style: GoogleFonts.oswald(
+                    fontSize: 20, 
+                    fontWeight: FontWeight.bold, color: Colors.white),),
+                  
                   SizedBox(width: 5),
                   Icon(Icons.login_outlined, color: Colors.white, size: 25,)
+                  
                 ],
+                ),
+                onTap: () async{
+                  await FirebaseAuth.instance.signOut();
+                  PrefsService.logout();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                },
               ),
             ),
             ),
@@ -180,8 +193,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       } else {
                         carregando = false;
                         return Column(children: [
-                          info(context, "STATUS::", "STATUS", "AUTORIZADO",
-                              false, 0),
+                          info(context, "STATUS:", "STATUS", "AUTORIZADO",
+                              false, 6),
                           SizedBox(height: 10),
                           info(context, "ID:", "ID", "3277247099032978773",
                               true, 0),
