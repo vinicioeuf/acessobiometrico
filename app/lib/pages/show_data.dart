@@ -191,7 +191,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                                       TextButton(
                                         child: Text('Ok'),
                                         onPressed: () {
-                                          Navigator.of(context).pushReplacementNamed('/show'); // Substitui a rota da página atual pela página de login
+                                          Navigator.of(context).pushReplacementNamed('/home'); // Substitui a rota da página atual pela página de login
                                         },
                                       ),
                                     ],
@@ -234,7 +234,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                                       TextButton(
                                         child: Text('Ok'),
                                         onPressed: () {
-                                          Navigator.of(context).pushReplacementNamed('/show'); // Substitui a rota da página atual pela página de login
+                                          Navigator.of(context).pushReplacementNamed('/home'); // Substitui a rota da página atual pela página de login
                                         },
                                       ),
                                     ],
