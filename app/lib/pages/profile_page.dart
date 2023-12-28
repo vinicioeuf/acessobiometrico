@@ -298,8 +298,8 @@ void dispose() {
                   ),
                 if (dados == false)
                   Container(
-                    width: 300,
-                    height: 50,
+                    width: 0.9 * MediaQuery.of(context).size.width,
+                    height: 60,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
