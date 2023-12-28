@@ -16,6 +16,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseMessage().initNotifications();
+  // await FirebaseMessage().initNotifications();
   runApp(AppWidget(title: 'Conectado!'));
 }

@@ -17,22 +17,7 @@ class FirebaseMessage {
 
     FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
 
-    FirebaseFirestore.instance
-        .collection('validações') // Substitua 'suaColecao' pelo nome da sua coleção
-        .snapshots()
-        .listen((querySnapshot) {
-      querySnapshot.docChanges.forEach((change) {
-        if (change.type == DocumentChangeType.added) {
-          // Envie a notificação aqui
-          sendNotification();
-        }
-      });
-    });
+    
   }
 
-  
-
-  void sendNotification() {
-    // Adicione o código para enviar a notificação aqui
-  }
 }

@@ -1,3 +1,4 @@
+import 'package:app/services/firebase_message_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -516,7 +517,8 @@ void enviarValidacao() {
                     width: 0.9 * MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async{
+                        await FirebaseMessage().initNotifications();
                         enviarValidacao();
                       },
                       style: ElevatedButton.styleFrom(
