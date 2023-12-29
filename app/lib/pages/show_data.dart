@@ -74,9 +74,9 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
               // bool autorizado = data['autorizado'];
               // bool negado = data['negado'];
               // String matricula = data['matricula'];
-              String vinculo = data['vinculo']['tipoVinculo'];
-              String tempo = data['vinculo']['tempo'];
-              String curso = data['vinculo']['curso'];
+              String? vinculo = data['vinculo']['tipoVinculo'];
+              String? tempo = data['vinculo']['tempo'];
+              String? curso = data['vinculo']['curso'];
               String? foto = data['foto'] as String?;
               if (aguardando) {
                 return Container(
@@ -116,7 +116,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                                   ),
                                 ),
                                 Text(
-                                  vinculo,
+                                  vinculo!,
                                   style: GoogleFonts.oswald(
                                     color: Colors.green[800],
                                     fontWeight: FontWeight.bold,
