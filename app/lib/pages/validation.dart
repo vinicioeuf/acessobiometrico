@@ -24,7 +24,6 @@ class _ValidationState extends State<Validation> {
   String? getEmail = null;
   String? getMatricula = null;
   late String agora;
-
   Future<String> _getHoraBrasil() async {
     tz.initializeTimeZones();
     final location = tz.getLocation('America/Sao_Paulo');
@@ -32,9 +31,49 @@ class _ValidationState extends State<Validation> {
     return DateFormat.jm().format(now);
   }
 
+  int? credencial;
+  Future<int?> initializeData() async {
+      User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
+      if (userCredencial != null) {
+        String uid2 = userCredencial.uid;
+
+        DatabaseReference puxaCredencial =
+            FirebaseDatabase.instance.ref('users/$uid2/credencial');
+        puxaCredencial.onValue.listen((DatabaseEvent event) {
+          final dadin = event.snapshot.value;
+          if (mounted) {
+            setState(() {
+              credencial = dadin as int?;
+              print("A credencial é: $credencial");
+              if (credencial == 1) {
+                FirebaseFirestore.instance
+                    .collection("validações")
+                    .snapshots()
+                    .listen((QuerySnapshot snapshot) {
+                  snapshot.docChanges.forEach((change) {
+                    if (change.type == DocumentChangeType.added) {
+                      AwesomeNotifications().createNotification(
+                          content: NotificationContent(
+                              id: 1,
+                              channelKey: 'basic_channel',
+                              title: "Labmaker",
+                              body:
+                                  "Alguém fez uma solicitação de acesso, vem conferir!"));
+                    }
+                  });
+                });
+              }
+            });
+          }
+        });
+        
+      }
+      return credencial;
+    }
   @override
   void initState() {
     super.initState();
+    initializeData();
     AwesomeNotifications().setListeners(
         onActionReceivedMethod: NotificationController.onActionReceivedMethod,
         onNotificationCreatedMethod:
@@ -51,48 +90,14 @@ class _ValidationState extends State<Validation> {
         agora = hora;
       });
     });
-    Object? dados;
-    String? uu;
-    int? uu2;
+    
+    
 
-    Future<void> initializeData() async {
-      User? user = await FirebaseAuth.instance.authStateChanges().first;
-      if (user != null) {
-        String uid = user.uid;
+    
 
-        DatabaseReference starCountRef3 =
-            FirebaseDatabase.instance.ref('users/$uid/credencial');
-        starCountRef3.onValue.listen((DatabaseEvent event) {
-          final data = event.snapshot.value;
-          if (mounted) {
-            setState(() {
-              uu2 = data as int?;
-            });
-          }
-        });
-      }
-    }
-
-    print(uu2);
+    print(credencial);
 // ignore: unrelated_type_equality_checks
-    if (uu2 == null) {
-      FirebaseFirestore.instance
-          .collection("validações")
-          .snapshots()
-          .listen((QuerySnapshot snapshot) {
-        snapshot.docChanges.forEach((change) {
-          if (change.type == DocumentChangeType.added) {
-            AwesomeNotifications().createNotification(
-                content: NotificationContent(
-                    id: 1,
-                    channelKey: 'basic_channel',
-                    title: "Labmaker",
-                    body:
-                        "Alguém fez uma solicitação de acesso, vem conferir!"));
-          }
-        });
-      });
-    }
+    
   }
 
   pegarEmail(email) {
