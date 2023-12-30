@@ -51,6 +51,20 @@ class _ValidationState extends State<Validation> {
         agora = hora;
       });
     });
+
+    FirebaseFirestore.instance.collection("validações").snapshots().listen((QuerySnapshot snapshot) {
+      snapshot.docChanges.forEach((change) {
+        if (change.type == DocumentChangeType.added) {
+          AwesomeNotifications().createNotification(
+            content: NotificationContent(
+                id: 1,
+                channelKey: 'basic_channel',
+                title: "Labmaker",
+                body: "Alguém fez uma solicitação de acesso, vem conferir!"));
+
+        }
+      });
+    });
   }
 
   pegarEmail(email) {
