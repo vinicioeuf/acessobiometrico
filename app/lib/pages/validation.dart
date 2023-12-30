@@ -170,7 +170,7 @@ class _ValidationState extends State<Validation> {
         });
         // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
         AwesomeNotifications().createNotification(
-            content: NotificationContent(id: 1, channelKey: 'basic_channel', title: "Clique nesta porra", body: "Funciona por favor"));
+            content: NotificationContent(id: 1, channelKey: 'basic_channel', title: "Labmaker", body: "Alguém fez uma solicitação de acesso, vem conferir!"));
 
         showDialog(
           context: context,
