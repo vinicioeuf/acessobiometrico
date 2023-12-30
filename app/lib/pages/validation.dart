@@ -51,20 +51,48 @@ class _ValidationState extends State<Validation> {
         agora = hora;
       });
     });
+    Object? dados;
+    String? uu;
+    int? uu2;
 
-    FirebaseFirestore.instance.collection("validações").snapshots().listen((QuerySnapshot snapshot) {
-      snapshot.docChanges.forEach((change) {
-        if (change.type == DocumentChangeType.added) {
-          AwesomeNotifications().createNotification(
-            content: NotificationContent(
-                id: 1,
-                channelKey: 'basic_channel',
-                title: "Labmaker",
-                body: "Alguém fez uma solicitação de acesso, vem conferir!"));
+    Future<void> initializeData() async {
+      User? user = await FirebaseAuth.instance.authStateChanges().first;
+      if (user != null) {
+        String uid = user.uid;
 
-        }
+        DatabaseReference starCountRef3 =
+            FirebaseDatabase.instance.ref('users/$uid/credencial');
+        starCountRef3.onValue.listen((DatabaseEvent event) {
+          final data = event.snapshot.value;
+          if (mounted) {
+            setState(() {
+              uu2 = data as int?;
+            });
+          }
+        });
+      }
+    }
+
+    print(uu2);
+// ignore: unrelated_type_equality_checks
+    if (uu2 == null) {
+      FirebaseFirestore.instance
+          .collection("validações")
+          .snapshots()
+          .listen((QuerySnapshot snapshot) {
+        snapshot.docChanges.forEach((change) {
+          if (change.type == DocumentChangeType.added) {
+            AwesomeNotifications().createNotification(
+                content: NotificationContent(
+                    id: 1,
+                    channelKey: 'basic_channel',
+                    title: "Labmaker",
+                    body:
+                        "Alguém fez uma solicitação de acesso, vem conferir!"));
+          }
+        });
       });
-    });
+    }
   }
 
   pegarEmail(email) {
@@ -182,9 +210,6 @@ class _ValidationState extends State<Validation> {
           'tempo': selectedValuePeriodo,
           'tipoCurso': selectedValueTipo
         });
-        // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
-        AwesomeNotifications().createNotification(
-            content: NotificationContent(id: 1, channelKey: 'basic_channel', title: "Labmaker", body: "Alguém fez uma solicitação de acesso, vem conferir!"));
 
         showDialog(
           context: context,
