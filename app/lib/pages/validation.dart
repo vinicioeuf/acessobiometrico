@@ -1,4 +1,6 @@
+import 'package:app/notification_controller.dart';
 import 'package:app/services/firebase_message_service.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -29,9 +31,18 @@ class _ValidationState extends State<Validation> {
     final now = tz.TZDateTime.now(location);
     return DateFormat.jm().format(now);
   }
+
   @override
   void initState() {
     super.initState();
+    AwesomeNotifications().setListeners(
+        onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+        onNotificationCreatedMethod:
+            NotificationController.onNotificationCreateMethod,
+        onNotificationDisplayedMethod:
+            NotificationController.onNotificationDisplayedMethod,
+        onDismissActionReceivedMethod:
+            NotificationController.onDismissActionReceivedMethod);
     user = FirebaseAuth.instance.currentUser;
     photoURL = user?.photoURL;
     nome = user?.displayName;
@@ -41,6 +52,7 @@ class _ValidationState extends State<Validation> {
       });
     });
   }
+
   pegarEmail(email) {
     this.getEmail = email;
   }
@@ -48,7 +60,7 @@ class _ValidationState extends State<Validation> {
   pegarMatricula(matricula) {
     this.getMatricula = matricula;
   }
-  
+
   String? selectedValueVinculo = null;
   String? selectedValueTipo;
   String? selectedValueCurso;
@@ -95,94 +107,99 @@ class _ValidationState extends State<Validation> {
     '6º período'
   ];
 
+  void enviarValidacao() {
+    RegExp alunoRegex =
+        RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@aluno\.ifsertao-pe\.edu\.br$');
+    RegExp professorRegex =
+        RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@ifsertao-pe\.edu\.br$');
 
-void enviarValidacao() {
-  RegExp alunoRegex = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@aluno\.ifsertao-pe\.edu\.br$');
-  RegExp professorRegex = RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@ifsertao-pe\.edu\.br$');
-
-  if (getMatricula == null ||
-      getEmail == null ||
-      (!alunoRegex.hasMatch(getEmail!) && !professorRegex.hasMatch(getEmail!))) {
-    setState(() {
-      exibirMensagem = true;
-    });
-    print("Número de matrícula ou e-mail inválido");
-    
-    // Mostra um Toast para alertar o usuário sobre o erro
-    Fluttertoast.showToast(
-      msg: "Número de matrícula ou e-mail inválido",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
-  } else {
-    DocumentReference documentReference = FirebaseFirestore.instance
-        .collection("validações")
-        .doc(getMatricula!);
-
-    Map<String, dynamic> validacao = {
-      "email": getEmail,
-      "matricula": getMatricula,
-      "aguardando": true,
-      "autorizado": false,
-      "negado": false,
-      "vinculo": {
-        "curso": selectedValueCurso,
-        "tempo": selectedValuePeriodo,
-        "tipoCurso": selectedValueTipo,
-        "tipoVinculo": selectedValueVinculo,
-      },
-      "foto": photoURL,
-      "nome": nome,
-      "hora": agora
-    };
-
-    documentReference.set(validacao).whenComplete(() {
-      User? user = FirebaseAuth.instance.currentUser;
-      String uid = user!.uid;
-      // ignore: deprecated_member_use
-      DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
-      userRef.update({
-        'solicitou': true,
-        'matricula': getMatricula,
-        'vinculo': selectedValueVinculo,
-        'curso': selectedValueCurso,
-        'tempo': selectedValuePeriodo,
-        'tipoCurso': selectedValueTipo
+    if (getMatricula == null ||
+        getEmail == null ||
+        (!alunoRegex.hasMatch(getEmail!) &&
+            !professorRegex.hasMatch(getEmail!))) {
+      setState(() {
+        exibirMensagem = true;
       });
-      // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Sucesso'),
-            content: Text('A validação foi enviada com sucesso.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Fecha o AlertDialog
-                  Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => true);
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    });
-  }
-}
+      print("Número de matrícula ou e-mail inválido");
 
+      // Mostra um Toast para alertar o usuário sobre o erro
+      Fluttertoast.showToast(
+        msg: "Número de matrícula ou e-mail inválido",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    } else {
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection("validações")
+          .doc(getMatricula!);
+
+      Map<String, dynamic> validacao = {
+        "email": getEmail,
+        "matricula": getMatricula,
+        "aguardando": true,
+        "autorizado": false,
+        "negado": false,
+        "vinculo": {
+          "curso": selectedValueCurso,
+          "tempo": selectedValuePeriodo,
+          "tipoCurso": selectedValueTipo,
+          "tipoVinculo": selectedValueVinculo,
+        },
+        "foto": photoURL,
+        "nome": nome,
+        "hora": agora
+      };
+
+      documentReference.set(validacao).whenComplete(() {
+        User? user = FirebaseAuth.instance.currentUser;
+        String uid = user!.uid;
+        // ignore: deprecated_member_use
+        DatabaseReference userRef =
+            FirebaseDatabase.instance.reference().child('users').child(uid);
+        userRef.update({
+          'solicitou': true,
+          'matricula': getMatricula,
+          'vinculo': selectedValueVinculo,
+          'curso': selectedValueCurso,
+          'tempo': selectedValuePeriodo,
+          'tipoCurso': selectedValueTipo
+        });
+        // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
+        AwesomeNotifications().createNotification(
+            content: NotificationContent(id: 1, channelKey: 'basic_channel', title: "Clique nesta porra", body: "Funciona por favor"));
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Sucesso'),
+              content: Text('A validação foi enviada com sucesso.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Fecha o AlertDialog
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/home', (route) => true);
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          
           leading: IconButton(
             icon: Icon(Icons.arrow_circle_left_outlined, size: 40),
             onPressed: () {
@@ -197,7 +214,8 @@ void enviarValidacao() {
           ),
           backgroundColor: Colors.green[800],
           shadowColor: Colors.white,
-          iconTheme: IconThemeData(color: const Color.fromARGB(255, 255, 255, 255)),
+          iconTheme:
+              IconThemeData(color: const Color.fromARGB(255, 255, 255, 255)),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -213,7 +231,7 @@ void enviarValidacao() {
                     children: [
                       Text(
                         'E-mail Institucional:',
-                        style:  GoogleFonts.oswald(
+                        style: GoogleFonts.oswald(
                           fontSize: 16,
                           color: Colors.green[800],
                         ),
@@ -231,7 +249,7 @@ void enviarValidacao() {
                                 color: Color.fromARGB(255, 117, 115, 115)),
                             filled: true,
                             fillColor: Color.fromARGB(255, 238, 244, 236),
-                            labelStyle:  GoogleFonts.oswald(
+                            labelStyle: GoogleFonts.oswald(
                               fontWeight: FontWeight.bold,
                             ),
                             border: OutlineInputBorder(
@@ -249,7 +267,7 @@ void enviarValidacao() {
                     children: [
                       Text(
                         'Número Matrícula:',
-                        style:  GoogleFonts.oswald(
+                        style: GoogleFonts.oswald(
                           fontSize: 16,
                           color: Colors.green[800],
                         ),
@@ -267,7 +285,7 @@ void enviarValidacao() {
                                 color: Color.fromARGB(255, 117, 115, 115)),
                             filled: true,
                             fillColor: Color.fromARGB(255, 238, 244, 236),
-                            labelStyle:  GoogleFonts.oswald(
+                            labelStyle: GoogleFonts.oswald(
                               fontWeight: FontWeight.bold,
                             ),
                             border: OutlineInputBorder(
@@ -285,7 +303,7 @@ void enviarValidacao() {
                     children: [
                       Text(
                         'Vínculo:',
-                        style:  GoogleFonts.oswald(
+                        style: GoogleFonts.oswald(
                           fontSize: 16,
                           color: Colors.green[800],
                         ),
@@ -308,7 +326,7 @@ void enviarValidacao() {
                               selectedValuePeriodo = null;
                             });
                           },
-                          style:  GoogleFonts.oswald(
+                          style: GoogleFonts.oswald(
                               color: Color.fromARGB(255, 238, 244, 236),
                               fontSize: 16),
                           icon: Icon(Icons.arrow_drop_down,
@@ -328,7 +346,7 @@ void enviarValidacao() {
                                 padding: EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
                                   value,
-                                  style:  GoogleFonts.oswald(
+                                  style: GoogleFonts.oswald(
                                       color: Color.fromARGB(255, 117, 115, 115),
                                       fontSize: 16),
                                 ),
@@ -345,7 +363,7 @@ void enviarValidacao() {
                       children: [
                         Text(
                           'Tipo de Curso:',
-                          style:  GoogleFonts.oswald(
+                          style: GoogleFonts.oswald(
                             fontSize: 16,
                             color: Colors.green[800],
                           ),
@@ -366,7 +384,7 @@ void enviarValidacao() {
                                 selectedValuePeriodo = null;
                               });
                             },
-                            style:  GoogleFonts.oswald(
+                            style: GoogleFonts.oswald(
                                 color: Color.fromARGB(255, 238, 244, 236),
                                 fontSize: 16),
                             icon: Icon(Icons.arrow_drop_down,
@@ -380,7 +398,7 @@ void enviarValidacao() {
                                 value: value,
                                 child: Text(
                                   value,
-                                  style:  GoogleFonts.oswald(
+                                  style: GoogleFonts.oswald(
                                       color: Color.fromARGB(255, 117, 115, 115),
                                       fontSize: 16),
                                 ),
@@ -399,7 +417,7 @@ void enviarValidacao() {
                       children: [
                         Text(
                           'Curso:',
-                          style:  GoogleFonts.oswald(
+                          style: GoogleFonts.oswald(
                             fontSize: 16,
                             color: Colors.green[800],
                           ),
@@ -419,7 +437,7 @@ void enviarValidacao() {
                                 selectedValuePeriodo = null;
                               });
                             },
-                            style:  GoogleFonts.oswald(
+                            style: GoogleFonts.oswald(
                                 color: Color.fromARGB(255, 238, 244, 236),
                                 fontSize: 16),
                             icon: Icon(Icons.arrow_drop_down,
@@ -453,7 +471,7 @@ void enviarValidacao() {
                       children: [
                         Text(
                           'Período/Ano',
-                          style:  GoogleFonts.oswald(
+                          style: GoogleFonts.oswald(
                             fontSize: 16,
                             color: Colors.green[800],
                           ),
@@ -472,7 +490,7 @@ void enviarValidacao() {
                                 selectedValuePeriodo = newValue!;
                               });
                             },
-                            style:  GoogleFonts.oswald(
+                            style: GoogleFonts.oswald(
                                 color: Color.fromARGB(255, 238, 244, 236),
                                 fontSize: 16),
                             icon: Icon(Icons.arrow_drop_down,
@@ -491,7 +509,7 @@ void enviarValidacao() {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value,
-                                    style:  GoogleFonts.oswald(
+                                    style: GoogleFonts.oswald(
                                         color:
                                             Color.fromARGB(255, 117, 115, 115),
                                         fontSize: 16)),
@@ -504,20 +522,20 @@ void enviarValidacao() {
                     ),
                   SizedBox(height: 20),
                   if (exibirMensagem)
-                      Text(
-                        'Matrícula ou E-mail inválido',
-                        style:  GoogleFonts.oswald(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    Text(
+                      'Matrícula ou E-mail inválido',
+                      style: GoogleFonts.oswald(
+                        color: Colors.red,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
+                    ),
                   SizedBox(height: 20),
                   Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         await FirebaseMessage().initNotifications();
                         enviarValidacao();
                       },
@@ -530,13 +548,13 @@ void enviarValidacao() {
                       child: Text(
                         'Enviar',
                         style: GoogleFonts.oswald(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
+                  ),
                   SizedBox(height: 20),
                 ],
               )
