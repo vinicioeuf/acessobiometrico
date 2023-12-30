@@ -182,9 +182,6 @@ class _ValidationState extends State<Validation> {
           'tempo': selectedValuePeriodo,
           'tipoCurso': selectedValueTipo
         });
-        // Mostra um AlertDialog e redireciona para a HomePage quando o processo estiver completo
-        AwesomeNotifications().createNotification(
-            content: NotificationContent(id: 1, channelKey: 'basic_channel', title: "Labmaker", body: "Alguém fez uma solicitação de acesso, vem conferir!"));
 
         showDialog(
           context: context,
