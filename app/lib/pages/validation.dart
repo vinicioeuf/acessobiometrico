@@ -32,7 +32,36 @@ class _ValidationState extends State<Validation> {
   }
 
   int? credencial;
-  Future<int?> initializeData() async {
+  
+  @override
+  void initState() {
+    super.initState();
+    // initializeData();
+    AwesomeNotifications().setListeners(
+        onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+        onNotificationCreatedMethod:
+            NotificationController.onNotificationCreateMethod,
+        onNotificationDisplayedMethod:
+            NotificationController.onNotificationDisplayedMethod,
+        onDismissActionReceivedMethod:
+            NotificationController.onDismissActionReceivedMethod);
+    user = FirebaseAuth.instance.currentUser;
+    photoURL = user?.photoURL;
+    nome = user?.displayName;
+    _getHoraBrasil().then((hora) {
+      setState(() {
+        agora = hora;
+      });
+    });
+    
+    
+    
+
+    print(credencial);
+// ignore: unrelated_type_equality_checks
+    
+  }
+  Future<void> initializeData() async {
       User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
       if (userCredencial != null) {
         String uid2 = userCredencial.uid;
@@ -68,37 +97,7 @@ class _ValidationState extends State<Validation> {
         });
         
       }
-      return credencial;
     }
-  @override
-  void initState() {
-    super.initState();
-    initializeData();
-    AwesomeNotifications().setListeners(
-        onActionReceivedMethod: NotificationController.onActionReceivedMethod,
-        onNotificationCreatedMethod:
-            NotificationController.onNotificationCreateMethod,
-        onNotificationDisplayedMethod:
-            NotificationController.onNotificationDisplayedMethod,
-        onDismissActionReceivedMethod:
-            NotificationController.onDismissActionReceivedMethod);
-    user = FirebaseAuth.instance.currentUser;
-    photoURL = user?.photoURL;
-    nome = user?.displayName;
-    _getHoraBrasil().then((hora) {
-      setState(() {
-        agora = hora;
-      });
-    });
-    
-    
-
-    
-
-    print(credencial);
-// ignore: unrelated_type_equality_checks
-    
-  }
 
   pegarEmail(email) {
     this.getEmail = email;
@@ -580,6 +579,7 @@ class _ValidationState extends State<Validation> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
+                        initializeData();
                         await FirebaseMessage().initNotifications();
                         enviarValidacao();
                       },
