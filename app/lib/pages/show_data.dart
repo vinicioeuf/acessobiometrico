@@ -184,6 +184,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                               });
                               showDialog(
                                 context: context,
+                                barrierDismissible: false, 
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text('Solicitação aprovada!'),
@@ -227,6 +228,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                               });
                               showDialog(
                                 context: context,
+                                barrierDismissible: false, 
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text('Solicitação negada!'),

@@ -88,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
       await authService.registrar(nomeController.text, email.text, senha.text, foto.text);
       showDialog(
         context: context,
+        barrierDismissible: false, 
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Conta criada! Faça o login.'),
@@ -252,6 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                               } else {
                                 showDialog(
                                   context: context,
+                                  barrierDismissible: false, 
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: Text('Agora vamos escolher uma boa foto de perfil.'),

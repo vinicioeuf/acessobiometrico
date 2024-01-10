@@ -220,10 +220,11 @@ class _ValidationState extends State<Validation> {
 
         showDialog(
           context: context,
+          barrierDismissible: false, 
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('Sucesso'),
-              content: Text('A validação foi enviada com sucesso.'),
+              content: Text('A solicitação foi enviada com sucesso.'),
               actions: [
                 TextButton(
                   onPressed: () {
