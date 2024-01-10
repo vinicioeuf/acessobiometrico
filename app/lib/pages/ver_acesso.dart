@@ -1,6 +1,9 @@
+import 'dart:convert';
+
+// import 'package:app/pages/dog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:http/http.dart' as http;
 class VerAcesso extends StatefulWidget {
   const VerAcesso({super.key});
 
@@ -9,6 +12,32 @@ class VerAcesso extends StatefulWidget {
 }
 
 class _VerAcessoState extends State<VerAcesso> {
+  List<DogBreed> breeds = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+  Future<void> fetchData() async {
+    final response = await http.get(
+      Uri.parse('https://dogbreeddb.p.rapidapi.com/'),
+      headers: {
+        "X-RapidAPI-Key": "c3564955bfmsh215d19541e7ca79p11b5dfjsna3b5c6f6b0c8",
+        "X-RapidAPI-Host": "dogbreeddb.p.rapidapi.com",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      setState(() {
+        breeds = data.map((json) => DogBreed.fromJson(json)).toList();
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -254,6 +283,31 @@ class _VerAcessoState extends State<VerAcesso> {
               ))
         ],
       ),
+    );
+  }
+}
+class DogBreed {
+  final int id;
+  final String breedName;
+  final String breedType;
+  final String breedDescription;
+  final String imgThumb;
+
+  DogBreed({
+    required this.id,
+    required this.breedName,
+    required this.breedType,
+    required this.breedDescription,
+    required this.imgThumb,
+  });
+
+  factory DogBreed.fromJson(Map<String, dynamic> json) {
+    return DogBreed(
+      id: json['id'],
+      breedName: json['breedName'],
+      breedType: json['breedType'],
+      breedDescription: json['breedDescription'],
+      imgThumb: json['imgThumb'] ?? '',
     );
   }
 }

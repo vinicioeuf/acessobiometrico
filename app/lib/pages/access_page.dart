@@ -238,7 +238,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
             // Navegar para a HomePage quando o ícone de perfil for clicado
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DogPage()),
+              MaterialPageRoute(builder: (context) => VerAcesso()),
             );
           },
           child: Icon(
