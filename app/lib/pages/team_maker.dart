@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable, use_key_in_widget_constructors
 class TeamMakerPage extends StatelessWidget {
@@ -33,8 +34,23 @@ class TeamMakerPage extends StatelessWidget {
             padding: EdgeInsets.all(20),
             children: <Widget>[
               SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+              child:
+                Text("DOCENTES", style: GoogleFonts.oswald(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.green[700]),),
+
+              ),
+              SizedBox(height: 10),
               buildTeamMember('assets/imagens/PLemos.jpg', 'Pedro', 'Coordenador do Labmaker', 'Doutor em Química (UFPB). Licenciado em Química (UFRPE). Mestre em Química (UFRPE/Universidade de Coimbra). Professor EBTT do IFSertãoPE - Campus Salgueiro.'),
               SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+              child:
+                Text("DISCENTES", style: GoogleFonts.oswald(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.green[700]),),
+
+              ),
               buildTeamMember('assets/imagens/viniEufrazio.jpg', 'Vinicio Eufrazio', 'Desenvolvedor Backend', 'Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Técnico em Informática (IFSertãoPE), Administrador de sites na K1Digital.'),
               SizedBox(height: 10),
               buildTeamMember('assets/imagens/vicCarlos.jpg', 'Victor Carlos', 'Desenvolvedor Frontend', 'Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Técnico em Informática (IFSertãoPE).'),
