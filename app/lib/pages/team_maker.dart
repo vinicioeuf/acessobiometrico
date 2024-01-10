@@ -81,6 +81,8 @@ class TeamMakerPage extends StatelessWidget {
               buildTeamMember('assets/imagens/viniEufrazio.jpg', 'Vinicio Eufrazio', 'Bolsista', 'Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Técnico em Informática (IFSertãoPE), Administrador de sites na K1Digital.'),
               SizedBox(height: 10),
               buildTeamMember('assets/imagens/vicCarlos.jpg', 'Victor Carlos', 'Bolsista', 'Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Técnico em Informática (IFSertãoPE).'),
+              SizedBox(height: 10),
+              buildTeamMember('assets/imagens/alanny.jpg', 'Alanny Barbosa', 'Membro', 'Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Técnica em Agropecuária (IFSertãoPE).'),
             ],
           ),
         ),

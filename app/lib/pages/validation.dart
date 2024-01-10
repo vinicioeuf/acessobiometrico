@@ -228,7 +228,7 @@ class _ValidationState extends State<Validation> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(); // Fecha o AlertDialog
-                    Navigator.of(context).pushReplacementNamed('/login');
+                    Navigator.of(context).pushReplacementNamed('/home');
                   },
                   child: Text('OK'),
                 ),
