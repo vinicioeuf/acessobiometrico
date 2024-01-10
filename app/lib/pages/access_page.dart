@@ -1,7 +1,8 @@
-import 'package:app/pages/dog.dart';
+import 'dart:convert';
 import 'package:app/pages/ver_acesso.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class AccessPage extends StatefulWidget {
   const AccessPage({Key? key}) : super(key: key);
@@ -11,6 +12,32 @@ class AccessPage extends StatefulWidget {
 }
 
 class _AccessPageState extends State<AccessPage> {
+  List<DogBreed> breeds = [];
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final response = await http.get(
+      Uri.parse('https://dogbreeddb.p.rapidapi.com/'),
+      headers: {
+        "X-RapidAPI-Key": "c3564955bfmsh215d19541e7ca79p11b5dfjsna3b5c6f6b0c8",
+        "X-RapidAPI-Host": "dogbreeddb.p.rapidapi.com",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      setState(() {
+        breeds = data.map((json) => DogBreed.fromJson(json)).toList();
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
   int selectedIndex = 0;
 
   @override
@@ -129,42 +156,18 @@ class _AccessPageState extends State<AccessPage> {
                 ],
               ),
               SizedBox(height: 30),
-              Acessos(
-                  context,
-                  'assets/imagens/leoCampello.jpg',
-                  "Leonardo Campello",
-                  "Professor",
-                  "Saiu",
-                  "13:56",
-                  "20/10/2023"),
-              Acessos(
-                  context,
-                  'assets/imagens/viniEufrazio.jpg',
-                  "Vinicio Eufrazio",
-                  "Bolsista",
-                  "Saiu",
-                  "13:53",
-                  "20/10/2023"),
-              Acessos(context, 'assets/imagens/vicCarlos.jpg', "Álvaro Victor",
-                  "Bolsista", "Saiu", "13:53", "20/10/2023"),
-              Acessos(
-                  context,
-                  'assets/imagens/leoCampello.jpg',
-                  "Leonardo Campello",
-                  "Professor",
-                  "Entrou",
-                  "07:53",
-                  "20/10/2023"),
-              Acessos(
-                  context,
-                  'assets/imagens/viniEufrazio.jpg',
-                  "Vinicio Eufrazio",
-                  "Bolsista",
-                  "Entrou",
-                  "07:45",
-                  "20/10/2023"),
-              Acessos(context, 'assets/imagens/vicCarlos.jpg', "Álvaro Victor",
-                  "Bolsista", "Entrou", "07:45", "20/10/2023"),
+              ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return Acessos(
+                        context,
+                        breeds[index].imgThumb,
+                        breeds[index].breedName,
+                        breeds[index].breedType,
+                        "Saiu",
+                        "13:56",
+                        "20/10/2023");
+                  }),
             ],
           ),
         ),
@@ -177,7 +180,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
     String estado, String hora, String data) {
   return Container(
     margin: EdgeInsets.all(8),
-                padding: EdgeInsets.all(8),
+    padding: EdgeInsets.all(8),
     width: MediaQuery.of(context).size.width,
     child: Wrap(
       alignment: WrapAlignment.start,
@@ -227,54 +230,77 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
           ),
         ),
         Container(
-            width: 0.2*MediaQuery.of(context).size.width,
-            height: 60,
-            alignment: Alignment.centerRight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-          onTap: () {
-            // Navegar para a HomePage quando o ícone de perfil for clicado
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DogPage()),
-            );
-          },
-          child: Icon(
-            Icons.double_arrow_sharp,
-            size: 35.0,
-            color: Colors.green[800],
-          ),
-        ),
-            ]
+          width: 0.2 * MediaQuery.of(context).size.width,
+          height: 60,
+          alignment: Alignment.centerRight,
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            GestureDetector(
+              onTap: () {
+                // Navegar para a HomePage quando o ícone de perfil for clicado
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VerAcesso()),
+                );
+              },
+              child: Icon(
+                Icons.double_arrow_sharp,
+                size: 35.0,
+                color: Colors.green[800],
+              ),
             ),
-      ),
-            // child: ElevatedButton(
-            //     onPressed: () {},
-            //     style: ElevatedButton.styleFrom(
-            //       shape: RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.circular(30.0),
-            //             ),
-            //       fixedSize: Size(MediaQuery.of(context).size.width, 50),
-            //       primary: Colors.white,
-            //     ),
-            //     child: Text('Ver Mais',
-            //         style: GoogleFonts.oswald(
-            //           textStyle: TextStyle(
-            //             fontSize: 20.0,
-            //             color: Colors.green[800],
-            //           ),
-            //         )
-            //         )
-            //         )
-            SizedBox(height: 5),
-      Container(
-        color: Colors.grey,
-        width: MediaQuery.of(context).size.width,
-        height: 1,
-      )
+          ]),
+        ),
+        // child: ElevatedButton(
+        //     onPressed: () {},
+        //     style: ElevatedButton.styleFrom(
+        //       shape: RoundedRectangleBorder(
+        //               borderRadius: BorderRadius.circular(30.0),
+        //             ),
+        //       fixedSize: Size(MediaQuery.of(context).size.width, 50),
+        //       primary: Colors.white,
+        //     ),
+        //     child: Text('Ver Mais',
+        //         style: GoogleFonts.oswald(
+        //           textStyle: TextStyle(
+        //             fontSize: 20.0,
+        //             color: Colors.green[800],
+        //           ),
+        //         )
+        //         )
+        //         )
+        SizedBox(height: 5),
+        Container(
+          color: Colors.grey,
+          width: MediaQuery.of(context).size.width,
+          height: 1,
+        )
       ],
     ),
   );
+}
+
+class DogBreed {
+  final int id;
+  final String breedName;
+  final String breedType;
+  final String breedDescription;
+  final String imgThumb;
+
+  DogBreed({
+    required this.id,
+    required this.breedName,
+    required this.breedType,
+    required this.breedDescription,
+    required this.imgThumb,
+  });
+
+  factory DogBreed.fromJson(Map<String, dynamic> json) {
+    return DogBreed(
+      id: json['id'],
+      breedName: json['breedName'],
+      breedType: json['breedType'],
+      breedDescription: json['breedDescription'],
+      imgThumb: json['imgThumb'] ?? '',
+    );
+  }
 }
