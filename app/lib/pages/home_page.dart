@@ -1,4 +1,5 @@
 import 'package:app/pages/access_page.dart';
+import 'package:app/pages/dog.dart';
 import 'package:app/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'about_page.dart';
