@@ -250,7 +250,24 @@ class _LoginPageState extends State<LoginPage> {
                               if (isLogin) {
                                 login();
                               } else {
-                                registrar();
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Agora vamos escolher uma boa foto de perfil.'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Ok'),
+                                          onPressed: () {
+                                            registrar(); // Substitui a rota da página atual pela página de login
+                                            Navigator.of(context).pop(); // Fecha o diálogo
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                // registrar();
                               }
                             }
                           },
