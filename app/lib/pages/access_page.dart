@@ -42,30 +42,44 @@ class _AccessPageState extends State<AccessPage> {
   int selectedIndex = 0;
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body:
-          ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            if (breeds.isEmpty) {
-              return Text("No data available");
-            }
-            return Acessos(
-              context,
-              breeds[index].imgThumb,
-              breeds[index].breedName,
-              breeds[index].breedType,
-              "Saiu",
-              "13:56",
-              "20/10/2023",
-            );
-          },
-        ),
-      ),
-    );
+Widget build(BuildContext context) {
+  Widget getContent() {
+    if (breeds.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator(color: Colors.green,),
+      );
+    } else {
+      return ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return Acessos(
+            context,
+            breeds[index].imgThumb,
+            breeds[index].breedName,
+            breeds[index].breedType,
+            "Saiu",
+            "13:56",
+            "20/10/2023",
+          );
+        },
+      );
+    }
   }
+
+  return MaterialApp(
+    home: Scaffold(
+      body: Column(
+        children: [
+          Enfeites(),
+          Expanded(
+            child: getContent(),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 }
 
 class DogBreed {
@@ -93,7 +107,125 @@ class DogBreed {
     );
   }
 }
-
+@override
+// ignore: non_constant_identifier_names
+Widget Enfeites(){
+  return SingleChildScrollView(
+    child: Column(
+      mainAxisAlignment:
+          MainAxisAlignment.center, // Centraliza verticalmente
+      children: [
+        SizedBox(height: 35),
+        Center(
+          child: Image.asset("assets/imagens/labmaker-navbar2.jpg"),
+        ),
+        Divider(
+          height: 1,
+          color: Colors.grey,
+        ),
+        Center(
+          child: RichText(
+            text: TextSpan(
+              text: 'Acessos ao LabMaker',
+              style: GoogleFonts.oswald(
+                textStyle: TextStyle(
+                  color: Color.fromARGB(255, 36, 64, 25),
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 30),
+        Wrap(
+          alignment: WrapAlignment.spaceAround,
+          children: [
+            Container(
+              width: 100.0, // Largura desejada
+              child: ElevatedButton(
+                onPressed: () {
+                  // Ação para 24h
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[800],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+                child: Text(
+                  '24h',
+                  style: GoogleFonts.oswald(
+                    textStyle: TextStyle(
+                      fontSize: 17, // Tamanho de fonte aumentado
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 20.0,
+              height: 40.0,
+            ), // Espaçamento entre os botões
+            Container(
+              width: 100.0, // Largura desejada
+              child: ElevatedButton(
+                onPressed: () {
+                  // Ação para 7 dias
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[800],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+                child: Text(
+                  '7 dias',
+                  style: GoogleFonts.oswald(
+                    textStyle: TextStyle(
+                      fontSize: 17, // Tamanho de fonte aumentado
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 20.0,
+              height: 40.0,
+            ), // Espaçamento entre os botões
+            // Espaçamento entre os botões // Espaçamento entre os botões
+            Container(
+              width: 100.0, // Largura desejada
+              child: ElevatedButton(
+                onPressed: () {
+                  // Ação para 30 dias
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[800]!,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+                child: Text(
+                  '30 dias',
+                  style: GoogleFonts.oswald(
+                    textStyle: TextStyle(
+                      fontSize: 17, // Tamanho de fonte aumentado
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 5),
+      ]
+    )
+  );
+}
 Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
     String estado, String hora, String data) {
   return Container(
