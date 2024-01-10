@@ -33,7 +33,7 @@ class TeamMakerPage extends StatelessWidget {
             padding: EdgeInsets.all(20),
             children: <Widget>[
               SizedBox(height: 10),
-              buildTeamMember('assets/imagens/PLemos.jpg', 'Pedro', 'Professor...', 'Professor EBTT do IFSertãoPE - Campus Salgueiro.'),
+              buildTeamMember('assets/imagens/PLemos.jpg', 'Pedro', 'Coordenador do Labmaker', 'Doutor em Química (UFPB). Licenciado em Química (UFRPE). Mestre em Química (UFRPE/Universidade de Coimbra). Professor EBTT do IFSertãoPE - Campus Salgueiro.'),
               SizedBox(height: 10),
               buildTeamMember('assets/imagens/viniEufrazio.jpg', 'Vinicio Eufrazio', 'Desenvolvedor Backend', 'Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Técnico em Informática (IFSertãoPE), Administrador de sites na K1Digital.'),
               SizedBox(height: 10),

@@ -36,7 +36,7 @@ class _ValidationState extends State<Validation> {
   @override
   void initState() {
     super.initState();
-    // initializeData();
+    enviaNotificacao();
     AwesomeNotifications().setListeners(
         onActionReceivedMethod: NotificationController.onActionReceivedMethod,
         onNotificationCreatedMethod:
@@ -61,7 +61,7 @@ class _ValidationState extends State<Validation> {
 // ignore: unrelated_type_equality_checks
     
   }
-  Future<void> initializeData() async {
+  Future<void> enviaNotificacao() async {
       User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
       if (userCredencial != null) {
         String uid2 = userCredencial.uid;
@@ -91,6 +91,9 @@ class _ValidationState extends State<Validation> {
                     }
                   });
                 });
+              }
+              else{
+                print("Veja se agora vai.");
               }
             });
           }
@@ -579,7 +582,7 @@ class _ValidationState extends State<Validation> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
-                        initializeData();
+                        enviaNotificacao();
                         await FirebaseMessage().initNotifications();
                         enviarValidacao();
                       },
