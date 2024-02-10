@@ -1,72 +1,24 @@
 import 'dart:convert';
 
 // import 'package:app/pages/dog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-class VerAcesso extends StatefulWidget {
-  const VerAcesso({super.key});
+class PublicAcess extends StatefulWidget {
+  const PublicAcess({super.key});
 
   @override
-  State<VerAcesso> createState() => _VerAcessoState();
+  State<PublicAcess> createState() => _PublicAcessState();
 }
 
-class _VerAcessoState extends State<VerAcesso> {
+class _PublicAcessState extends State<PublicAcess> {
   List<DogBreed> breeds = [];
-  String? abc;
-  String? vinculo;
+
   @override
   void initState() {
     super.initState();
     fetchData();
-    abccc();
-    // getTipoVinculo(getMatriculaDoUsuarioAtual() as String);
   }
-  Future<String> getTipoVinculo(String matricula) async {
-    var doc = await FirebaseFirestore.instance.collection('validações').doc(matricula).get();
-    if (doc.exists) {
-      return doc.data()?['vinculo']['tipoVinculo'];
-    } else {
-      return 'Vínculo não encontrado';
-    }
-  }
-  
-  Future<void> abccc() async {
-    User? user = await FirebaseAuth.instance.authStateChanges().first;
-    if (user != null) {
-      String uid = user.uid;
-      DatabaseReference starCountRef =
-          FirebaseDatabase.instance.ref('users/$uid/vinculo');
-      starCountRef.onValue.listen((DatabaseEvent event) {
-        final datado = event.snapshot.value;
-        if (mounted) {
-          setState(() {
-            vinculo = datado as String?;
-            print(vinculo);
-          });
-        }
-      });
-      DatabaseReference starCountRef2 =
-          FirebaseDatabase.instance.ref('users/$uid/matricula');
-      starCountRef2.onValue.listen((DatabaseEvent event) {
-        final data = event.snapshot.value;
-        if (mounted) {
-          setState(() {
-            abc = data as String?;
-          });
-        }
-      });
-    }
-  }
-  Future<String> getVinculo() async {
-    DocumentSnapshot document = await FirebaseFirestore.instance.collection('validações').doc(abc).get();
-    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-    return data['vinculo']['tipoVinculo'];
-  }
-  
   Future<void> fetchData() async {
     final response = await http.get(
       Uri.parse('https://dogbreeddb.p.rapidapi.com/'),
@@ -84,9 +36,8 @@ class _VerAcessoState extends State<VerAcesso> {
     } else {
       throw Exception('Failed to load data');
     }
-  print('A matricula é: $abc');
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -94,8 +45,14 @@ class _VerAcessoState extends State<VerAcesso> {
             appBar: AppBar(
               centerTitle: true,
               elevation: 0,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_circle_left_outlined, size: 40),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
               title: Text(
-                "SEUS ACESSOS",
+                "VER MAIS",
                 style: GoogleFonts.oswald(
                     fontWeight: FontWeight.bold,
                     color: const Color.fromARGB(255, 255, 255, 255)),
@@ -126,76 +83,42 @@ class _VerAcessoState extends State<VerAcesso> {
                       alignment: Alignment.center,
                       child: Transform.translate(
                         offset: Offset(0, -80),
-                        child: FutureBuilder<User?>(
-                          future: FirebaseAuth.instance.authStateChanges().first,
-                          builder:
-                            (BuildContext context, AsyncSnapshot<User?> snapshot) {
-                          if (snapshot.hasData) {
-                            User? user = snapshot.data;
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Container(
-                                        child: CircleAvatar(
-                                          radius: 75,
-                                          backgroundImage: NetworkImage(user!.photoURL ?? '')
-                                        ),
-                                      ),
-                                    ],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    child: CircleAvatar(
+                                      radius: 75,
+                                      backgroundImage: AssetImage(
+                                          'assets/imagens/vicCarlos.jpg'),
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '${user.displayName}',
-                                  style:GoogleFonts.oswald(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 5),
-                                Text(
-                                  '${vinculo as String?}',
-                                  style: GoogleFonts.oswald(
-                                      color: Colors.grey,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            );
-                          }
-                           else {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Container(
-                                        child: CircleAvatar(
-                                          radius: 75,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
-                            );
-                          }
-                            
-                        }
-
-                      ),
-                    ),
-                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              "Álvaro Victor",
+                              style:GoogleFonts.oswald(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Bolsista",
+                              style: GoogleFonts.oswald(
+                                  color: Colors.grey,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      )),
                   Container(
                       width: double.infinity,
                       alignment: Alignment.center,
@@ -269,27 +192,27 @@ class _VerAcessoState extends State<VerAcesso> {
                   SizedBox(height: 15),
                   info(context, "PER/ANO:", "3º PERÍODO"),
                   SizedBox(height: 15),
-                  // Container(
-                  //   alignment: Alignment.center,
-                  //   width: 0.9 * MediaQuery.of(context).size.width,
-                  //   child: Container(
-                  //     width: 0.9 * MediaQuery.of(context).size.width,
-                  //     height: 50,
-                  //     alignment: Alignment.center,
-                  //     decoration: BoxDecoration(
-                  //       color: Colors.red, // Cor de fundo do Container interno
-                  //       borderRadius: BorderRadius.circular(30.0),
-                  //     ),
-                  //     child: Text(
-                  //       "DENUNCIAR",
-                  //       style: GoogleFonts.oswald(
-                  //         color: Color.fromARGB(255, 255, 255, 255),
-                  //         fontSize: 20,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  Container(
+                    alignment: Alignment.center,
+                    width: 0.9 * MediaQuery.of(context).size.width,
+                    child: Container(
+                      width: 0.9 * MediaQuery.of(context).size.width,
+                      height: 50,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.red, // Cor de fundo do Container interno
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: Text(
+                        "DENUNCIAR",
+                        style: GoogleFonts.oswald(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ))));

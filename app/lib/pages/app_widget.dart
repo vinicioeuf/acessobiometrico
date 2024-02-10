@@ -1,3 +1,4 @@
+import 'package:app/pages/public_acess.dart';
 import 'package:app/pages/slash_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/login_page.dart';
@@ -5,6 +6,7 @@ import 'package:app/pages/profile_page.dart';
 import 'package:app/pages/about_page.dart';
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/team_dev.dart';
+import 'package:app/pages/ver_acesso.dart';
 import 'package:app/widgets/auth_check.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/show_data.dart';
@@ -42,6 +44,9 @@ class AppWidget extends StatelessWidget {
   '/profile': (_) => ProfilePage(),
   '/teamDev': (_) => TeamDevPage(),
   '/show': (_) => ValidacoesScreen(),
+  '/ver_acesso': (_) => VerAcesso(),
+  '/public_acess': (_) => PublicAcess(),
+  
 },
 
       home: AuthCheck(),
