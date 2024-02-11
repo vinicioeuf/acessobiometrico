@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:app/services/prefs_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,6 +57,8 @@ class AuthService extends ChangeNotifier {
         if (user != null) {
           String uid = user.uid; // Obter o UID do usuário
           DatabaseReference newUserRef = ref.child(uid); // Usar o UID como nome da referência
+          
+
           await newUserRef.set({
             "nome": nome,
             "email": email,
@@ -70,7 +73,7 @@ class AuthService extends ChangeNotifier {
             "curso": null,
             "tempo": null,
             "tipoCurso": null,
-
+            "idBiometria": null,
 
           });
         }

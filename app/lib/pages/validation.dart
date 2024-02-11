@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app/notification_controller.dart';
 import 'package:app/services/firebase_message_service.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -185,7 +187,8 @@ class _ValidationState extends State<Validation> {
       DocumentReference documentReference = FirebaseFirestore.instance
           .collection("validações")
           .doc(getMatricula!);
-
+      Random random = new Random();
+      int idBiometria = random.nextInt(100) + 1; 
       Map<String, dynamic> validacao = {
         "email": getEmail,
         "matricula": getMatricula,
@@ -200,7 +203,8 @@ class _ValidationState extends State<Validation> {
         },
         "foto": photoURL,
         "nome": nome,
-        "hora": agora
+        "hora": agora,
+        "idBiometria": idBiometria
       };
 
       documentReference.set(validacao).whenComplete(() {

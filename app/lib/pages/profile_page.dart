@@ -268,7 +268,7 @@ void dispose() {
                           info(context, "STATUS:", "STATUS", estado,
                               false, 6),
                           SizedBox(height: 10),
-                          info(context, "ID:", "ID", "3277247099032978773",
+                          info(context, "ID:", "ID DA BIOMETRIA", "${data['idBiometria']}",
                               true, 0),
                           SizedBox(height: 10),
                           info(context, "E-MAIL:", "E-MAIL", '${data['email']}',
