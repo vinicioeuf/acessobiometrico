@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:google_fonts/google_fonts.dart';
 // ignore: depend_on_referenced_packages
 import 'package:fluttertoast/fluttertoast.dart';
@@ -185,6 +186,8 @@ class _ValidationState extends State<Validation> {
       DocumentReference documentReference = FirebaseFirestore.instance
           .collection("validações")
           .doc(getMatricula!);
+      Random random = new Random();
+      int idBiometria = random.nextInt(100) + 1;
 
       Map<String, dynamic> validacao = {
         "email": getEmail,
@@ -200,7 +203,8 @@ class _ValidationState extends State<Validation> {
         },
         "foto": photoURL,
         "nome": nome,
-        "hora": agora
+        "hora": agora,
+        "idBiometria": idBiometria
       };
 
       documentReference.set(validacao).whenComplete(() {
