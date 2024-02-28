@@ -15,7 +15,7 @@ class VerAcesso extends StatefulWidget {
 }
 
 class _VerAcessoState extends State<VerAcesso> {
-  Map<String, dynamic>? userData;
+  List<DogBreed> breeds = [];
   String? abc;
   String? vinculo;
   @override
@@ -68,25 +68,27 @@ class _VerAcessoState extends State<VerAcesso> {
   }
   
   Future<void> fetchData() async {
-    final response = await http.get(Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/'));
+    final response = await http.get(
+      Uri.parse('https://dogbreeddb.p.rapidapi.com/'),
+      headers: {
+        "X-RapidAPI-Key": "c3564955bfmsh215d19541e7ca79p11b5dfjsna3b5c6f6b0c8",
+        "X-RapidAPI-Host": "dogbreeddb.p.rapidapi.com",
+      },
+    );
+
     if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
       setState(() {
-        userData = json.decode(response.body);
-        // print(userData);
+        breeds = data.map((json) => DogBreed.fromJson(json)).toList();
       });
     } else {
       throw Exception('Failed to load data');
     }
+  print('A matricula é: $abc');
   }
   
   @override
   Widget build(BuildContext context) {
-    String? emailAPI = userData?['usuarios'][0]['email'];
-    int? idBiometriaAPI = userData?['usuarios'][0]['idBiometria'];
-    int? horas = userData?['usuarios'][0]['horas'];
-    int? entradas = userData?['usuarios'][0]['entradas'];
-    int? saidas = userData?['usuarios'][0]['saidas'];
-    // print("O EMAIL È: {$emailAPI}");
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
@@ -213,7 +215,7 @@ class _VerAcessoState extends State<VerAcesso> {
                                       fontSize: 15),
                                 ),
                                 Text(
-                                  "${horas}h",
+                                  "67h",
                                   style: GoogleFonts.oswald(
                                       color: Colors.black,
                                       fontSize: 15),
@@ -232,7 +234,7 @@ class _VerAcessoState extends State<VerAcesso> {
                                       fontSize: 15),
                                 ),
                                 Text(
-                                  "${entradas}",
+                                  "13",
                                   style: GoogleFonts.oswald(
                                       color: Colors.black,
                                       fontSize: 15),
@@ -251,7 +253,7 @@ class _VerAcessoState extends State<VerAcesso> {
                                       fontSize: 15),
                                 ),
                                 Text(
-                                  "${saidas}",
+                                  "13",
                                   style: GoogleFonts.oswald(
                                       color: Colors.black,
                                       fontSize: 15),
@@ -363,26 +365,26 @@ class _VerAcessoState extends State<VerAcesso> {
 }
 class DogBreed {
   final int id;
-  final String emailAPI;
-  final String horas;
-  final String entradas;
-  final String saidas;
+  final String breedName;
+  final String breedType;
+  final String breedDescription;
+  final String imgThumb;
 
   DogBreed({
     required this.id,
-    required this.emailAPI,
-    required this.horas,
-    required this.entradas,
-    required this.saidas,
+    required this.breedName,
+    required this.breedType,
+    required this.breedDescription,
+    required this.imgThumb,
   });
 
   factory DogBreed.fromJson(Map<String, dynamic> json) {
     return DogBreed(
-      id: json['_id'],
-      emailAPI: json['email'],
-      horas: json['horas'],
-      entradas: json['entradas'],
-      saidas: json['saidas'] ?? '',
+      id: json['id'],
+      breedName: json['breedName'],
+      breedType: json['breedType'],
+      breedDescription: json['breedDescription'],
+      imgThumb: json['imgThumb'] ?? '',
     );
   }
 }
