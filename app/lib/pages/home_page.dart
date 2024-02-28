@@ -1,9 +1,6 @@
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/dog.dart';
 import 'package:app/pages/profile_page.dart';
-import 'package:app/pages/ver_acesso.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'about_page.dart';
 
@@ -18,39 +15,20 @@ class HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   int paginaAtual = 0;
   late PageController pc;
-  Object? cre;
   bool showTutorial = true; // Adiciona um estado para controlar a exibição do tutorial
 
   @override
   void initState() {
     super.initState();
-    iniciar();
     pc = PageController(initialPage: paginaAtual);
   }
-  Future<void> iniciar() async {
-    User? user = await FirebaseAuth.instance.authStateChanges().first;
-    if (user != null) {
-      String uid = user.uid;
 
-      DatabaseReference starCountRef =
-          FirebaseDatabase.instance.ref('users/$uid/credencial');
-      starCountRef.onValue.listen((DatabaseEvent event) {
-        final data = event.snapshot.value;
-        if (mounted) {
-          setState(() {
-            cre = data as int?;
-          });
-        }
-      });
-    }
-  }
   setPaginaAtual(pagina) {
     setState(() {
       paginaAtual = pagina;
     });
-  print("O CRE é: $cre");
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -60,10 +38,7 @@ class HomePageState extends State<HomePage> {
             PageView(
               controller: pc,
               children: [
-                if(cre == 0)
-                  VerAcesso(),
-                if (cre == 1)
-                  AccessPage(),
+                AccessPage(),
                 ProfilePage(),
                 AboutPage(),
               ],
