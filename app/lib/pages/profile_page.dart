@@ -151,12 +151,22 @@ void dispose() {
                               alignment: Alignment.center,
                               children: [
                                 Container(
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(user!.photoURL ?? ''),
-                                    radius: 75,
-                                  ),
-                                )
+                                    child: Stack(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 75,
+                                          backgroundImage: NetworkImage(user!.photoURL ?? ''),
+                                          backgroundColor: Colors.grey, // Define uma cor de fundo enquanto a imagem está sendo carregada
+                                        ),
+                                        Positioned.fill(
+                                          child: Center(
+                                            child: CircularProgressIndicator(), // CircularProgress enquanto a imagem está sendo carregada
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+
                               ],
                             ),
                           ),
