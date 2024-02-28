@@ -20,22 +20,37 @@ class _AccessPageState extends State<AccessPage> {
     fetchData();
   }
 
+  @override
+  void dispose() {
+    // Certifique-se de cancelar qualquer operação assíncrona ou animação aqui
+    super.dispose();
+  }
+
   Future<void> fetchData() async {
-    final response = await http.get(
-      Uri.parse('https://dogbreeddb.p.rapidapi.com/'),
-      headers: {
-        "X-RapidAPI-Key": "c3564955bfmsh215d19541e7ca79p11b5dfjsna3b5c6f6b0c8",
-        "X-RapidAPI-Host": "dogbreeddb.p.rapidapi.com",
-      },
-    );
-    print(response.body);
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      setState(() {
-        breeds = data.map((json) => DogBreed.fromJson(json)).toList();
-      });
-    } else {
-      throw Exception('Failed to load data');
+    try {
+      final response = await http.get(
+        Uri.parse('https://dogbreeddb.p.rapidapi.com/'),
+        headers: {
+          "X-RapidAPI-Key": "c3564955bfmsh215d19541e7ca79p11b5dfjsna3b5c6f6b0c8",
+          "X-RapidAPI-Host": "dogbreeddb.p.rapidapi.com",
+        },
+      );
+
+      // Verifique se o widget ainda está montado antes de chamar setState
+      if (mounted) {
+        print(response.body);
+        if (response.statusCode == 200) {
+          final List<dynamic> data = json.decode(response.body);
+          setState(() {
+            breeds = data.map((json) => DogBreed.fromJson(json)).toList();
+          });
+        } else {
+          throw Exception('Failed to load data');
+        }
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      // Lidar com o erro, se necessário
     }
   }
 
