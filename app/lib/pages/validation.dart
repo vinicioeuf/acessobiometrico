@@ -246,11 +246,11 @@ class _ValidationState extends State<Validation> {
           final response = await http.post(
             Uri.parse("http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuarios"),
             body: {
-              // "_id": user.uid,
+
               "nome": nome,
               "email": getEmail,
-              "idMatricula": getMatricula,
-              "foto": user.photoURL
+              "idBiometria": idBiometria,
+              "foto": photoURL
             },
           );
 
