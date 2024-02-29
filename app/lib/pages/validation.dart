@@ -23,6 +23,7 @@ class Validation extends StatefulWidget {
 }
 
 class _ValidationState extends State<Validation> {
+  bool isLoading = false;
   late User? user;
   late String? photoURL;
   late String? nome;
@@ -37,7 +38,7 @@ class _ValidationState extends State<Validation> {
   }
 
   int? credencial;
-  
+
   @override
   void initState() {
     super.initState();
@@ -58,54 +59,49 @@ class _ValidationState extends State<Validation> {
         agora = hora;
       });
     });
-    
-    
-    
 
     print(credencial);
 // ignore: unrelated_type_equality_checks
-    
   }
-  Future<void> enviaNotificacao() async {
-      User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
-      if (userCredencial != null) {
-        String uid2 = userCredencial.uid;
 
-        DatabaseReference puxaCredencial =
-            FirebaseDatabase.instance.ref('users/$uid2/credencial');
-        puxaCredencial.onValue.listen((DatabaseEvent event) {
-          final dadin = event.snapshot.value;
-          if (mounted) {
-            setState(() {
-              credencial = dadin as int?;
-              print("A credencial é: $credencial");
-              if (credencial == 1) {
-                FirebaseFirestore.instance
-                    .collection("validações")
-                    .snapshots()
-                    .listen((QuerySnapshot snapshot) {
-                  snapshot.docChanges.forEach((change) {
-                    if (change.type == DocumentChangeType.added) {
-                      AwesomeNotifications().createNotification(
-                          content: NotificationContent(
-                              id: 1,
-                              channelKey: 'basic_channel',
-                              title: "Labmaker",
-                              body:
-                                  "Alguém fez uma solicitação de acesso, vem conferir!"));
-                    }
-                  });
+  Future<void> enviaNotificacao() async {
+    User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
+    if (userCredencial != null) {
+      String uid2 = userCredencial.uid;
+
+      DatabaseReference puxaCredencial =
+          FirebaseDatabase.instance.ref('users/$uid2/credencial');
+      puxaCredencial.onValue.listen((DatabaseEvent event) {
+        final dadin = event.snapshot.value;
+        if (mounted) {
+          setState(() {
+            credencial = dadin as int?;
+            print("A credencial é: $credencial");
+            if (credencial == 1) {
+              FirebaseFirestore.instance
+                  .collection("validações")
+                  .snapshots()
+                  .listen((QuerySnapshot snapshot) {
+                snapshot.docChanges.forEach((change) {
+                  if (change.type == DocumentChangeType.added) {
+                    AwesomeNotifications().createNotification(
+                        content: NotificationContent(
+                            id: 1,
+                            channelKey: 'basic_channel',
+                            title: "Labmaker",
+                            body:
+                                "Alguém fez uma solicitação de acesso, vem conferir!"));
+                  }
                 });
-              }
-              else{
-                print("Veja se agora vai.");
-              }
-            });
-          }
-        });
-        
-      }
+              });
+            } else {
+              print("Veja se agora vai.");
+            }
+          });
+        }
+      });
     }
+  }
 
   pegarEmail(email) {
     this.getEmail = email;
@@ -211,7 +207,7 @@ class _ValidationState extends State<Validation> {
         "idBiometria": idBiometria
       };
 
-      documentReference.set(validacao).whenComplete(() async{
+      documentReference.set(validacao).whenComplete(() async {
         User? user = FirebaseAuth.instance.currentUser;
         String uid = user!.uid;
         // ignore: deprecated_member_use
@@ -228,7 +224,7 @@ class _ValidationState extends State<Validation> {
 
         showDialog(
           context: context,
-          barrierDismissible: false, 
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('Sucesso'),
@@ -247,11 +243,12 @@ class _ValidationState extends State<Validation> {
         );
         try {
           final response = await http.post(
-            Uri.parse("http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuarios"),
+            Uri.parse(
+                "http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuarios"),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
-            body: jsonEncode(<String, dynamic> {
+            body: jsonEncode(<String, dynamic>{
               "nome": nome.toString(),
               "email": getEmail.toString(),
               "idBiometria": idBiometria.toInt(),
@@ -263,7 +260,8 @@ class _ValidationState extends State<Validation> {
           if (response.statusCode == 200) {
             print('Requisição POST bem-sucedida');
           } else {
-            print('Erro na requisição POST. Código de status: ${response.statusCode}');
+            print(
+                'Erro na requisição POST. Código de status: ${response.statusCode}');
           }
         } catch (error) {
           print('Erro ao enviar requisição POST: $error');
@@ -613,9 +611,15 @@ class _ValidationState extends State<Validation> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
                         enviaNotificacao();
                         await FirebaseMessage().initNotifications();
                         enviarValidacao();
+                        setState(() {
+                          isLoading = true;
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green[800],
@@ -623,7 +627,7 @@ class _ValidationState extends State<Validation> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: Text(
+                      child: isLoading ? CircularProgressIndicator(color: Colors.white,) : Text(
                         'Enviar',
                         style: GoogleFonts.oswald(
                           color: Colors.white,
