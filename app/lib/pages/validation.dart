@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:app/notification_controller.dart';
 import 'package:app/services/firebase_message_service.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -246,14 +249,14 @@ class _ValidationState extends State<Validation> {
           final response = await http.post(
             Uri.parse("http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuarios"),
             headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-            body: {
-              "nome": nome,
-              "email": getEmail,
-              "idBiometria": idBiometria,
-              "foto": photoURL
+              'Content-Type': 'application/json; charset=UTF-8',
             },
+            body: jsonEncode(<String, dynamic> {
+              "nome": nome.toString(),
+              "email": getEmail.toString(),
+              "idBiometria": idBiometria.toInt(),
+              "foto": photoURL.toString()
+            }),
           );
 
           // Verifique se a requisição foi bem-sucedida
