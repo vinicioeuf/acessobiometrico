@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:google_fonts/google_fonts.dart';
 // ignore: depend_on_referenced_packages
+import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -207,7 +208,7 @@ class _ValidationState extends State<Validation> {
         "idBiometria": idBiometria
       };
 
-      documentReference.set(validacao).whenComplete(() {
+      documentReference.set(validacao).whenComplete(() async{
         User? user = FirebaseAuth.instance.currentUser;
         String uid = user!.uid;
         // ignore: deprecated_member_use
@@ -241,6 +242,27 @@ class _ValidationState extends State<Validation> {
             );
           },
         );
+        try {
+          final response = await http.post(
+            Uri.parse("http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuarios"),
+            body: {
+              // "_id": user.uid,
+              "nome": nome,
+              "email": getEmail,
+              "idMatricula": getMatricula,
+              "foto": user.photoURL
+            },
+          );
+
+          // Verifique se a requisição foi bem-sucedida
+          if (response.statusCode == 200) {
+            print('Requisição POST bem-sucedida');
+          } else {
+            print('Erro na requisição POST. Código de status: ${response.statusCode}');
+          }
+        } catch (error) {
+          print('Erro ao enviar requisição POST: $error');
+        }
       });
     }
   }

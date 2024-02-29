@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 import 'package:app/services/prefs_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -74,12 +73,7 @@ class AuthService extends ChangeNotifier {
             "idBiometria": null,
 
           });
-          Map<String, dynamic> userData = {
-            "nome": nome,
-            "email": email,
-            "idMatricula": 0, // Você pode ajustar isso conforme necessário
-          };
-          await _enviarDadosParaAPI(userData);
+          
         }
       }
 
@@ -88,25 +82,7 @@ class AuthService extends ChangeNotifier {
       throw AuthException('Erro no registro. Tente novamente.');
     }
   }
-  Future<void> _enviarDadosParaAPI(Map<String, dynamic> userData) async {
-    try {
-      final response = await http.post(
-        Uri.parse('http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuario'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(userData),
-      );
-
-      if (response.statusCode == 200) {
-        print('Dados enviados para a API com sucesso');
-      } else {
-        print('Falha ao enviar dados para a API. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Erro ao enviar dados para a API: $e');
-    }
-  }
+  
 
   Future<void> login(String email, String senha) async {
     // Validar o formato do e-mail usando expressão regular
