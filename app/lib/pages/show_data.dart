@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+import 'dart:ffi';
+import 'package:http/http.dart' as http;
 
 class ValidacoesScreen extends StatefulWidget {
   @override
@@ -71,6 +74,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
               String hora = data['hora'];
               String nome = data['nome'];
               bool aguardando = data['aguardando'];
+              int idBiometria = data['idBiometria'];
               // bool autorizado = data['autorizado'];
               // bool negado = data['negado'];
               // String matricula = data['matricula'];
@@ -170,7 +174,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                           ),
                           SizedBox(height: 10),
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               FirebaseFirestore.instance.collection('validações').doc(document.id).update({
                                 'autorizado': true,
                                 'aguardando': false,
@@ -182,6 +186,31 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                               userRef.update({
                                 'aprovado': true,
                               });
+                              try {
+                                final response = await http.post(
+                                  Uri.parse(
+                                      "http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuarios"),
+                                  headers: <String, String>{
+                                    'Content-Type': 'application/json; charset=UTF-8',
+                                  },
+                                  body: jsonEncode(<String, dynamic>{
+                                    "nome": nome.toString(),
+                                    "email": email.toString(),
+                                    "idBiometria": idBiometria.toInt(),
+                                    "foto": foto.toString()
+                                  }),
+                                );
+
+                                // Verifique se a requisição foi bem-sucedida
+                                if (response.statusCode == 200) {
+                                  print('Requisição POST bem-sucedida');
+                                } else {
+                                  print(
+                                      'Erro na requisição POST. Código de status: ${response.statusCode}');
+                                }
+                              } catch (error) {
+                                print('Erro ao enviar requisição POST: $error');
+                              }
                               showDialog(
                                 context: context,
                                 barrierDismissible: false, 

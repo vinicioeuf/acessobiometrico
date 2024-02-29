@@ -241,31 +241,31 @@ class _ValidationState extends State<Validation> {
             );
           },
         );
-        try {
-          final response = await http.post(
-            Uri.parse(
-                "http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuarios"),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(<String, dynamic>{
-              "nome": nome.toString(),
-              "email": getEmail.toString(),
-              "idBiometria": idBiometria.toInt(),
-              "foto": photoURL.toString()
-            }),
-          );
+        // try {
+        //   final response = await http.post(
+        //     Uri.parse(
+        //         "http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuarios"),
+        //     headers: <String, String>{
+        //       'Content-Type': 'application/json; charset=UTF-8',
+        //     },
+        //     body: jsonEncode(<String, dynamic>{
+        //       "nome": nome.toString(),
+        //       "email": getEmail.toString(),
+        //       "idBiometria": idBiometria.toInt(),
+        //       "foto": photoURL.toString()
+        //     }),
+        //   );
 
-          // Verifique se a requisição foi bem-sucedida
-          if (response.statusCode == 200) {
-            print('Requisição POST bem-sucedida');
-          } else {
-            print(
-                'Erro na requisição POST. Código de status: ${response.statusCode}');
-          }
-        } catch (error) {
-          print('Erro ao enviar requisição POST: $error');
-        }
+        //   // Verifique se a requisição foi bem-sucedida
+        //   if (response.statusCode == 200) {
+        //     print('Requisição POST bem-sucedida');
+        //   } else {
+        //     print(
+        //         'Erro na requisição POST. Código de status: ${response.statusCode}');
+        //   }
+        // } catch (error) {
+        //   print('Erro ao enviar requisição POST: $error');
+        // }
       });
     }
   }
