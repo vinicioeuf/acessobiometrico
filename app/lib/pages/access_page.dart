@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:app/pages/ver_acesso.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+
 
 class AccessPage extends StatefulWidget {
   const AccessPage({Key? key}) : super(key: key);
@@ -13,7 +16,7 @@ class AccessPage extends StatefulWidget {
 
 class _AccessPageState extends State<AccessPage> {
   List<DogBreed> breeds = [];
-
+  
   @override
   void initState() {
     super.initState();
@@ -27,22 +30,23 @@ class _AccessPageState extends State<AccessPage> {
   }
 
   Future<void> fetchData() async {
+    User? user = await FirebaseAuth.instance.authStateChanges().first;
     try {
       final response = await http.get(
-        Uri.parse('https://dogbreeddb.p.rapidapi.com/'),
-        headers: {
-          "X-RapidAPI-Key": "c3564955bfmsh215d19541e7ca79p11b5dfjsna3b5c6f6b0c8",
-          "X-RapidAPI-Host": "dogbreeddb.p.rapidapi.com",
-        },
+        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
       );
 
-      // Verifique se o widget ainda está montado antes de chamar setState
       if (mounted) {
         print(response.body);
         if (response.statusCode == 200) {
-          final List<dynamic> data = json.decode(response.body);
+          final Map<String, dynamic> data = json.decode(response.body);
+          final List<dynamic> breedsList = data['acessos'];
+
           setState(() {
-            breeds = data.map((json) => DogBreed.fromJson(json)).toList();
+            breeds = breedsList
+                .map((json) => DogBreed.fromJson(json))
+                .where((breed) => breed.email == user?.email)
+                .toList();
           });
         } else {
           throw Exception('Failed to load data');
@@ -50,10 +54,9 @@ class _AccessPageState extends State<AccessPage> {
       }
     } catch (e) {
       print('Error fetching data: $e');
-      // Lidar com o erro, se necessário
     }
   }
-
+  
   int selectedIndex = 0;
 
   @override
@@ -61,20 +64,28 @@ Widget build(BuildContext context) {
   Widget getContent() {
     if (breeds.isEmpty) {
       return const Center(
-        child: CircularProgressIndicator(color: Colors.green,),
+        child: Text(
+          'Você não acessou o LabMaker ainda',
+          style: TextStyle(fontSize: 16, color: Colors.black87),
+        ),
       );
     } else {
       return ListView.builder(
-        itemCount: 10,
+        itemCount: breeds.length,
         itemBuilder: (context, index) {
+          DateTime dateTime = DateTime.parse(breeds[index].createdAt);
+          String formattedDateTime = DateFormat('HH:mm').format(dateTime) +
+              ' do dia ' +
+              DateFormat('dd/MM/yyyy').format(dateTime);
+
           return Acessos(
             context,
-            breeds[index].imgThumb,
-            breeds[index].breedName,
-            breeds[index].breedType,
-            "Saiu",
-            "13:56",
-            "20/10/2023",
+            breeds[index].foto,
+            breeds[index].nome,
+            breeds[index].email,
+            breeds[index].tipo,
+            formattedDateTime
+
           );
         },
       );
@@ -98,27 +109,30 @@ Widget build(BuildContext context) {
 }
 
 class DogBreed {
-  final int id;
-  final String breedName;
-  final String breedType;
-  final String breedDescription;
-  final String imgThumb;
+  final int? id; // Altere para int?
+  final String nome;
+  final String email;
+  final String foto;
+  final String createdAt;
+  final String tipo;
 
   DogBreed({
     required this.id,
-    required this.breedName,
-    required this.breedType,
-    required this.breedDescription,
-    required this.imgThumb,
+    required this.nome,
+    required this.email,
+    required this.foto,
+    required this.createdAt,
+    required this.tipo
   });
 
   factory DogBreed.fromJson(Map<String, dynamic> json) {
     return DogBreed(
-      id: json['id'],
-      breedName: json['breedName'],
-      breedType: json['breedType'],
-      breedDescription: json['breedDescription'],
-      imgThumb: json['imgThumb'] ?? '',
+      id: json['id'] as int?,
+      nome: json['nome'] as String,
+      email: json['email'] as String,
+      foto: json['foto'] as String,
+      createdAt: json['createdAt'] as String? ?? '',
+      tipo: json['tipo'] as String
     );
   }
 }
@@ -242,7 +256,7 @@ Widget Enfeites(){
   );
 }
 Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
-    String estado, String hora, String data) {
+    String estado, String hora) {
   return Container(
     margin: EdgeInsets.all(8),
     padding: EdgeInsets.all(8),
@@ -260,7 +274,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
           ),
         SizedBox(width: 10),
         Container(
-          width: 190,
+          width: 0.55 * MediaQuery.of(context).size.width,
           child: // Espaçamento entre a imagem e o texto
               Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,7 +301,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
                   ),
                 ),
                 Text(
-                  ' às $hora em $data',
+                  ' às $hora',
                   style: GoogleFonts.oswald(
                     fontWeight: FontWeight.bold,
                   ),
