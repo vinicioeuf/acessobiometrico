@@ -1,3 +1,4 @@
+import 'package:app/pages/addadm.dart';
 import 'package:app/pages/slash_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/login_page.dart';
@@ -42,6 +43,7 @@ class AppWidget extends StatelessWidget {
   '/profile': (_) => ProfilePage(),
   '/teamDev': (_) => TeamDevPage(),
   '/show': (_) => ValidacoesScreen(),
+  '/addadm': (_) => AddAdm(),
 },
 
       home: AuthCheck(),

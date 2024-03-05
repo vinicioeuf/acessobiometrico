@@ -71,7 +71,7 @@ class AuthService extends ChangeNotifier {
             "tempo": null,
             "tipoCurso": null,
             "idBiometria": null,
-
+            "adm": false
           });
           
         }

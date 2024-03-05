@@ -1,3 +1,4 @@
+import 'package:app/pages/addadm.dart';
 import 'package:app/pages/login_page.dart';
 import 'package:app/pages/show_data.dart';
 import 'package:app/pages/validation.dart';
@@ -224,6 +225,38 @@ void dispose() {
                       ),
                       child: Text(
                         'SOLICITAÇÕES',
+                        style: GoogleFonts.oswald(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0, // Tamanho de fonte aumentado
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                            height: 10,
+                          ),
+                  Container(
+                    width: 0.9 * MediaQuery.of(context).size.width,
+                    height: 60,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddAdm()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        'ADICIONAR ADMINISTRADOR',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.bold,
