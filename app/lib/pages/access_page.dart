@@ -74,6 +74,10 @@ Widget build(BuildContext context) {
         itemCount: breeds.length,
         itemBuilder: (context, index) {
           DateTime dateTime = DateTime.parse(breeds[index].createdAt);
+          
+          // Subtrair 3 horas
+          dateTime = dateTime.subtract(Duration(hours: 3));
+
           String formattedDateTime = DateFormat('HH:mm').format(dateTime) +
               ' do dia ' +
               DateFormat('dd/MM/yyyy').format(dateTime);
@@ -85,12 +89,12 @@ Widget build(BuildContext context) {
             breeds[index].email,
             breeds[index].tipo,
             formattedDateTime
-
           );
         },
       );
     }
   }
+
 
   return MaterialApp(
     home: Scaffold(
