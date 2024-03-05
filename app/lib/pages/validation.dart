@@ -159,9 +159,9 @@ class _ValidationState extends State<Validation> {
 
   void enviarValidacao() {
     RegExp alunoRegex =
-        RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@aluno\.ifsertao-pe\.edu\.br$');
+        RegExp(r'^[a-zA-Z0-9_.+-]+\.[a-zA-Z0-9_.+-]+@aluno\.ifsertao-pe\.edu\.br$');
     RegExp professorRegex =
-        RegExp(r'^[a-zA-Z]+\.[a-zA-Z]+@ifsertao-pe\.edu\.br$');
+        RegExp(r'^[a-zA-Z0-9_.+-]+\.[a-zA-Z0-9_.+-]+@ifsertao-pe\.edu\.br$');
 
     if (getMatricula == null ||
         getEmail == null ||
