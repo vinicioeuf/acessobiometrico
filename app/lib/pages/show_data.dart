@@ -134,31 +134,31 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                         SizedBox(height: 10),
                         Container(
                           width: 0.6 * MediaQuery.of(context).size.width,
-                          child:
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 0.6 * MediaQuery.of(context).size.width,
-                              constraints: BoxConstraints(maxWidth: 300),
-                              child: Text(
-                                'Curso: $tempo $curso',
-                                style: GoogleFonts.oswald(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (tempo != null && curso != null)
+                                Container(
+                                  width: 0.6 * MediaQuery.of(context).size.width,
+                                  constraints: BoxConstraints(maxWidth: 300),
+                                  child: Text(
+                                    'Curso: $tempo $curso',
+                                    style: GoogleFonts.oswald(),
+                                  ),
+                                ),
+                              Container(
+                                width: 0.6 * MediaQuery.of(context).size.width,
+                                constraints: BoxConstraints(
+                                    maxWidth: 300), // Define um máximo de 200 de largura
+                                child: Text(
+                                  'E-mail: $email',
+                                  style: GoogleFonts.oswald(),
+                                ),
                               ),
-                            ),
-                            Container(
-                              width: 0.6 * MediaQuery.of(context).size.width,
-                              constraints: BoxConstraints(
-                                  maxWidth:
-                                      300), // Define um máximo de 200 de largura
-                              child: Text(
-                                'E-mail: $email',
-                                style: GoogleFonts.oswald(),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                        ),
+
                       ],
                     ),
                     Expanded(
