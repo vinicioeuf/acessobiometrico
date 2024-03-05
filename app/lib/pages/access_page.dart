@@ -159,7 +159,7 @@ Widget Enfeites(){
         Center(
           child: RichText(
             text: TextSpan(
-              text: 'Acessos ao LabMaker',
+              text: 'Seus acessos ao LabMaker',
               style: GoogleFonts.oswald(
                 textStyle: TextStyle(
                   color: Color.fromARGB(255, 36, 64, 25),

@@ -44,7 +44,7 @@ class TeamMakerPage extends StatelessWidget {
               SizedBox(height: 15),
               buildTeamMember('assets/imagens/PLemos.jpg', 'Pedro', 'Coordenador do Labmaker', 'Doutor em Química (UFPB). Licenciado em Química (UFRPE). Mestre em Química (UFRPE/Universidade de Coimbra). Professor EBTT do IFSertãoPE - Campus Salgueiro.'),
               SizedBox(height: 10),
-              buildTeamMember('assets/imagens/marcelo-santos.jpeg', 'Marcelo Santos', 'Ex Coordenador do Labmaker', 'Doutor em Ciências da Computação (UFPE e Université Evry Val d`Essonne - IBISC Lab (França). Mestre em Engenharia da Informação (UFABC). Graduado em Sistemas de Informação (IFAL). Professor EBTT do IFSertãoPE - Campus Salgueiro.'),
+              buildTeamMember('assets/imagens/marcelo-santos.jpeg', 'Marcelo Santos', 'Coordenador do Centro de Inovação', 'Doutor em Ciências da Computação (UFPE e Université Evry Val d`Essonne - IBISC Lab (França). Mestre em Engenharia da Informação (UFABC). Graduado em Sistemas de Informação (IFAL). Professor EBTT do IFSertãoPE - Campus Salgueiro.'),
               SizedBox(height: 10),
               buildTeamMember('assets/imagens/adeisa-guimaraes.jpeg', 'Adeisa Guimarães', 'Membro', 'Mestre em Desenvolvimento Regional e Especialista em Gestão Pública Municipal pela Universidade Estadual da Paraíba. Especialista em Meio Ambiente (FURNE/UNIPÊ). Graduada em Licenciatura Plena em Geografia. Professora EBTT do IFSertãoPE.'),
               SizedBox(height: 10),
