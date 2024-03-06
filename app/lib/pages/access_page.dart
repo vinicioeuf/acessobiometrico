@@ -21,6 +21,7 @@ class _AccessPageState extends State<AccessPage> {
   String filterBy = 'Seus acessos';
   int? userCredential;
   bool isLoading = false; // Adicionado
+  bool ascendingOrder = true;
 
   @override
   void initState() {
@@ -54,40 +55,51 @@ class _AccessPageState extends State<AccessPage> {
   }
 
   Future<void> fetchData() async {
-    setState(() {
-      isLoading = true; // Define isLoading como true ao iniciar o carregamento
+  setState(() {
+    isLoading = true;
+  });
+
+  User? user = await FirebaseAuth.instance.authStateChanges().first;
+  try {
+    final response = await http.get(
+      Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+    );
+
+    if (mounted) {
+      print(response.body);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        final List<dynamic> breedsList = data['acessos'];
+
+        setState(() {
+  breeds = breedsList
+      .map((json) => DogBreed.fromJson(json))
+      .where((breed) => breed.email == user?.email)
+      .toList();
+
+// Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
+  if (sortBy == 'Antigas') {
+    breeds.sort((a, b) {
+      DateTime dateTimeA = DateTime.parse(a.createdAt);
+      DateTime dateTimeB = DateTime.parse(b.createdAt);
+      return dateTimeA.compareTo(dateTimeB);
     });
-
-    User? user = await FirebaseAuth.instance.authStateChanges().first;
-    try {
-      final response = await http.get(
-        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
-      );
-
-      if (mounted) {
-        print(response.body);
-        if (response.statusCode == 200) {
-          final Map<String, dynamic> data = json.decode(response.body);
-          final List<dynamic> breedsList = data['acessos'];
-
-          setState(() {
-            breeds = breedsList
-                .map((json) => DogBreed.fromJson(json))
-                .where((breed) => breed.email == user?.email)
-                .toList();
-            isLoading = false; // Define isLoading como false após o carregamento
-          });
-        } else {
-          throw Exception('Failed to load data');
-        }
-      }
-    } catch (e) {
-      print('Error fetching data: $e');
-      setState(() {
-        isLoading = false; // Define isLoading como false se ocorrer um erro
-      });
-    }
   }
+
+  isLoading = false;
+});
+      } else {
+        throw Exception('Failed to load data');
+      }
+    }
+  } catch (e) {
+    print('Error fetching data: $e');
+    setState(() {
+      isLoading = false;
+    });
+  }
+}
+
 
   Future<void> fetchDataForAllUsers() async {
   setState(() {
@@ -173,26 +185,27 @@ class _AccessPageState extends State<AccessPage> {
               children: [
                 // Dropdown para ordenar
                 Container(
-                  width: 0.9 * MediaQuery.of(context).size.width,
-                  height: 65,
-                  child: DropdownButton<String>(
-                    value: sortBy,
-                    onChanged: (value) {
-                      setState(() {
-                        sortBy = value!;
-                      });
-                    },
-                    items: ['Recentes', 'Antigas'].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    icon: Icon(Icons.arrow_drop_down,
-                        color: Colors.black), // Adicione esta linha para personalizar o ícone
-                    isExpanded: true,
-                  ),
-                ),
+  width: 0.9 * MediaQuery.of(context).size.width,
+  height: 65,
+  child: DropdownButton<String>(
+    value: sortBy,
+    onChanged: (value) {
+      setState(() {
+        sortBy = value!;
+        fetchData();
+      });
+    },
+    items: ['Recentes', 'Antigas'].map((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      );
+    }).toList(),
+    icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+    isExpanded: true,
+  ),
+),
+
                 if (userCredential == 1)
                   Container(
   width: 0.9 * MediaQuery.of(context).size.width,
