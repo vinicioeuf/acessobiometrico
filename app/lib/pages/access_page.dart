@@ -21,7 +21,9 @@ class _AccessPageState extends State<AccessPage> {
   String filterBy = 'Seus acessos';
   int? userCredential;
   bool isLoading = false; // Adicionado
-  bool ascendingOrder = true;
+  // bool showAllUsers = false;
+  bool showFilterDropdown = true;
+
 
   @override
   void initState() {
@@ -78,7 +80,7 @@ class _AccessPageState extends State<AccessPage> {
       .toList();
 
 // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
-  if (sortBy == 'Antigas') {
+  if (sortBy == 'Antigos') {
     breeds.sort((a, b) {
       DateTime dateTimeA = DateTime.parse(a.createdAt);
       DateTime dateTimeB = DateTime.parse(b.createdAt);
@@ -184,55 +186,59 @@ class _AccessPageState extends State<AccessPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Dropdown para ordenar
-                Container(
-  width: 0.9 * MediaQuery.of(context).size.width,
-  height: 65,
-  child: DropdownButton<String>(
-    value: sortBy,
-    onChanged: (value) {
-      setState(() {
-        sortBy = value!;
-        fetchData();
-      });
-    },
-    items: ['Recentes', 'Antigas'].map((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(value),
-      );
-    }).toList(),
-    icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-    isExpanded: true,
-  ),
-),
+                
 
                 if (userCredential == 1)
                   Container(
-  width: 0.9 * MediaQuery.of(context).size.width,
-  height: 65,
-  child: DropdownButton<String>(
-    value: filterBy,
-    onChanged: (value) {
-      setState(() {
-        filterBy = value!;
-        if (filterBy == 'Todo mundo') {
-          fetchDataForAllUsers();
-        } else {
-          fetchData(); // Chama fetchData se outra opção for selecionada
-        }
-      });
-    },
-    items: ['Seus acessos', 'Todo mundo'].map((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(value),
-      );
-    }).toList(),
-    icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-    isExpanded: true,
-  ),
-),
+                    width: 0.9 * MediaQuery.of(context).size.width,
+                    height: 65,
+                    child: DropdownButton<String>(
+                      value: filterBy,
+                      onChanged: (value) {
+                        setState(() {
+                          filterBy = value!;
+                          if (filterBy == 'Todo mundo') {
+                            // Se a opção for "Todo mundo", defina sortBy como 'Recentes'
+                            sortBy = 'Recentes';
+                            fetchDataForAllUsers();
+                          } else {
+                            fetchData(); // Chama fetchData se outra opção for selecionada
+                          }
+                        });
+                      },
+                      items: ['Seus acessos', 'Todo mundo'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                      isExpanded: true,
+                    ),
+                  ),
 
+                if (filterBy != 'Todo mundo')
+                  Container(
+                    width: 0.9 * MediaQuery.of(context).size.width,
+                    height: 65,
+                    child: DropdownButton<String>(
+                      value: sortBy,
+                      onChanged: (value) {
+                        setState(() {
+                          sortBy = value!;
+                          fetchData();
+                        });
+                      },
+                      items: ['Recentes', 'Antigos'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                      isExpanded: true,
+                    ),
+                  ),
               ],
             ),
             Expanded(
