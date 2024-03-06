@@ -205,7 +205,8 @@ class _ValidationState extends State<Validation> {
         "nome": nome,
         "hora": agora,
         "idBiometria": idBiometria,
-        "adm": false
+        "credencial": 0
+        
       };
 
       documentReference.set(validacao).whenComplete(() async {

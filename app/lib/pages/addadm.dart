@@ -24,7 +24,7 @@ class _AddAdmState extends State<AddAdm> {
             },
           ),
           title: Text(
-            "Adicione um novo administrador",
+            "ADICIONAR ADMINISTRADOR",
             style: GoogleFonts.oswald(
                 fontWeight: FontWeight.bold,
                 color: const Color.fromARGB(255, 255, 255, 255)),
@@ -164,25 +164,19 @@ class _AddAdmState extends State<AddAdm> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          // Text(
-                          //   "$hora  ",
-                          //   style: GoogleFonts.oswald(
-                          //     fontWeight: FontWeight.bold,
-                          //     fontSize: 16,
-                          //   ),
-                          // ),
+                         
                           SizedBox(height: 10),
                           ElevatedButton(
                             onPressed: () async {
                               FirebaseFirestore.instance.collection('validações').doc(document.id).update({
-                                'adm': true,
+                                'credencial': 1,
                               });
                               User? user = FirebaseAuth.instance.currentUser;
                               String uid = user!.uid;
                               // ignore: deprecated_member_use
                               DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
                               userRef.update({
-                                'adm': true,
+                                'credencial': 1,
                               });
                               
                               showDialog(
@@ -216,7 +210,6 @@ class _AddAdmState extends State<AddAdm> {
                             child: Text('Permitir'),
                           ),
                           SizedBox(height: 10),
-                          
                         ],
               
                       ),
@@ -224,7 +217,7 @@ class _AddAdmState extends State<AddAdm> {
                   ],
                 ),
               );
-               
+              
               
             }).toList(),
           );
@@ -233,4 +226,3 @@ class _AddAdmState extends State<AddAdm> {
     );
   }
 }
-
