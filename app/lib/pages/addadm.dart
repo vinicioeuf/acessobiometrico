@@ -174,11 +174,11 @@ class _AddAdmState extends State<AddAdm> {
                               User? user = FirebaseAuth.instance.currentUser;
                               String uid = user!.uid;
                               // ignore: deprecated_member_use
-                              DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users').child(uid);
-                              userRef.update({
-                                'credencial': 1,
-                              });
-                              
+                              FirebaseDatabase.instance.reference().child('users').child(uid).update(
+                                {
+                                  'credencial' :1
+                                }
+                              );
                               showDialog(
                                 context: context,
                                 barrierDismissible: false, 
