@@ -197,7 +197,8 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                                     "nome": nome.toString(),
                                     "email": email.toString(),
                                     "idBiometria": idBiometria.toInt(),
-                                    "foto": foto.toString()
+                                    "foto": foto.toString(),
+                                    "status": "Ativo"
                                   }),
                                 );
 
