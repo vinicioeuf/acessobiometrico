@@ -205,7 +205,8 @@ class _ValidationState extends State<Validation> {
         "nome": nome,
         "hora": agora,
         "idBiometria": idBiometria,
-        "credencial": 0
+        "credencial": 0,
+        "uid": user?.uid
         
       };
 

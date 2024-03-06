@@ -57,6 +57,7 @@ class AuthService extends ChangeNotifier {
           String uid = user.uid; // Obter o UID do usuário
           DatabaseReference newUserRef = ref.child(uid); // Usar o UID como nome da referência
           await newUserRef.set({
+            "uid": uid,
             "nome": nome,
             "email": email,
             "foto": foto,

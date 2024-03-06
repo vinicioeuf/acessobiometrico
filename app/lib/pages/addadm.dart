@@ -12,6 +12,7 @@ class AddAdm extends StatefulWidget {
 }
 
 class _AddAdmState extends State<AddAdm> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +71,8 @@ class _AddAdmState extends State<AddAdm> {
               Map<String, dynamic> data =
                 document.data() as Map<String, dynamic>;
               String email = data['email'];
+              int cred = data['credencial'];
+              String documentName = data['uid'];
               String hora = data['hora'];
               String nome = data['nome'];
               bool aguardando = data['aguardando'];
@@ -81,7 +84,7 @@ class _AddAdmState extends State<AddAdm> {
               String? tempo = data['vinculo']['tempo'];
               String? curso = data['vinculo']['curso'];
               String? foto = data['foto'] as String?;
-              
+              if(cred != 1){
                 return Container(
                 width: 0.9 * MediaQuery.of(context).size.width,
                 margin: EdgeInsets.all(8),
@@ -93,6 +96,8 @@ class _AddAdmState extends State<AddAdm> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if(cred != 1)
+                    
                     Column(
                       children: [
                         Container(
@@ -160,6 +165,7 @@ class _AddAdmState extends State<AddAdm> {
 
                       ],
                     ),
+                    if(cred != 1)
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -168,16 +174,21 @@ class _AddAdmState extends State<AddAdm> {
                           SizedBox(height: 10),
                           ElevatedButton(
                             onPressed: () async {
-                              FirebaseFirestore.instance.collection('validações').doc(document.id).update({
-                                'credencial': 1,
-                              });
-                              
-                              // ignore: deprecated_member_use
-                              FirebaseDatabase.instance.reference().child('users').child(document as String).update(
-                                {
-                                  'credencial' :1
-                                }
-                              );
+                              DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
+                    
+                    // Atualize os dados no nó apropriado no Realtime Database
+                    databaseReference.child('validações').child(documentName).update({
+                      'credencial': 1,
+                    });
+
+                    User? user = FirebaseAuth.instance.currentUser;
+                    String uid = user!.uid;
+                    // Atualize os dados do usuário no Realtime Database
+                    print(documentName);
+                    databaseReference.child('users').child(documentName).update({
+                      'credencial': 1,
+                    });
+
                               showDialog(
                                 context: context,
                                 barrierDismissible: false, 
@@ -216,7 +227,9 @@ class _AddAdmState extends State<AddAdm> {
                   ],
                 ),
               );
-              
+              }else{
+                return Container();
+              }
               
             }).toList(),
           );
