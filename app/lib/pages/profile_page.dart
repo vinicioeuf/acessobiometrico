@@ -1,4 +1,5 @@
 import 'package:app/pages/addadm.dart';
+import 'package:app/pages/edit_profile.dart';
 import 'package:app/pages/login_page.dart';
 import 'package:app/pages/show_data.dart';
 import 'package:app/pages/validation.dart';
@@ -19,8 +20,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-
   List<bool> esconderList = [false, false, false, false, false, false, false];
   Object? dados;
   bool carregando = true;
@@ -35,35 +34,37 @@ class _ProfilePageState extends State<ProfilePage> {
     initializeData();
     _checkAnimationStatus();
     // Add a delay to trigger the initial animation after 1 second
-    
   }
+
   Future<void> _checkAnimationStatus() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool animationCompleted = prefs.getBool('animation_completed') ?? false;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool animationCompleted = prefs.getBool('animation_completed') ?? false;
 
-  if (!animationCompleted) {
-    // Add a delay to trigger the initial animation after 2 seconds
-    Future.delayed(Duration(seconds: 2), () {
-      if (_isMounted) {
-        setState(() {
-          esconderList[0] = true; // Assuming the "STATUS" section is at index 6
-        });
+    if (!animationCompleted) {
+      // Add a delay to trigger the initial animation after 2 seconds
+      Future.delayed(Duration(seconds: 2), () {
+        if (_isMounted) {
+          setState(() {
+            esconderList[0] =
+                true; // Assuming the "STATUS" section is at index 6
+          });
 
-        // Add a second delay to toggle the value back to false after 2 seconds
-        Future.delayed(Duration(seconds: 1), () {
-          if (_isMounted) {
-            setState(() {
-              esconderList[0] = false;
+          // Add a second delay to toggle the value back to false after 2 seconds
+          Future.delayed(Duration(seconds: 1), () {
+            if (_isMounted) {
+              setState(() {
+                esconderList[0] = false;
 
-              // Mark the animation as completed
-              prefs.setBool('animation_completed', true);
-            });
-          }
-        });
-      }
-    });
+                // Mark the animation as completed
+                prefs.setBool('animation_completed', true);
+              });
+            }
+          });
+        }
+      });
+    }
   }
-}
+
   Future<void> initializeData() async {
     User? user = await FirebaseAuth.instance.authStateChanges().first;
     if (user != null) {
@@ -103,12 +104,12 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     }
   }
+
   @override
   void dispose() {
     _isMounted = false;
     super.dispose();
   }
-
 
   // New method to initialize data
 
@@ -189,7 +190,35 @@ class _ProfilePageState extends State<ProfilePage> {
                                         NetworkImage(user!.photoURL ?? ''),
                                     radius: 75,
                                   ),
-                                )
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Navegar para a página EditProfile() aqui
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditProfile()),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.green[
+                                            700], // Cor de fundo do ícone de edição
+                                      ),
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors
+                                            .white, // Cor do ícone de edição
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -236,64 +265,92 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 if (uu2 == 1)
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Pode ajustar conforme necessário
+                    mainAxisAlignment: MainAxisAlignment
+                        .spaceEvenly, // Pode ajustar conforme necessário
                     children: [
                       Container(
                         width: 0.42 * MediaQuery.of(context).size.width,
                         height: 60,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ValidacoesScreen(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0,
+                                    3), // altere os valores conforme necessário
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green[800],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
+                            ],
                           ),
-                          child: Text(
-                            'SOLICITAÇÕES',
-                            style: GoogleFonts.oswald(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.5,
-                                color: Colors.white,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ValidacoesScreen(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.green[800],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
+                            child: Text(
+                              'SOLICITAÇÕES',
+                              style: GoogleFonts.oswald(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.5,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      
                       Container(
                         width: 0.42 * MediaQuery.of(context).size.width,
                         height: 60,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AddAdm(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0,
+                                    3), // altere os valores conforme necessário
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green[800],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
+                            ],
                           ),
-                          child: Text(
-                            'INCLUIR GESTOR',
-                            style: GoogleFonts.oswald(
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.5,
-                                color: Colors.white,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddAdm(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.green[800],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
+                            child: Text(
+                              'INCLUIR GESTOR',
+                              style: GoogleFonts.oswald(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.5,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -301,7 +358,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-
                 SizedBox(
                   height: 15,
                 ),
@@ -322,21 +378,20 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         );
                       } else {
-                        if(data['aguardando'] == true){
+                        if (data['aguardando'] == true) {
                           estado = "EM ESPERA";
-                        }else if(data['autorizado']  == true){
+                        } else if (data['autorizado'] == true) {
                           estado = "AUTORIZADO";
-                        }else if(data['negado']  == true){
+                        } else if (data['negado'] == true) {
                           estado = "NEGADO";
-                        }else{
+                        } else {
                           estado = "Erro";
                         }
                         carregando = false;
                         return Column(children: [
-                          info(context, "STATUS:", "STATUS", estado,
-                              false, 6),
+                          info(context, "STATUS:", "STATUS", estado, false, 6),
                           SizedBox(height: 10),
-                          if(estado == "AUTORIZADO")
+                          if (estado == "AUTORIZADO")
                             info(context, "ID:", "ID", "${data['idBiometria']}",
                                 true, 0),
                           SizedBox(height: 10),
@@ -416,7 +471,7 @@ class _ProfilePageState extends State<ProfilePage> {
             width: 0.9 * MediaQuery.of(context).size.width,
             height: 60,
             decoration: BoxDecoration(
-                  color: Color.fromARGB(100, 225, 244, 203),
+              color: Color.fromARGB(100, 225, 244, 203),
               borderRadius: BorderRadius.circular(30.0),
             ),
             child: Row(
@@ -442,12 +497,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               : dado == "EM ESPERA"
                                   ? GoogleFonts.oswald(
                                       color: Color.fromARGB(255, 190, 146, 0),
-  
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)
                                   : GoogleFonts.oswald(
                                       color: Colors.black,
-  
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)),
                 ),
@@ -529,6 +582,4 @@ class _ProfilePageState extends State<ProfilePage> {
   void _copyToClipboard(String s) {
     Clipboard.setData(ClipboardData(text: s));
   }
-  
-
 }
