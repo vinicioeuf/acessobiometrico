@@ -25,21 +25,32 @@ class _ProfilePageState extends State<ProfilePage> {
   bool carregando = true;
   String? uu;
   int? uu2;
+  bool _isMounted = false;
   late String estado;
   @override
   void initState() {
     super.initState();
-    // Método para carregar as informações do usuário
+    _isMounted = true;
     initializeData();
+
+    // Add a delay to trigger the initial animation after 1 second
+    Future.delayed(Duration(seconds: 2), () {
+      if (_isMounted) {
+        setState(() {
+          esconderList[0] = true; // Assuming the "STATUS" section is at index 6
+        });
+
+        // Add a second delay to toggle the value back to false after 2 seconds
+        Future.delayed(Duration(seconds: 1), () {
+          if (_isMounted) {
+            setState(() {
+              esconderList[0] = false;
+            });
+          }
+        });
+      }
+    });
   }
-  @override
-void dispose() {
-  // Limpeza de recursos, cancelamento de timers, etc.
-  super.dispose();
-}
-
-
-  // New method to initialize data
   Future<void> initializeData() async {
     User? user = await FirebaseAuth.instance.authStateChanges().first;
     if (user != null) {
@@ -79,6 +90,14 @@ void dispose() {
       });
     }
   }
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
+  }
+
+
+  // New method to initialize data
 
   @override
   Widget build(BuildContext context) {
@@ -202,72 +221,74 @@ void dispose() {
             ),
             Column(
               children: [
-                SizedBox(
-                  height: 0,
-                ),
                 if (uu2 == 1)
-                  Container(
-                    width: 0.9 * MediaQuery.of(context).size.width,
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ValidacoesScreen()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[800],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      child: Text(
-                        'SOLICITAÇÕES',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0, // Tamanho de fonte aumentado
-                            color: Colors.white,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Pode ajustar conforme necessário
+                    children: [
+                      Container(
+                        width: 0.42 * MediaQuery.of(context).size.width,
+                        height: 60,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ValidacoesScreen(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green[800],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          child: Text(
+                            'SOLICITAÇÕES',
+                            style: GoogleFonts.oswald(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      
+                      Container(
+                        width: 0.42 * MediaQuery.of(context).size.width,
+                        height: 60,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddAdm(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green[800],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          child: Text(
+                            'INCLUIR GESTOR',
+                            style: GoogleFonts.oswald(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                            height: 10,
-                          ),
-                  if (uu2 == 1)
-                  Container(
-                    width: 0.9 * MediaQuery.of(context).size.width,
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddAdm()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[800],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      child: Text(
-                        'ADICIONAR ADMINISTRADOR',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0, // Tamanho de fonte aumentado
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+
                 SizedBox(
                   height: 15,
                 ),
@@ -333,7 +354,7 @@ void dispose() {
                   ),
                 if (dados == false)
                   Container(
-                    width: 0.9 * MediaQuery.of(context).size.width,
+                    width: 0.75 * MediaQuery.of(context).size.width,
                     height: 60,
                     child: ElevatedButton(
                       onPressed: () {
