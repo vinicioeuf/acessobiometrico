@@ -18,7 +18,7 @@ class AccessPage extends StatefulWidget {
 class _AccessPageState extends State<AccessPage> {
   List<DogBreed> breeds = [];
   String sortBy = 'Recentes';
-  String filterBy = 'Suas';
+  String filterBy = 'Seus acessos';
   int? userCredential;
   bool isLoading = false; // Adicionado
 
@@ -209,7 +209,7 @@ class _AccessPageState extends State<AccessPage> {
         }
       });
     },
-    items: ['Suas', 'Todo mundo'].map((String value) {
+    items: ['Seus acessos', 'Todo mundo'].map((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
