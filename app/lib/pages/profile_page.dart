@@ -27,6 +27,8 @@ class _ProfilePageState extends State<ProfilePage> {
   int? uu2;
   bool _isMounted = false;
   late String estado;
+  bool isAnimationCompleted = false; // New variable
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     // Add a delay to trigger the initial animation after 1 second
     Future.delayed(Duration(seconds: 2), () {
-      if (_isMounted) {
+      if (_isMounted && !isAnimationCompleted) {
         setState(() {
           esconderList[0] = true; // Assuming the "STATUS" section is at index 6
         });
@@ -45,6 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
           if (_isMounted) {
             setState(() {
               esconderList[0] = false;
+              isAnimationCompleted = true; // Set the flag to true after the animation
             });
           }
         });
@@ -248,7 +251,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: GoogleFonts.oswald(
                               textStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16.5,
                                 color: Colors.white,
                               ),
                             ),
@@ -279,7 +282,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: GoogleFonts.oswald(
                               textStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16.5,
                                 color: Colors.white,
                               ),
                             ),
