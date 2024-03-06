@@ -9,6 +9,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -27,17 +28,23 @@ class _ProfilePageState extends State<ProfilePage> {
   int? uu2;
   bool _isMounted = false;
   late String estado;
-  bool isAnimationCompleted = false; // New variable
-
   @override
   void initState() {
     super.initState();
     _isMounted = true;
     initializeData();
-
+    _checkAnimationStatus();
     // Add a delay to trigger the initial animation after 1 second
+    
+  }
+  Future<void> _checkAnimationStatus() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool animationCompleted = prefs.getBool('animation_completed') ?? false;
+
+  if (!animationCompleted) {
+    // Add a delay to trigger the initial animation after 2 seconds
     Future.delayed(Duration(seconds: 2), () {
-      if (_isMounted && !isAnimationCompleted) {
+      if (_isMounted) {
         setState(() {
           esconderList[0] = true; // Assuming the "STATUS" section is at index 6
         });
@@ -47,13 +54,16 @@ class _ProfilePageState extends State<ProfilePage> {
           if (_isMounted) {
             setState(() {
               esconderList[0] = false;
-              isAnimationCompleted = true; // Set the flag to true after the animation
+
+              // Mark the animation as completed
+              prefs.setBool('animation_completed', true);
             });
           }
         });
       }
     });
   }
+}
   Future<void> initializeData() async {
     User? user = await FirebaseAuth.instance.authStateChanges().first;
     if (user != null) {
