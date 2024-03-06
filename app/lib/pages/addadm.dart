@@ -171,10 +171,9 @@ class _AddAdmState extends State<AddAdm> {
                               FirebaseFirestore.instance.collection('validações').doc(document.id).update({
                                 'credencial': 1,
                               });
-                              User? user = FirebaseAuth.instance.currentUser;
-                              String uid = user!.uid;
+                              
                               // ignore: deprecated_member_use
-                              FirebaseDatabase.instance.reference().child('users').child(uid).update(
+                              FirebaseDatabase.instance.reference().child('users').child(document as String).update(
                                 {
                                   'credencial' :1
                                 }
@@ -189,7 +188,7 @@ class _AddAdmState extends State<AddAdm> {
                                       TextButton(
                                         child: Text('Ok'),
                                         onPressed: () {
-                                          Navigator.of(context).pushReplacementNamed('/home'); // Substitui a rota da página atual pela página de login
+                                          Navigator.of(context).pop(); // Substitui a rota da página atual pela página de login
                                         },
                                       ),
                                     ],

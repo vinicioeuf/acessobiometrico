@@ -238,6 +238,7 @@ void dispose() {
                   SizedBox(
                             height: 10,
                           ),
+                  if (uu2 == 1)
                   Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
                     height: 60,
