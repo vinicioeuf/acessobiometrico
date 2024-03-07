@@ -68,43 +68,6 @@ class _ValidationState extends State<Validation> {
   }
   
 
-  // void onButtonPressed() async {
-  //   const String serverToken = 'AIzaSyDs31tM39RYt0I2JBBrlu4RJBQZZVvE0xE';
-  //   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-
-  //   await firebaseMessaging.requestPermission(
-  //     alert: true,
-  //     badge: true,
-  //     sound: true,
-  //   );
-
-  //   final String? token = await firebaseMessaging.getToken();
-  //   print(token);
-  //   final response = await http.post(Uri.parse(
-  //     "https://fcm.googleapis.com/v1/projects/login-ec84e/messages:send"),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json',
-  //       'Authorization': 'Bearer $serverToken',
-  //     },
-  //     body: jsonEncode(
-  //       <String, dynamic>{
-  //         "message":{
-  //           "token": token,
-  //           "notification":{
-  //             "body":"This is an FCM notification message!",
-  //             "title":"FCM Message"
-  //           }
-  //         }
-  //       },
-  //     ),
-  //   );
-  //   print(response.statusCode);
-  //   if (response.statusCode == 200) {
-  //     print('Notificação enviada com sucesso');
-  //   } else {
-  //     print('Falha no envio da notificação');
-  //   }
-  // }
   Future<void> enviaNotificacao() async {
     User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
     if (userCredencial != null) {
@@ -691,3 +654,4 @@ class _ValidationState extends State<Validation> {
     );
   }
 }
+
