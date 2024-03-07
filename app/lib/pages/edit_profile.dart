@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:app/pages/home_page.dart';
+import 'package:app/pages/profile_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -164,7 +166,10 @@ class _EditProfileState extends State<EditProfile> {
                       actions: [
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
                           },
                           child: Text('OK'),
                         ),

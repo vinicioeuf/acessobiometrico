@@ -12,6 +12,7 @@ import 'package:app/pages/app_widget.dart';
 // }
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await AwesomeNotifications().initialize(null, [
     NotificationChannel(
         channelGroupKey: 'basic_channel_group',
