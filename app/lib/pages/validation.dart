@@ -7,6 +7,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,6 +29,7 @@ class _ValidationState extends State<Validation> {
   late String? photoURL;
   late String? nome;
   String? getEmail = null;
+  // FirebaseMessaging fcm;
   String? getMatricula = null;
   late String agora;
   Future<String> _getHoraBrasil() async {
@@ -42,7 +44,8 @@ class _ValidationState extends State<Validation> {
   @override
   void initState() {
     super.initState();
-    enviaNotificacao();
+    onButtonPressed();
+    // enviaNotificacao();
     AwesomeNotifications().setListeners(
         onActionReceivedMethod: NotificationController.onActionReceivedMethod,
         onNotificationCreatedMethod:
@@ -60,10 +63,52 @@ class _ValidationState extends State<Validation> {
       });
     });
 
-    print(credencial);
+    // print(credencial);
 // ignore: unrelated_type_equality_checks
   }
+  
 
+  void onButtonPressed() async {
+    final String serverToken = 'AIzaSyCX-5LhirEB4fduWHLnFtjgDDMmD2RwrsE';
+    final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+    await firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    final String? token = await firebaseMessaging.getToken();
+    print(token);
+    final response = await http.post(Uri.parse(
+      "https://fcm.googleapis.com/fcm/send"),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': 'this is a body',
+            'title': 'this is a title'
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'id': '1',
+            'status': 'done'
+          },
+          'to': token,
+        },
+      ),
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print('Notificação enviada com sucesso');
+    } else {
+      print('Falha no envio da notificação');
+    }
+  }
   Future<void> enviaNotificacao() async {
     User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
     if (userCredencial != null) {
@@ -617,7 +662,7 @@ class _ValidationState extends State<Validation> {
                         setState(() {
                           isLoading = true;
                         });
-                        enviaNotificacao();
+                        
                         await FirebaseMessage().initNotifications();
                         enviarValidacao();
                         setState(() {
