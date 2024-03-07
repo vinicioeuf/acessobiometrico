@@ -177,17 +177,17 @@ class _AddAdmState extends State<AddAdm> {
                               DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
                     
                     // Atualize os dados no nó apropriado no Realtime Database
-                    databaseReference.child('validações').child(documentName).update({
-                      'credencial': 1,
-                    });
+                              FirebaseFirestore.instance.collection('validações').doc(document.id).update({
+                                'credencial': 1,
+                              });
 
-                    User? user = FirebaseAuth.instance.currentUser;
-                    String uid = user!.uid;
-                    // Atualize os dados do usuário no Realtime Database
-                    print(documentName);
-                    databaseReference.child('users').child(documentName).update({
-                      'credencial': 1,
-                    });
+                              User? user = FirebaseAuth.instance.currentUser;
+                              String uid = user!.uid;
+                              // Atualize os dados do usuário no Realtime Database
+                              print(documentName);
+                              databaseReference.child('users').child(documentName).update({
+                                'credencial': 1,
+                              });
 
                               showDialog(
                                 context: context,
