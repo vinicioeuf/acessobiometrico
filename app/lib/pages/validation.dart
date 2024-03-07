@@ -44,7 +44,6 @@ class _ValidationState extends State<Validation> {
   @override
   void initState() {
     super.initState();
-    onButtonPressed();
     // enviaNotificacao();
     AwesomeNotifications().setListeners(
         onActionReceivedMethod: NotificationController.onActionReceivedMethod,
@@ -63,52 +62,49 @@ class _ValidationState extends State<Validation> {
       });
     });
 
+    // onButtonPressed();
     // print(credencial);
 // ignore: unrelated_type_equality_checks
   }
   
 
-  void onButtonPressed() async {
-    final String serverToken = 'AIzaSyCX-5LhirEB4fduWHLnFtjgDDMmD2RwrsE';
-    final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  // void onButtonPressed() async {
+  //   const String serverToken = 'AIzaSyDs31tM39RYt0I2JBBrlu4RJBQZZVvE0xE';
+  //   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
-    await firebaseMessaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+  //   await firebaseMessaging.requestPermission(
+  //     alert: true,
+  //     badge: true,
+  //     sound: true,
+  //   );
 
-    final String? token = await firebaseMessaging.getToken();
-    print(token);
-    final response = await http.post(Uri.parse(
-      "https://fcm.googleapis.com/fcm/send"),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'key=$serverToken',
-      },
-      body: jsonEncode(
-        <String, dynamic>{
-          'notification': <String, dynamic>{
-            'body': 'this is a body',
-            'title': 'this is a title'
-          },
-          'priority': 'high',
-          'data': <String, dynamic>{
-            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'id': '1',
-            'status': 'done'
-          },
-          'to': token,
-        },
-      ),
-    );
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      print('Notificação enviada com sucesso');
-    } else {
-      print('Falha no envio da notificação');
-    }
-  }
+  //   final String? token = await firebaseMessaging.getToken();
+  //   print(token);
+  //   final response = await http.post(Uri.parse(
+  //     "https://fcm.googleapis.com/v1/projects/login-ec84e/messages:send"),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer $serverToken',
+  //     },
+  //     body: jsonEncode(
+  //       <String, dynamic>{
+  //         "message":{
+  //           "token": token,
+  //           "notification":{
+  //             "body":"This is an FCM notification message!",
+  //             "title":"FCM Message"
+  //           }
+  //         }
+  //       },
+  //     ),
+  //   );
+  //   print(response.statusCode);
+  //   if (response.statusCode == 200) {
+  //     print('Notificação enviada com sucesso');
+  //   } else {
+  //     print('Falha no envio da notificação');
+  //   }
+  // }
   Future<void> enviaNotificacao() async {
     User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
     if (userCredencial != null) {
