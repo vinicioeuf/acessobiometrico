@@ -7,7 +7,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +23,6 @@ class Validation extends StatefulWidget {
 }
 
 class _ValidationState extends State<Validation> {
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
   bool isLoading = false;
   late User? user;
   late String? photoURL;
@@ -32,7 +30,6 @@ class _ValidationState extends State<Validation> {
   String? getEmail = null;
   String? getMatricula = null;
   late String agora;
-
   Future<String> _getHoraBrasil() async {
     tz.initializeTimeZones();
     final location = tz.getLocation('America/Sao_Paulo');
@@ -45,7 +42,7 @@ class _ValidationState extends State<Validation> {
   @override
   void initState() {
     super.initState();
-    enviaNotficacao();
+    enviaNotificacao();
     AwesomeNotifications().setListeners(
         onActionReceivedMethod: NotificationController.onActionReceivedMethod,
         onNotificationCreatedMethod:
@@ -65,29 +62,9 @@ class _ValidationState extends State<Validation> {
 
     print(credencial);
 // ignore: unrelated_type_equality_checks
-    messaging.getToken().then((token) {
-      print("FCM Token: $token");
-      // Faça o que quiser com o token, como enviar para o seu servidor.
-    });
-
-    messaging.onTokenRefresh.listen((token) {
-      print("FCM Token Refreshed: $token");
-      // Token foi atualizado, faça o que quiser com o novo token.
-    });
-
-    // Adicione listeners para manipular mensagens recebidas, se necessário.
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("Received message: $message");
-      // Faça o que quiser com a mensagem recebida.
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print("Message opened app: $message");
-      // Faça o que quiser quando o usuário clica em uma notificação e o aplicativo está aberto.
-    });
   }
 
-  Future<void> enviaNotficacao() async {
+  Future<void> enviaNotificacao() async {
     User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
     if (userCredencial != null) {
       String uid2 = userCredencial.uid;
@@ -105,21 +82,15 @@ class _ValidationState extends State<Validation> {
                   .collection("validações")
                   .snapshots()
                   .listen((QuerySnapshot snapshot) {
-                snapshot.docs.forEach((doc) {
-                  // Verifica se o usuário tem credencial 1
-                  if (doc["credencial"] == 1) {
-                    // Obtém o token de cada usuário
-                    String token = doc["token"];
-
-                    // Envia a notificação
-                    FirebaseMessaging.instance.sendMessage(
-                      to: token,
-                      data: {
-                        'title': 'Labmaker',
-                        'body':
-                            'Alguém fez uma solicitação de acesso, vem conferir!'
-                      },
-                    );
+                snapshot.docChanges.forEach((change) {
+                  if (change.type == DocumentChangeType.added) {
+                    AwesomeNotifications().createNotification(
+                        content: NotificationContent(
+                            id: 1,
+                            channelKey: 'basic_channel',
+                            title: "Labmaker",
+                            body:
+                                "Alguém fez uma solicitação de acesso, vem conferir!"));
                   }
                 });
               });
@@ -130,45 +101,6 @@ class _ValidationState extends State<Validation> {
         }
       });
     }
-
-    // Future<void> enviaNotificacao() async {
-    // User? userCredencial =
-    //     await FirebaseAuth.instance.authStateChanges().first;
-    // if (userCredencial != null) {
-    //   String uid2 = userCredencial.uid;
-
-    //   DatabaseReference puxaCredencial =
-    //       FirebaseDatabase.instance.ref('users/$uid2/credencial');
-    //   puxaCredencial.onValue.listen((DatabaseEvent event) {
-    //     final dadin = event.snapshot.value;
-    //     if (mounted) {
-    //       setState(() {
-    //         credencial = dadin as int?;
-    //         print("A credencial é: $credencial");
-    //         if (credencial == 1) {
-    //           FirebaseFirestore.instance
-    //               .collection("validações")
-    //               .snapshots()
-    //               .listen((QuerySnapshot snapshot) {
-    //             snapshot.docChanges.forEach((change) {
-    //               if (change.type == DocumentChangeType.added) {
-    //                 AwesomeNotifications().createNotification(
-    //                     content: NotificationContent(
-    //                         id: 1,
-    //                         channelKey: 'basic_channel',
-    //                         title: "Labmaker",
-    //                         body:
-    //                             "Alguém fez uma solicitação de acesso, vem conferir!"));
-    //               }
-    //             });
-    //           });
-    //         } else {
-    //           print("Veja se agora vai.");
-    //         }
-    //       });
-    //     }
-    //   });
-    // }
   }
 
   pegarEmail(email) {
@@ -226,8 +158,8 @@ class _ValidationState extends State<Validation> {
   ];
 
   void enviarValidacao() {
-    RegExp alunoRegex = RegExp(
-        r'^[a-zA-Z0-9_.+-]+\.[a-zA-Z0-9_.+-]+@aluno\.ifsertao-pe\.edu\.br$');
+    RegExp alunoRegex =
+        RegExp(r'^[a-zA-Z0-9_.+-]+\.[a-zA-Z0-9_.+-]+@aluno\.ifsertao-pe\.edu\.br$');
     RegExp professorRegex =
         RegExp(r'^[a-zA-Z0-9_.+-]+\.[a-zA-Z0-9_.+-]+@ifsertao-pe\.edu\.br$');
 
@@ -275,6 +207,7 @@ class _ValidationState extends State<Validation> {
         "idBiometria": idBiometria,
         "credencial": 0,
         "uid": user?.uid
+        
       };
 
       documentReference.set(validacao).whenComplete(() async {
@@ -684,7 +617,7 @@ class _ValidationState extends State<Validation> {
                         setState(() {
                           isLoading = true;
                         });
-                        enviaNotficacao();
+                        enviaNotificacao();
                         await FirebaseMessage().initNotifications();
                         enviarValidacao();
                         setState(() {
@@ -697,18 +630,14 @@ class _ValidationState extends State<Validation> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: isLoading
-                          ? CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : Text(
-                              'Enviar',
-                              style: GoogleFonts.oswald(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                      child: isLoading ? CircularProgressIndicator(color: Colors.white,) : Text(
+                        'Enviar',
+                        style: GoogleFonts.oswald(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),
