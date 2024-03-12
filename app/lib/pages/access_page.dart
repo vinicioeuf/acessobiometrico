@@ -23,13 +23,69 @@ class _AccessPageState extends State<AccessPage> {
   bool isLoading = false; // Adicionado
   // bool showAllUsers = false;
   bool showFilterDropdown = true;
-
+  int? selectedDay;
+  int? selectedMonth;
+  int? selectedYear;
 
   @override
   void initState() {
     super.initState();
     fetchData();
     inicia();
+  }
+  Future<void> fetchDataByDate(DateTime selectedDate) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    User? user = await FirebaseAuth.instance.authStateChanges().first;
+    try {
+      final response = await http.get(
+        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+      );
+
+      if (mounted) {
+        print(response.body);
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> data = json.decode(response.body);
+          final List<dynamic> breedsList = data['acessos'];
+
+          setState(() {
+            breeds = breedsList
+                .map((json) => DogBreed.fromJson(json))
+                .where((breed) => breed.email == user?.email)
+                .toList();
+
+            // Filtrar os acessos pela data selecionada
+            breeds = breeds.where((breed) {
+              DateTime dateTime = DateTime.parse(breed.createdAt);
+              dateTime = dateTime.subtract(Duration(hours: 3));
+              return dateTime.day == selectedDate.day &&
+                  dateTime.month == selectedDate.month &&
+                  dateTime.year == selectedDate.year;
+            }).toList();
+
+            // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
+            if (sortBy == 'Antigos') {
+              breeds.sort((a, b) {
+                DateTime dateTimeA = DateTime.parse(a.createdAt);
+                DateTime dateTimeB = DateTime.parse(b.createdAt);
+                return dateTimeA.compareTo(dateTimeB);
+              });
+            }
+
+            isLoading = false;
+          });
+        } else {
+          throw Exception('Failed to load data');
+        }
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   Future<void> inicia() async {
@@ -153,26 +209,33 @@ class _AccessPageState extends State<AccessPage> {
         );
       } else {
         return ListView.builder(
-          itemCount: breeds.length,
-          itemBuilder: (context, index) {
-            DateTime dateTime = DateTime.parse(breeds[index].createdAt);
+        itemCount: breeds.length,
+        itemBuilder: (context, index) {
+          // Adapte a lógica para verificar se a data está dentro do intervalo selecionado
+          DateTime dateTime = DateTime.parse(breeds[index].createdAt);
+          dateTime = dateTime.subtract(Duration(hours: 3));
 
-            // Subtrair 3 horas
-            dateTime = dateTime.subtract(Duration(hours: 3));
-
+          if ((selectedDay == null || dateTime.day == selectedDay) &&
+              (selectedMonth == null || dateTime.month == selectedMonth) &&
+              (selectedYear == null || dateTime.year == selectedYear)) {
             String formattedDateTime = DateFormat('HH:mm').format(dateTime) +
                 ' do dia ' +
                 DateFormat('dd/MM/yyyy').format(dateTime);
 
             return Acessos(
-                context,
-                breeds[index].foto,
-                breeds[index].nome,
-                breeds[index].email,
-                breeds[index].tipo,
-                formattedDateTime);
-          },
-        );
+              context,
+              breeds[index].foto,
+              breeds[index].nome,
+              breeds[index].email,
+              breeds[index].tipo,
+              formattedDateTime,
+            );
+          } else {
+            return Container(); // Não exibe se a data não estiver no intervalo selecionado
+          }
+        },
+      );
+    
       }
     }
 
@@ -217,7 +280,7 @@ class _AccessPageState extends State<AccessPage> {
                     ),
                   ),
 
-                if (filterBy != 'Todo mundo')
+                if (filterBy != 'Todo mundo') 
                   Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
                     height: 65,
@@ -238,7 +301,36 @@ class _AccessPageState extends State<AccessPage> {
                       icon: Icon(Icons.arrow_drop_down, color: Colors.black),
                       isExpanded: true,
                     ),
-                  ),
+                  )
+                else 
+                  OutlinedButton(
+                    onPressed: () {
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101),
+                      ).then((selectedDate) {
+                        if (selectedDate != null) {
+                          setState(() {
+                            // Atualize a data selecionada no seu estado, ou use como necessário
+                            // Aqui, estou apenas imprimindo a data selecionada no console
+                            print(selectedDate);
+
+                            // Chame a função fetchDataByDate com a data selecionada
+                            fetchDataByDate(selectedDate);
+                          });
+                        }
+                      });
+                    },
+                    child: Text(
+                      'Selecionar Data',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  )
+
+
+
               ],
             ),
             Expanded(
