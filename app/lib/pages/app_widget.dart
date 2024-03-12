@@ -1,5 +1,6 @@
 import 'package:app/pages/addadm.dart';
 import 'package:app/pages/edit_profile.dart';
+import 'package:app/pages/esqueceu_senha.dart';
 import 'package:app/pages/slash_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/login_page.dart';
@@ -46,6 +47,7 @@ class AppWidget extends StatelessWidget {
   '/show': (_) => ValidacoesScreen(),
   '/addadm': (_) => AddAdm(),
   '/editprofile': (_) => EditProfile(),
+  '/esqueceu_senha': (_) => EsqueceuSenha()
 },
 
       home: AuthCheck(),

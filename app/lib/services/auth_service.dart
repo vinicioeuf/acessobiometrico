@@ -90,7 +90,14 @@ class AuthService extends ChangeNotifier {
       throw AuthException('Erro no registro. Tente novamente.');
     }
   }
-  
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      throw AuthException('Erro no envio do e-mail de recuperação. Tente novamente.');
+    }
+  }
+
   Future<void> sendEmailVerification() async {
     try {
       User? user = _auth.currentUser;

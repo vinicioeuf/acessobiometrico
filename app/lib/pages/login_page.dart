@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app/pages/esqueceu_senha.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/services/auth_service.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -238,7 +239,27 @@ class _LoginPageState extends State<LoginPage> {
                         }
                         return null;
                       }),
-                  
+                  TextButton(
+                    onPressed: () {
+                      // Adicione aqui a navegação para a página de recuperação de senha
+                      Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EsqueceuSenha(),
+                                ),
+                              );
+                    },
+                    child: Text(
+                      'Esqueceu sua senha?',
+                      style: TextStyle(
+                        color: Colors.green[800],
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+
                   SizedBox(height: 30),
                   ElevatedButton(
                     // onPressed: () {
