@@ -422,7 +422,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 if (dados == false)
                   Container(
-                    width: 0.75 * MediaQuery.of(context).size.width,
+                    width: 0.80 * MediaQuery.of(context).size.width,
                     height: 60,
                     child: ElevatedButton(
                       onPressed: () {
@@ -438,7 +438,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       child: Text(
-                        'SOLICITAR ACESSO',
+                        'SOLICITAR ACESSO AO LABMAKER',
                         style: GoogleFonts.oswald(
                           textStyle: TextStyle(
                             fontSize: 20.0, // Tamanho de fonte aumentado

@@ -45,6 +45,7 @@ class _ValidationState extends State<Validation> {
   void initState() {
     super.initState();
     // enviaNotificacao();
+    
     AwesomeNotifications().setListeners(
         onActionReceivedMethod: NotificationController.onActionReceivedMethod,
         onNotificationCreatedMethod:
@@ -162,120 +163,94 @@ class _ValidationState extends State<Validation> {
   ];
 
   void enviarValidacao() {
-    RegExp alunoRegex =
-        RegExp(r'^[a-zA-Z0-9_.+-]+\.[a-zA-Z0-9_.+-]+@aluno\.ifsertao-pe\.edu\.br$');
-    RegExp professorRegex =
-        RegExp(r'^[a-zA-Z0-9_.+-]+\.[a-zA-Z0-9_.+-]+@ifsertao-pe\.edu\.br$');
+  RegExp alunoRegex =
+      RegExp(r'^[a-zA-Z0-9_.+-]+\.[a-zA-Z0-9_.+-]+@aluno\.ifsertao-pe\.edu\.br$');
+  RegExp professorRegex =
+      RegExp(r'^[a-zA-Z0-9_.+-]+\.[a-zA-Z0-9_.+-]+@ifsertao-pe\.edu\.br$');
 
-    if (getMatricula == null ||
-        getEmail == null ||
-        (!alunoRegex.hasMatch(getEmail!) &&
-            !professorRegex.hasMatch(getEmail!))) {
-      setState(() {
-        exibirMensagem = true;
+  if (getMatricula == null ||
+      user?.email == null ||
+      (!alunoRegex.hasMatch(user!.email!) &&
+          !professorRegex.hasMatch(user!.email!))) {
+    setState(() {
+      exibirMensagem = true;
+    });
+
+    // Mostra um Toast para alertar o usuário sobre o erro
+    Fluttertoast.showToast(
+      msg: "Número de matrícula ou e-mail inválido",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  } else {
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection("validações")
+        .doc(getMatricula!);
+    Random random = new Random();
+    int idBiometria = random.nextInt(100) + 1;
+
+    Map<String, dynamic> validacao = {
+      "email": user?.email, // Adicione o email do usuário aqui
+      "matricula": getMatricula,
+      "aguardando": true,
+      "autorizado": false,
+      "negado": false,
+      "vinculo": {
+        "curso": selectedValueCurso,
+        "tempo": selectedValuePeriodo,
+        "tipoCurso": selectedValueTipo,
+        "tipoVinculo": selectedValueVinculo,
+      },
+      "foto": photoURL,
+      "nome": nome,
+      "hora": agora,
+      "idBiometria": idBiometria,
+      "credencial": 0,
+      "uid": user?.uid,
+    };
+
+    documentReference.set(validacao).whenComplete(() async {
+      User? user = FirebaseAuth.instance.currentUser;
+      String uid = user!.uid;
+
+      DatabaseReference userRef =
+          FirebaseDatabase.instance.reference().child('users').child(uid);
+      userRef.update({
+        'solicitou': true,
+        'matricula': getMatricula,
+        'vinculo': selectedValueVinculo,
+        'curso': selectedValueCurso,
+        'tempo': selectedValuePeriodo,
+        'tipoCurso': selectedValueTipo,
       });
-      print("Número de matrícula ou e-mail inválido");
 
-      // Mostra um Toast para alertar o usuário sobre o erro
-      Fluttertoast.showToast(
-        msg: "Número de matrícula ou e-mail inválido",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-    } else {
-      DocumentReference documentReference = FirebaseFirestore.instance
-          .collection("validações")
-          .doc(getMatricula!);
-      Random random = new Random();
-      int idBiometria = random.nextInt(100) + 1;
-
-      Map<String, dynamic> validacao = {
-        "email": getEmail,
-        "matricula": getMatricula,
-        "aguardando": true,
-        "autorizado": false,
-        "negado": false,
-        "vinculo": {
-          "curso": selectedValueCurso,
-          "tempo": selectedValuePeriodo,
-          "tipoCurso": selectedValueTipo,
-          "tipoVinculo": selectedValueVinculo,
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Sucesso'),
+            content: Text('A solicitação foi enviada com sucesso.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Fecha o AlertDialog
+                  Navigator.of(context).pushReplacementNamed('/home');
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
         },
-        "foto": photoURL,
-        "nome": nome,
-        "hora": agora,
-        "idBiometria": idBiometria,
-        "credencial": 0,
-        "uid": user?.uid
-        
-      };
-
-      documentReference.set(validacao).whenComplete(() async {
-        User? user = FirebaseAuth.instance.currentUser;
-        String uid = user!.uid;
-        // ignore: deprecated_member_use
-        DatabaseReference userRef =
-            FirebaseDatabase.instance.reference().child('users').child(uid);
-        userRef.update({
-          'solicitou': true,
-          'matricula': getMatricula,
-          'vinculo': selectedValueVinculo,
-          'curso': selectedValueCurso,
-          'tempo': selectedValuePeriodo,
-          'tipoCurso': selectedValueTipo
-        });
-
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Sucesso'),
-              content: Text('A solicitação foi enviada com sucesso.'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Fecha o AlertDialog
-                    Navigator.of(context).pushReplacementNamed('/home');
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-        // try {
-        //   final response = await http.post(
-        //     Uri.parse(
-        //         "http://api-labmaker-db7c20aa74d8.herokuapp.com/addusuarios"),
-        //     headers: <String, String>{
-        //       'Content-Type': 'application/json; charset=UTF-8',
-        //     },
-        //     body: jsonEncode(<String, dynamic>{
-        //       "nome": nome.toString(),
-        //       "email": getEmail.toString(),
-        //       "idBiometria": idBiometria.toInt(),
-        //       "foto": photoURL.toString()
-        //     }),
-        //   );
-
-        //   // Verifique se a requisição foi bem-sucedida
-        //   if (response.statusCode == 200) {
-        //     print('Requisição POST bem-sucedida');
-        //   } else {
-        //     print(
-        //         'Erro na requisição POST. Código de status: ${response.statusCode}');
-        //   }
-        // } catch (error) {
-        //   print('Erro ao enviar requisição POST: $error');
-        // }
-      });
-    }
+      );
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -321,12 +296,14 @@ class _ValidationState extends State<Validation> {
                       SizedBox(height: 5),
                       Container(
                         width: 0.9 * MediaQuery.of(context).size.width,
-                        child: TextField(
+                        child: TextFormField(
                           onChanged: (String email) {
                             pegarEmail(email);
                           },
+                          initialValue: user?.email,
+                          enabled: false,
                           decoration: InputDecoration(
-                            hintText: "nome.sobrenome@aluno.ifsertao-pe.edu.br",
+                            hintText: user?.email,
                             hintStyle: TextStyle(
                                 color: Color.fromARGB(255, 117, 115, 115)),
                             filled: true,
