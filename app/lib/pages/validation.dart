@@ -62,7 +62,7 @@ class _ValidationState extends State<Validation> {
         agora = hora;
       });
     });
-
+  enviaNotificacao();
     // onButtonPressed();
     // print(credencial);
 // ignore: unrelated_type_equality_checks
@@ -102,6 +102,7 @@ class _ValidationState extends State<Validation> {
             } else {
               print("Veja se agora vai.");
             }
+            
           });
         }
       });
