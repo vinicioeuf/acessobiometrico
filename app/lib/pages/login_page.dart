@@ -64,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
       loading = true;
     });
     try {
+      
       await authService.login(email.text, senha.text);
       setState(() {
       });
@@ -86,17 +87,18 @@ class _LoginPageState extends State<LoginPage> {
     final authService = AuthService();
     try {
       await authService.registrar(nomeController.text, email.text, senha.text, foto.text);
+      await authService.sendEmailVerification(); // Adicione esta linha
       showDialog(
         context: context,
         barrierDismissible: false, 
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Conta criada! Faça o login.'),
+            title: Text('Conta criada! Valide seu e-mail antes de fazer o login.'),
             actions: <Widget>[
               TextButton(
                 child: Text('Ok'),
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/login'); // Substitui a rota da página atual pela página de login
+                  Navigator.of(context).pushReplacementNamed('/login');
                 },
               ),
             ],
@@ -112,6 +114,7 @@ class _LoginPageState extends State<LoginPage> {
         loading = false;
       });
     }
+
   }
 
   
@@ -262,6 +265,7 @@ class _LoginPageState extends State<LoginPage> {
                                           child: Text('Ok'),
                                           onPressed: () {
                                             registrar(); // Substitui a rota da página atual pela página de login
+                                            
                                             Navigator.of(context).pop(); // Fecha o diálogo
                                           },
                                         ),

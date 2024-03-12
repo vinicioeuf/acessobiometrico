@@ -33,6 +33,13 @@ class AuthService extends ChangeNotifier {
     usuario = _auth.currentUser;
     notifyListeners();
   }
+  Future<bool> isEmailVerified() async {
+  User? user = _auth.currentUser;
+  await user?.reload();
+  user = _auth.currentUser;
+  return user?.emailVerified ?? false;
+}
+
 
   Future<void> registrar(String nome, String email, String senha, String foto) async {
   // Validar o formato do e-mail usando expressão regular
@@ -84,6 +91,16 @@ class AuthService extends ChangeNotifier {
     }
   }
   
+  Future<void> sendEmailVerification() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+      }
+    } catch (e) {
+      throw AuthException('Erro no envio do e-mail de verificação. Tente novamente.');
+    }
+  }
 
   Future<void> login(String email, String senha) async {
     // Validar o formato do e-mail usando expressão regular
@@ -96,6 +113,14 @@ class AuthService extends ChangeNotifier {
 
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
+
+      bool emailVerified = await isEmailVerified();
+
+      if (!emailVerified) {
+        await _auth.signOut(); // Desconectar o usuário se o e-mail não estiver verificado
+        throw AuthException('E-mail não verificado. Por favor, verifique seu e-mail.');
+      }
+
       PrefsService.save(email);
       _getUser();
     } catch (e) {
