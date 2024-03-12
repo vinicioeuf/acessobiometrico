@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class AccessPage extends StatefulWidget {
   const AccessPage({Key? key}) : super(key: key);
@@ -26,13 +27,27 @@ class _AccessPageState extends State<AccessPage> {
   int? selectedDay;
   int? selectedMonth;
   int? selectedYear;
+  GlobalKey _one = GlobalKey();
+  GlobalKey _two = GlobalKey();
+  GlobalKey _three = GlobalKey();
+  GlobalKey _four = GlobalKey();
 
   @override
   void initState() {
+    // WidgetsBinding.instance!.addPostFrameCallback((_) {
+    //   _showcaseFilter();
+    // });
+    // WidgetsBinding.instance.addPostFrameCallback((_) => 
+    //   ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four]));
     super.initState();
     fetchData();
     inicia();
+
   }
+
+  // void _showcaseFilter() {
+  //   ShowCaseWidget.of(context)!.startShowCase([_filterKey, _sortKey]);
+  // }
   Future<void> fetchDataByDate(DateTime selectedDate) async {
     setState(() {
       isLoading = true;
@@ -250,7 +265,7 @@ class _AccessPageState extends State<AccessPage> {
               children: [
                 // Dropdown para ordenar
                 
-
+              
                 if (userCredential == 1)
                   Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
@@ -341,6 +356,7 @@ class _AccessPageState extends State<AccessPage> {
       ),
     );
   }
+  
 }
 
 class DogBreed {

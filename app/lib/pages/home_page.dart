@@ -2,6 +2,7 @@ import 'package:app/pages/access_page.dart';
 import 'package:app/pages/dog.dart';
 import 'package:app/pages/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import 'about_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,15 +33,18 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       home: Scaffold(
         body: Stack( // Usa um Stack para sobrepor o tutorial sobre a página
           children: [
+            
             PageView(
               controller: pc,
               children: [
                 AccessPage(),
                 ProfilePage(),
                 AboutPage(),
+                
               ],
               onPageChanged: setPaginaAtual,
             ),

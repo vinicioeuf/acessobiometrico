@@ -1,6 +1,7 @@
 import 'package:app/pages/addadm.dart';
 import 'package:app/pages/edit_profile.dart';
 import 'package:app/pages/esqueceu_senha.dart';
+import 'package:app/pages/show_case.dart';
 import 'package:app/pages/slash_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/login_page.dart';
