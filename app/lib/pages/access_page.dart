@@ -349,57 +349,79 @@ Future<void> fetchDataByDate2(DateTime selectedDate2) async {
                   ),
 
                 if (filterBy != 'Todo mundo') 
-                  OutlinedButton(
-                    onPressed: () {
-                      showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2101),
-                      ).then((selectedDate) {
-                        if (selectedDate != null) {
-                          setState(() {
-                            // Atualize a data selecionada no seu estado, ou use como necessário
-                            // Aqui, estou apenas imprimindo a data selecionada no console
-                            print(selectedDate);
+                  Container(
+  width: MediaQuery.of(context).size.width * 0.9,
+  child: OutlinedButton(
+    onPressed: () {
+      showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2101),
+      ).then((selectedDate) {
+        if (selectedDate != null) {
+          setState(() {
+            // Atualize a data selecionada no seu estado, ou use como necessário
+            // Aqui, estou apenas imprimindo a data selecionada no console
+            print(selectedDate);
 
-                            // Chame a função fetchDataByDate com a data selecionada
-                            fetchDataByDate(selectedDate);
-                          });
-                        }
-                      });
-                    },
-                    child: Text(
-                      'Selecionar Data',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  )
+            // Chame a função fetchDataByDate com a data selecionada
+            fetchDataByDate(selectedDate);
+          });
+        }
+      });
+    },
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.calendar_today),
+        SizedBox(width: 8), // Espaço entre o ícone e o texto
+        Text(
+          'Selecionar Data',
+          style: TextStyle(color: Colors.black),
+        ),
+      ],
+    ),
+  ),
+)
+
                 else 
-                  OutlinedButton(
-                    onPressed: () {
-                      showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2101),
-                      ).then((selectedDate) {
-                        if (selectedDate != null) {
-                          setState(() {
-                            // Atualize a data selecionada no seu estado, ou use como necessário
-                            // Aqui, estou apenas imprimindo a data selecionada no console
-                            print(selectedDate);
+                  Container(
+  width: MediaQuery.of(context).size.width * 0.9,
+  child: OutlinedButton(
+    onPressed: () {
+      showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2101),
+      ).then((selectedDate) {
+        if (selectedDate != null) {
+          setState(() {
+            // Atualize a data selecionada no seu estado, ou use como necessário
+            // Aqui, estou apenas imprimindo a data selecionada no console
+            print(selectedDate);
 
-                            // Chame a função fetchDataByDate com a data selecionada
-                            fetchDataByDate(selectedDate);
-                          });
-                        }
-                      });
-                    },
-                    child: Text(
-                      'Selecionar Data',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  )
+            // Chame a função fetchDataByDate com a data selecionada
+            fetchDataByDate(selectedDate);
+          });
+        }
+      });
+    },
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.calendar_today),
+        SizedBox(width: 8), // Espaço entre o ícone e o texto
+        Text(
+          'Selecionar Data',
+          style: TextStyle(color: Colors.black),
+        ),
+      ],
+    ),
+  ),
+),
+
 
 
 

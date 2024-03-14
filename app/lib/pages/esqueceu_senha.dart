@@ -22,18 +22,41 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: 'E-mail'),
-            ),
+            Text("Por favor, preencha o campo abaixo com seu e-mail institucional para prosseguir", style: TextStyle(color: Colors.grey[400])),
+            SizedBox(height: 10,),
+           TextField(
+  controller: emailController,
+  decoration: InputDecoration(
+    labelText: 'E-mail',
+    border: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.black),
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+  ),
+),
+
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Adicione aqui a lógica para enviar o e-mail de recuperação
-                enviarEmailRecuperacao(context, emailController.text);
-              },
-              child: Text('Enviar E-mail de Recuperação'),
-            ),
+            Container(
+  width: MediaQuery.of(context).size.width * 0.8,
+  height: 40.0,
+  child: ElevatedButton(
+    onPressed: () {
+      // Adicione aqui a lógica para enviar o e-mail de recuperação
+      enviarEmailRecuperacao(context, emailController.text);
+    },
+    style: ElevatedButton.styleFrom(
+      primary: Colors.green[800],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+    ),
+    child: Text(
+      'Enviar',
+      style: TextStyle(color: Colors.white),
+    ),
+  ),
+),
+
           ],
         ),
       ),
