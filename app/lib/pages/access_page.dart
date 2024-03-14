@@ -49,7 +49,59 @@ class _AccessPageState extends State<AccessPage> {
   //   ShowCaseWidget.of(context)!.startShowCase([_filterKey, _sortKey]);
   // }
   Future<void> fetchDataByDate(DateTime selectedDate) async {
+  setState(() {
+    isLoading = true;
+  });
+
+  try {
+    final response = await http.get(
+      Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+    );
+
+    if (mounted) {
+      print(response.body);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        final List<dynamic> breedsList = data['acessos'];
+
+        setState(() {
+          breeds = breedsList
+              .map((json) => DogBreed.fromJson(json))
+              .toList();
+
+          // Filtrar os acessos pela data selecionada
+          breeds = breeds.where((breed) {
+            DateTime dateTime = DateTime.parse(breed.createdAt);
+            dateTime = dateTime.subtract(Duration(hours: 3));
+            return dateTime.day == selectedDate.day &&
+                dateTime.month == selectedDate.month &&
+                dateTime.year == selectedDate.year;
+          }).toList();
+
+          // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
+          if (sortBy == 'Antigos') {
+            breeds.sort((a, b) {
+              DateTime dateTimeA = DateTime.parse(a.createdAt);
+              DateTime dateTimeB = DateTime.parse(b.createdAt);
+              return dateTimeA.compareTo(dateTimeB);
+            });
+          }
+
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    }
+  } catch (e) {
+    print('Error fetching data: $e');
     setState(() {
+      isLoading = false;
+    });
+  }
+}
+Future<void> fetchDataByDate2(DateTime selectedDate2) async {
+  setState(() {
       isLoading = true;
     });
 
@@ -75,9 +127,9 @@ class _AccessPageState extends State<AccessPage> {
             breeds = breeds.where((breed) {
               DateTime dateTime = DateTime.parse(breed.createdAt);
               dateTime = dateTime.subtract(Duration(hours: 3));
-              return dateTime.day == selectedDate.day &&
-                  dateTime.month == selectedDate.month &&
-                  dateTime.year == selectedDate.year;
+              return dateTime.day == selectedDate2.day &&
+                  dateTime.month == selectedDate2.month &&
+                  dateTime.year == selectedDate2.year;
             }).toList();
 
             // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
@@ -101,7 +153,8 @@ class _AccessPageState extends State<AccessPage> {
         isLoading = false;
       });
     }
-  }
+}
+
 
   Future<void> inicia() async {
     User? user = await FirebaseAuth.instance.authStateChanges().first;
@@ -296,25 +349,29 @@ class _AccessPageState extends State<AccessPage> {
                   ),
 
                 if (filterBy != 'Todo mundo') 
-                  Container(
-                    width: 0.9 * MediaQuery.of(context).size.width,
-                    height: 65,
-                    child: DropdownButton<String>(
-                      value: sortBy,
-                      onChanged: (value) {
-                        setState(() {
-                          sortBy = value!;
-                          fetchData();
-                        });
-                      },
-                      items: ['Recentes', 'Antigos'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                      isExpanded: true,
+                  OutlinedButton(
+                    onPressed: () {
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101),
+                      ).then((selectedDate) {
+                        if (selectedDate != null) {
+                          setState(() {
+                            // Atualize a data selecionada no seu estado, ou use como necessário
+                            // Aqui, estou apenas imprimindo a data selecionada no console
+                            print(selectedDate);
+
+                            // Chame a função fetchDataByDate com a data selecionada
+                            fetchDataByDate(selectedDate);
+                          });
+                        }
+                      });
+                    },
+                    child: Text(
+                      'Selecionar Data',
+                      style: TextStyle(color: Colors.black),
                     ),
                   )
                 else 
