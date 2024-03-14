@@ -37,71 +37,69 @@ class _AccessPageState extends State<AccessPage> {
     // WidgetsBinding.instance!.addPostFrameCallback((_) {
     //   _showcaseFilter();
     // });
-    // WidgetsBinding.instance.addPostFrameCallback((_) => 
+    // WidgetsBinding.instance.addPostFrameCallback((_) =>
     //   ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four]));
     super.initState();
     fetchData();
     inicia();
-
   }
 
   // void _showcaseFilter() {
   //   ShowCaseWidget.of(context)!.startShowCase([_filterKey, _sortKey]);
   // }
   Future<void> fetchDataByDate(DateTime selectedDate) async {
-  setState(() {
-    isLoading = true;
-  });
-
-  try {
-    final response = await http.get(
-      Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
-    );
-
-    if (mounted) {
-      print(response.body);
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        final List<dynamic> breedsList = data['acessos'];
-
-        setState(() {
-          breeds = breedsList
-              .map((json) => DogBreed.fromJson(json))
-              .toList();
-
-          // Filtrar os acessos pela data selecionada
-          breeds = breeds.where((breed) {
-            DateTime dateTime = DateTime.parse(breed.createdAt);
-            dateTime = dateTime.subtract(Duration(hours: 3));
-            return dateTime.day == selectedDate.day &&
-                dateTime.month == selectedDate.month &&
-                dateTime.year == selectedDate.year;
-          }).toList();
-
-          // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
-          if (sortBy == 'Antigos') {
-            breeds.sort((a, b) {
-              DateTime dateTimeA = DateTime.parse(a.createdAt);
-              DateTime dateTimeB = DateTime.parse(b.createdAt);
-              return dateTimeA.compareTo(dateTimeB);
-            });
-          }
-
-          isLoading = false;
-        });
-      } else {
-        throw Exception('Failed to load data');
-      }
-    }
-  } catch (e) {
-    print('Error fetching data: $e');
     setState(() {
-      isLoading = false;
+      isLoading = true;
     });
+
+    try {
+      final response = await http.get(
+        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+      );
+
+      if (mounted) {
+        print(response.body);
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> data = json.decode(response.body);
+          final List<dynamic> breedsList = data['acessos'];
+
+          setState(() {
+            breeds = breedsList.map((json) => DogBreed.fromJson(json)).toList();
+
+            // Filtrar os acessos pela data selecionada
+            breeds = breeds.where((breed) {
+              DateTime dateTime = DateTime.parse(breed.createdAt);
+              dateTime = dateTime.subtract(Duration(hours: 3));
+              return dateTime.day == selectedDate.day &&
+                  dateTime.month == selectedDate.month &&
+                  dateTime.year == selectedDate.year;
+            }).toList();
+
+            // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
+            if (sortBy == 'Antigos') {
+              breeds.sort((a, b) {
+                DateTime dateTimeA = DateTime.parse(a.createdAt);
+                DateTime dateTimeB = DateTime.parse(b.createdAt);
+                return dateTimeA.compareTo(dateTimeB);
+              });
+            }
+
+            isLoading = false;
+          });
+        } else {
+          throw Exception('Failed to load data');
+        }
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
-}
-Future<void> fetchDataByDate2(DateTime selectedDate2) async {
-  setState(() {
+
+  Future<void> fetchDataByDate2(DateTime selectedDate2) async {
+    setState(() {
       isLoading = true;
     });
 
@@ -153,8 +151,7 @@ Future<void> fetchDataByDate2(DateTime selectedDate2) async {
         isLoading = false;
       });
     }
-}
-
+  }
 
   Future<void> inicia() async {
     User? user = await FirebaseAuth.instance.authStateChanges().first;
@@ -181,83 +178,82 @@ Future<void> fetchDataByDate2(DateTime selectedDate2) async {
   }
 
   Future<void> fetchData() async {
-  setState(() {
-    isLoading = true;
-  });
+    setState(() {
+      isLoading = true;
+    });
 
-  User? user = await FirebaseAuth.instance.authStateChanges().first;
-  try {
-    final response = await http.get(
-      Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
-    );
+    User? user = await FirebaseAuth.instance.authStateChanges().first;
+    try {
+      final response = await http.get(
+        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+      );
 
-    if (mounted) {
-      print(response.body);
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        final List<dynamic> breedsList = data['acessos'];
+      if (mounted) {
+        print(response.body);
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> data = json.decode(response.body);
+          final List<dynamic> breedsList = data['acessos'];
 
-        setState(() {
-  breeds = breedsList
-      .map((json) => DogBreed.fromJson(json))
-      .where((breed) => breed.email == user?.email)
-      .toList();
+          setState(() {
+            breeds = breedsList
+                .map((json) => DogBreed.fromJson(json))
+                .where((breed) => breed.email == user?.email)
+                .toList();
 
 // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
-  if (sortBy == 'Antigos') {
-    breeds.sort((a, b) {
-      DateTime dateTimeA = DateTime.parse(a.createdAt);
-      DateTime dateTimeB = DateTime.parse(b.createdAt);
-      return dateTimeA.compareTo(dateTimeB);
-    });
-  }
+            if (sortBy == 'Antigos') {
+              breeds.sort((a, b) {
+                DateTime dateTimeA = DateTime.parse(a.createdAt);
+                DateTime dateTimeB = DateTime.parse(b.createdAt);
+                return dateTimeA.compareTo(dateTimeB);
+              });
+            }
 
-  isLoading = false;
-});
-      } else {
-        throw Exception('Failed to load data');
+            isLoading = false;
+          });
+        } else {
+          throw Exception('Failed to load data');
+        }
       }
+    } catch (e) {
+      print('Error fetching data: $e');
+      setState(() {
+        isLoading = false;
+      });
     }
-  } catch (e) {
-    print('Error fetching data: $e');
-    setState(() {
-      isLoading = false;
-    });
   }
-}
-
 
   Future<void> fetchDataForAllUsers() async {
-  setState(() {
-    isLoading = true;
-  });
-
-  try {
-    final response = await http.get(
-      Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
-    );
-
-    if (mounted) {
-      print(response.body);
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        final List<dynamic> breedsList = data['acessos'];
-
-        setState(() {
-          breeds = breedsList.map((json) => DogBreed.fromJson(json)).toList();
-          isLoading = false;
-        });
-      } else {
-        throw Exception('Failed to load data');
-      }
-    }
-  } catch (e) {
-    print('Error fetching data: $e');
     setState(() {
-      isLoading = false;
+      isLoading = true;
     });
+
+    try {
+      final response = await http.get(
+        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+      );
+
+      if (mounted) {
+        print(response.body);
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> data = json.decode(response.body);
+          final List<dynamic> breedsList = data['acessos'];
+
+          setState(() {
+            breeds = breedsList.map((json) => DogBreed.fromJson(json)).toList();
+            isLoading = false;
+          });
+        } else {
+          throw Exception('Failed to load data');
+        }
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
-}
 
   int selectedIndex = 0;
 
@@ -266,7 +262,9 @@ Future<void> fetchDataByDate2(DateTime selectedDate2) async {
     Widget getContent() {
       if (isLoading) {
         return Center(
-          child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green),), // Indicador de progresso circular
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+          ), // Indicador de progresso circular
         );
       } else if (breeds.isEmpty) {
         return Center(
@@ -277,33 +275,32 @@ Future<void> fetchDataByDate2(DateTime selectedDate2) async {
         );
       } else {
         return ListView.builder(
-        itemCount: breeds.length,
-        itemBuilder: (context, index) {
-          // Adapte a lógica para verificar se a data está dentro do intervalo selecionado
-          DateTime dateTime = DateTime.parse(breeds[index].createdAt);
-          dateTime = dateTime.subtract(Duration(hours: 3));
+          itemCount: breeds.length,
+          itemBuilder: (context, index) {
+            // Adapte a lógica para verificar se a data está dentro do intervalo selecionado
+            DateTime dateTime = DateTime.parse(breeds[index].createdAt);
+            dateTime = dateTime.subtract(Duration(hours: 3));
 
-          if ((selectedDay == null || dateTime.day == selectedDay) &&
-              (selectedMonth == null || dateTime.month == selectedMonth) &&
-              (selectedYear == null || dateTime.year == selectedYear)) {
-            String formattedDateTime = DateFormat('HH:mm').format(dateTime) +
-                ' do dia ' +
-                DateFormat('dd/MM/yyyy').format(dateTime);
+            if ((selectedDay == null || dateTime.day == selectedDay) &&
+                (selectedMonth == null || dateTime.month == selectedMonth) &&
+                (selectedYear == null || dateTime.year == selectedYear)) {
+              String formattedDateTime = DateFormat('HH:mm').format(dateTime) +
+                  ' do dia ' +
+                  DateFormat('dd/MM/yyyy').format(dateTime);
 
-            return Acessos(
-              context,
-              breeds[index].foto,
-              breeds[index].nome,
-              breeds[index].email,
-              breeds[index].tipo,
-              formattedDateTime,
-            );
-          } else {
-            return Container(); // Não exibe se a data não estiver no intervalo selecionado
-          }
-        },
-      );
-    
+              return Acessos(
+                context,
+                breeds[index].foto,
+                breeds[index].nome,
+                breeds[index].email,
+                breeds[index].tipo,
+                formattedDateTime,
+              );
+            } else {
+              return Container(); // Não exibe se a data não estiver no intervalo selecionado
+            }
+          },
+        );
       }
     }
 
@@ -317,8 +314,7 @@ Future<void> fetchDataByDate2(DateTime selectedDate2) async {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Dropdown para ordenar
-                
-              
+
                 if (userCredential == 1)
                   Container(
                     width: 0.9 * MediaQuery.of(context).size.width,
@@ -348,83 +344,78 @@ Future<void> fetchDataByDate2(DateTime selectedDate2) async {
                     ),
                   ),
 
-                if (filterBy != 'Todo mundo') 
+                if (filterBy != 'Todo mundo')
                   Container(
-  width: MediaQuery.of(context).size.width * 0.9,
-  child: OutlinedButton(
-    onPressed: () {
-      showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101),
-      ).then((selectedDate) {
-        if (selectedDate != null) {
-          setState(() {
-            // Atualize a data selecionada no seu estado, ou use como necessário
-            // Aqui, estou apenas imprimindo a data selecionada no console
-            print(selectedDate);
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2101),
+                        ).then((selectedDate) {
+                          if (selectedDate != null) {
+                            setState(() {
+                              // Atualize a data selecionada no seu estado, ou use como necessário
+                              // Aqui, estou apenas imprimindo a data selecionada no console
+                              print(selectedDate);
 
-            // Chame a função fetchDataByDate com a data selecionada
-            fetchDataByDate(selectedDate);
-          });
-        }
-      });
-    },
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.calendar_today),
-        SizedBox(width: 8), // Espaço entre o ícone e o texto
-        Text(
-          'Selecionar Data',
-          style: TextStyle(color: Colors.black),
-        ),
-      ],
-    ),
-  ),
-)
-
-                else 
+                              // Chame a função fetchDataByDate com a data selecionada
+                              fetchDataByDate(selectedDate);
+                            });
+                          }
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.calendar_today),
+                          SizedBox(width: 8), // Espaço entre o ícone e o texto
+                          Text(
+                            'Selecionar Data',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                else
                   Container(
-  width: MediaQuery.of(context).size.width * 0.9,
-  child: OutlinedButton(
-    onPressed: () {
-      showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101),
-      ).then((selectedDate) {
-        if (selectedDate != null) {
-          setState(() {
-            // Atualize a data selecionada no seu estado, ou use como necessário
-            // Aqui, estou apenas imprimindo a data selecionada no console
-            print(selectedDate);
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2101),
+                        ).then((selectedDate) {
+                          if (selectedDate != null) {
+                            setState(() {
+                              // Atualize a data selecionada no seu estado, ou use como necessário
+                              // Aqui, estou apenas imprimindo a data selecionada no console
+                              print(selectedDate);
 
-            // Chame a função fetchDataByDate com a data selecionada
-            fetchDataByDate(selectedDate);
-          });
-        }
-      });
-    },
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.calendar_today),
-        SizedBox(width: 8), // Espaço entre o ícone e o texto
-        Text(
-          'Selecionar Data',
-          style: TextStyle(color: Colors.black),
-        ),
-      ],
-    ),
-  ),
-),
-
-
-
-
+                              // Chame a função fetchDataByDate com a data selecionada
+                              fetchDataByDate(selectedDate);
+                            });
+                          }
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.calendar_today),
+                          SizedBox(width: 8), // Espaço entre o ícone e o texto
+                          Text(
+                            'Selecionar Data',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
               ],
             ),
             Expanded(
@@ -435,7 +426,6 @@ Future<void> fetchDataByDate2(DateTime selectedDate2) async {
       ),
     );
   }
-  
 }
 
 class DogBreed {
@@ -469,7 +459,9 @@ class DogBreed {
 @override
 Widget Enfeites() {
   return SingleChildScrollView(
-      child: Column(mainAxisAlignment: MainAxisAlignment.center // Centraliza verticalmente
+      child: Column(
+          mainAxisAlignment:
+              MainAxisAlignment.center // Centraliza verticalmente
           ,
           children: [
         SizedBox(height: 35),
