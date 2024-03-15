@@ -41,8 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
     // Future.delayed(Duration.zero, () {
     //   ShowCaseWidget.of(context).startShowCase([_three, _four, _five, _six]);
     // });
-    _isMounted = true;
     _checkShowCaseStatus();
+    _isMounted = true;
     initializeData();
     _checkAnimationStatus();
     // Add a delay to trigger the initial animation after 1 second

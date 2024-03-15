@@ -59,7 +59,7 @@ class HomePageState extends State<HomePage> {
                     builder: (context) => AboutPage(),
                   ),
                 ),
-                AboutPage(),
+                // AboutPage(),
                 
               ],
               onPageChanged: setPaginaAtual,
