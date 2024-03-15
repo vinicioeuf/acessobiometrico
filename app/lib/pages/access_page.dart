@@ -272,7 +272,7 @@ class _AccessPageState extends State<AccessPage> {
       if (isLoading) {
         return Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.green[800]!),
           ), // Indicador de progresso circular
         );
       } else if (breeds.isEmpty) {
@@ -386,7 +386,7 @@ class _AccessPageState extends State<AccessPage> {
                             overlayOpacity: 0.5,
                             targetShapeBorder: const CircleBorder(),
                             targetPadding: const EdgeInsets.all(8),
-                            child: const Icon(Icons.calendar_today),
+                            child: const Icon(Icons.calendar_today, color: Color.fromARGB(255, 36, 64, 25)),
                           ),
                           // Icon(Icons.calendar_today),
                           SizedBox(width: 8), // Espaço entre o ícone e o texto
@@ -424,7 +424,7 @@ class _AccessPageState extends State<AccessPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.calendar_today),
+                          Icon(Icons.calendar_today, color: Color.fromARGB(255, 36, 64, 25)),
                           SizedBox(width: 8), // Espaço entre o ícone e o texto
                           Text(
                             'Selecionar Data',

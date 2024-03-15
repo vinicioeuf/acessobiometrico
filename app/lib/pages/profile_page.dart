@@ -34,11 +34,12 @@ class _ProfilePageState extends State<ProfilePage> {
   GlobalKey _three = GlobalKey();
   GlobalKey _four = GlobalKey();
   GlobalKey _five = GlobalKey();
+  GlobalKey _six = GlobalKey();
   @override
   void initState() {
     super.initState();
     // Future.delayed(Duration.zero, () {
-    //   ShowCaseWidget.of(context).startShowCase([_three, _four, _five]);
+    //   ShowCaseWidget.of(context).startShowCase([_three, _four, _five, _six]);
     // });
     _isMounted = true;
     _checkShowCaseStatus();
@@ -54,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (!showcaseDisplayed) {
       // Exibe o ShowCase
       Future.delayed(Duration.zero, () {
-        ShowCaseWidget.of(context).startShowCase([_three, _four, _five]);
+        ShowCaseWidget.of(context).startShowCase([_three, _four, _five, _six]);
       });
 
       // Marca o ShowCase como exibido nas preferências compartilhadas
@@ -296,7 +297,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       Showcase(
                         key: _four,
-                        description: 'Você pode solicitar acesso ao LabMaker!',
+                        description: 'Ãqui você pode aprovar a solicitação de alguém.',
                         overlayOpacity: 0.5,
                         targetShapeBorder: const CircleBorder(),
                         targetPadding: const EdgeInsets.all(8),
@@ -345,7 +346,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
-                      Container(
+                      Showcase(
+                        key: _five,
+                        description: 'Ãqui você pode aprovar a solicitação de alguém.',
+                        overlayOpacity: 0.5,
+                        targetShapeBorder: const CircleBorder(),
+                        targetPadding: const EdgeInsets.all(8),
+                        child: Container(
                         width: 0.42 * MediaQuery.of(context).size.width,
                         height: 60,
                         child: Container(
@@ -389,6 +396,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
+                      ),
+                      
                     ],
                   ),
                 SizedBox(
@@ -426,7 +435,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(height: 10),
                           if (estado == "AUTORIZADO")
                             Showcase(
-                              key: _five,
+                              key: _six,
                               description:
                                   'Informe este número quando for cadastrar sua biometria.',
                               overlayOpacity: 0.5,

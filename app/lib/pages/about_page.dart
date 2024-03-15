@@ -3,11 +3,41 @@ import 'package:app/pages/team_dev.dart';
 import 'package:app/pages/team_maker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
-
+class AboutPage extends StatefulWidget {
+  @override
+  _AboutPageState createState() => _AboutPageState();
+}
 
 // ignore: must_be_immutable
-class AboutPage extends StatelessWidget {
+class _AboutPageState extends State<AboutPage> {
+  GlobalKey _team = GlobalKey();
+  @override
+  void initState() {
+    super.initState();
+    // Future.delayed(Duration.zero, () {
+    //     ShowCaseWidget.of(context).startShowCase([_team]);
+    //   });
+    // Verifique se o ShowCase já foi exibido nas preferências compartilhadas
+    _checkShowCaseStatus();
+
+  }
+  Future<void> _checkShowCaseStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? showCaseDisplayed = prefs.getBool('show_case_displayed');
+
+    if (showCaseDisplayed == false) {
+      // Exibe o ShowCase
+      Future.delayed(Duration.zero, () {
+        ShowCaseWidget.of(context).startShowCase([_team]);
+      });
+
+      // Marca o ShowCase como exibido nas preferências compartilhadas
+      prefs.setBool('show_case_displayed', true);
+    }
+  }
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -43,8 +73,14 @@ class AboutPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width:5),
-                    //Botões
-                    Container(
+                  Showcase(
+                    key: _team,
+                    description:
+                        'Você também pode ver a nossa equipe maker!',
+                    overlayOpacity: 0.5,
+                    targetShapeBorder: const CircleBorder(),
+                    targetPadding: const EdgeInsets.all(3),
+                    child: Container(
                       alignment: Alignment.topCenter,
                       width: 0.5 * MediaQuery.of(context).size.width,
                       
@@ -100,6 +136,10 @@ class AboutPage extends StatelessWidget {
                     ],
                   ),
                   ),
+                  ),
+                  
+                  
+                    
                   SizedBox(width: 10),
                   //Barra
                   Container(
