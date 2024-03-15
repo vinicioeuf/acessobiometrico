@@ -16,6 +16,7 @@ class AccessPage extends StatefulWidget {
   @override
   State<AccessPage> createState() => _AccessPageState();
 }
+
 class _AccessPageState extends State<AccessPage> {
   List<DogBreed> breeds = [];
   String sortBy = 'Recentes';
@@ -29,8 +30,7 @@ class _AccessPageState extends State<AccessPage> {
   int? selectedYear;
   GlobalKey _one = GlobalKey();
 
-  bool _showCaseDisplayed = false;
-  
+  late bool _showCaseDisplayed;
 
   @override
   void initState() {
@@ -43,9 +43,9 @@ class _AccessPageState extends State<AccessPage> {
 
   Future<void> _checkShowCaseStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool showCaseDisplayed = prefs.getBool('show_case_displayed') ?? false;
+    bool? showCaseDisplayed = prefs.getBool('show_case_displayed');
 
-    if (!showCaseDisplayed) {
+    if (showCaseDisplayed == false) {
       // Exibe o ShowCase
       Future.delayed(Duration.zero, () {
         ShowCaseWidget.of(context).startShowCase([_one]);
@@ -55,7 +55,6 @@ class _AccessPageState extends State<AccessPage> {
       prefs.setBool('show_case_displayed', true);
     }
   }
-
 
   Future<void> fetchDataByDate(DateTime selectedDate) async {
     setState(() {
@@ -347,7 +346,6 @@ class _AccessPageState extends State<AccessPage> {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
-                          
                         );
                       }).toList(),
                       icon: Icon(Icons.arrow_drop_down, color: Colors.black),
@@ -383,7 +381,8 @@ class _AccessPageState extends State<AccessPage> {
                         children: [
                           Showcase(
                             key: _one,
-                            description: 'Aqui você pode escolher quais acessos deseja ver',
+                            description:
+                                'Aqui você pode escolher quais acessos deseja ver',
                             overlayOpacity: 0.5,
                             targetShapeBorder: const CircleBorder(),
                             targetPadding: const EdgeInsets.all(8),
@@ -518,7 +517,6 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
     child: Wrap(
       alignment: WrapAlignment.start,
       children: [
-        
         ClipOval(
           child: Image.network(
             imagem,
@@ -563,7 +561,6 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
                 ),
               ]),
               SizedBox(height: 10),
-              
             ],
           ),
         ),
@@ -586,7 +583,6 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
                 color: Colors.green[800],
               ),
             ),
-            
           ]),
         ),
         SizedBox(height: 5),
