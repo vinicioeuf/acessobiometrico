@@ -470,7 +470,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     targetShapeBorder: const CircleBorder(),
                     targetPadding: const EdgeInsets.all(8),
                     child: Container(
-                      width: 0.80 * MediaQuery.of(context).size.width,
+                      width: 0.85 * MediaQuery.of(context).size.width,
                       height: 60,
                       child: ElevatedButton(
                         onPressed: () {
