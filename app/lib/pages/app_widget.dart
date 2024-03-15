@@ -9,6 +9,8 @@ import 'package:app/pages/profile_page.dart';
 import 'package:app/pages/about_page.dart';
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/team_dev.dart';
+import 'package:app/pages/teste.dart';
+import 'package:app/pages/teste2.dart';
 import 'package:app/widgets/auth_check.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/show_data.dart';
@@ -48,7 +50,9 @@ class AppWidget extends StatelessWidget {
   '/show': (_) => ValidacoesScreen(),
   '/addadm': (_) => AddAdm(),
   '/editprofile': (_) => EditProfile(),
-  '/esqueceu_senha': (_) => EsqueceuSenha()
+  '/esqueceu_senha': (_) => EsqueceuSenha(),
+  '/teste': (_) => Teste(),
+  '/teste2': (_) => Teste2()
 },
 
       home: AuthCheck(),

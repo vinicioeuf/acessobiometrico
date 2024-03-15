@@ -3,6 +3,7 @@ import 'package:app/pages/dog.dart';
 import 'package:app/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'about_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,8 +42,23 @@ class HomePageState extends State<HomePage> {
             PageView(
               controller: pc,
               children: [
-                AccessPage(),
-                ProfilePage(),
+                ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context) => AccessPage(),
+                  ),
+                ),
+                // AccessPage(),
+                ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context) => ProfilePage(),
+                  ),
+                ),
+                // ProfilePage(),
+                ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context) => AboutPage(),
+                  ),
+                ),
                 AboutPage(),
                 
               ],

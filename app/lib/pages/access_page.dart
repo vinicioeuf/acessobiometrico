@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 
 class AccessPage extends StatefulWidget {
@@ -15,7 +16,6 @@ class AccessPage extends StatefulWidget {
   @override
   State<AccessPage> createState() => _AccessPageState();
 }
-
 class _AccessPageState extends State<AccessPage> {
   List<DogBreed> breeds = [];
   String sortBy = 'Recentes';
@@ -28,25 +28,35 @@ class _AccessPageState extends State<AccessPage> {
   int? selectedMonth;
   int? selectedYear;
   GlobalKey _one = GlobalKey();
-  GlobalKey _two = GlobalKey();
-  GlobalKey _three = GlobalKey();
-  GlobalKey _four = GlobalKey();
+
+  bool _showCaseDisplayed = false;
+  
 
   @override
   void initState() {
-    // WidgetsBinding.instance!.addPostFrameCallback((_) {
-    //   _showcaseFilter();
-    // });
-    // WidgetsBinding.instance.addPostFrameCallback((_) =>
-    //   ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four]));
     super.initState();
+    // Verifique se o ShowCase já foi exibido nas preferências compartilhadas
+    _checkShowCaseStatus();
     fetchData();
     inicia();
   }
 
-  // void _showcaseFilter() {
-  //   ShowCaseWidget.of(context)!.startShowCase([_filterKey, _sortKey]);
-  // }
+  Future<void> _checkShowCaseStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool showCaseDisplayed = prefs.getBool('show_case_displayed') ?? false;
+
+    if (!showCaseDisplayed) {
+      // Exibe o ShowCase
+      Future.delayed(Duration.zero, () {
+        ShowCaseWidget.of(context).startShowCase([_one]);
+      });
+
+      // Marca o ShowCase como exibido nas preferências compartilhadas
+      prefs.setBool('show_case_displayed', true);
+    }
+  }
+
+
   Future<void> fetchDataByDate(DateTime selectedDate) async {
     setState(() {
       isLoading = true;
@@ -337,6 +347,7 @@ class _AccessPageState extends State<AccessPage> {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
+                          
                         );
                       }).toList(),
                       icon: Icon(Icons.arrow_drop_down, color: Colors.black),
@@ -370,7 +381,15 @@ class _AccessPageState extends State<AccessPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.calendar_today),
+                          Showcase(
+                            key: _one,
+                            description: 'Aqui você pode escolher quais acessos deseja ver',
+                            overlayOpacity: 0.5,
+                            targetShapeBorder: const CircleBorder(),
+                            targetPadding: const EdgeInsets.all(8),
+                            child: const Icon(Icons.calendar_today),
+                          ),
+                          // Icon(Icons.calendar_today),
                           SizedBox(width: 8), // Espaço entre o ícone e o texto
                           Text(
                             'Selecionar Data',
@@ -499,6 +518,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
     child: Wrap(
       alignment: WrapAlignment.start,
       children: [
+        
         ClipOval(
           child: Image.network(
             imagem,
@@ -543,6 +563,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
                 ),
               ]),
               SizedBox(height: 10),
+              
             ],
           ),
         ),
@@ -565,6 +586,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
                 color: Colors.green[800],
               ),
             ),
+            
           ]),
         ),
         SizedBox(height: 5),

@@ -2,6 +2,8 @@ import 'package:app/pages/addadm.dart';
 import 'package:app/pages/edit_profile.dart';
 import 'package:app/pages/login_page.dart';
 import 'package:app/pages/show_data.dart';
+import 'package:app/pages/teste.dart';
+import 'package:app/pages/teste2.dart';
 import 'package:app/pages/validation.dart';
 import 'package:app/services/prefs_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -26,14 +29,37 @@ class _ProfilePageState extends State<ProfilePage> {
   String? uu;
   int? uu2;
   bool _isMounted = false;
+  bool showcaseDisplayed = false;
   late String estado;
+  GlobalKey _three = GlobalKey();
+  GlobalKey _four = GlobalKey();
+  GlobalKey _five = GlobalKey();
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      ShowCaseWidget.of(context).startShowCase([_three, _four, _five]);
+    });
     _isMounted = true;
+    _checkShowCaseStatus();
     initializeData();
     _checkAnimationStatus();
     // Add a delay to trigger the initial animation after 1 second
+  }
+
+  Future<void> _checkShowCaseStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool showcaseDisplayed = prefs.getBool('show_case_displayed') ?? false;
+
+    if (!showcaseDisplayed) {
+      // Exibe o ShowCase
+      Future.delayed(Duration.zero, () {
+        ShowCaseWidget.of(context).startShowCase([_three]);
+      });
+
+      // Marca o ShowCase como exibido nas preferências compartilhadas
+      prefs.setBool('show_case_displayed', true);
+    }
   }
 
   Future<void> _checkAnimationStatus() async {
@@ -268,44 +294,51 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment
                         .spaceEvenly, // Pode ajustar conforme necessário
                     children: [
-                      Container(
-                        width: 0.42 * MediaQuery.of(context).size.width,
-                        height: 60,
+                      Showcase(
+                        key: _four,
+                        description: 'Você pode solicitar acesso ao LabMaker!',
+                        overlayOpacity: 0.5,
+                        targetShapeBorder: const CircleBorder(),
+                        targetPadding: const EdgeInsets.all(8),
                         child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: Offset(0,
-                                    3), // altere os valores conforme necessário
-                              ),
-                            ],
-                          ),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ValidacoesScreen(),
+                          width: 0.42 * MediaQuery.of(context).size.width,
+                          height: 60,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: Offset(0,
+                                      3), // altere os valores conforme necessário
                                 ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.green[800],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
+                              ],
                             ),
-                            child: Text(
-                              'SOLICITAÇÕES',
-                              style: GoogleFonts.oswald(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.5,
-                                  color: Colors.white,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ValidacoesScreen(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green[800],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                              ),
+                              child: Text(
+                                'SOLICITAÇÕES',
+                                style: GoogleFonts.oswald(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.5,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -392,8 +425,16 @@ class _ProfilePageState extends State<ProfilePage> {
                           info(context, "STATUS:", "STATUS", estado, false, 6),
                           SizedBox(height: 10),
                           if (estado == "AUTORIZADO")
-                            info(context, "ID:", "ID", "${data['idBiometria']}",
-                                true, 0),
+                            Showcase(
+                              key: _five,
+                              description:
+                                  'Informe este número quando for cadastrar sua biometria.',
+                              overlayOpacity: 0.5,
+                              targetShapeBorder: const CircleBorder(),
+                              targetPadding: const EdgeInsets.all(8),
+                              child: info(context, "ID:", "ID",
+                                  "${data['idBiometria']}", true, 0),
+                            ),
                           SizedBox(height: 10),
                           info(context, "E-MAIL:", "E-MAIL", '${data['email']}',
                               true, 1),
@@ -420,35 +461,47 @@ class _ProfilePageState extends State<ProfilePage> {
                       }
                     },
                   ),
-                if (dados == false)
-                  Container(
-                    width: 0.80 * MediaQuery.of(context).size.width,
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Validation()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[800],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+
+                if (dados == false && !showcaseDisplayed)
+                  Showcase(
+                    key: _three,
+                    description: 'Você pode solicitar acesso ao LabMaker!',
+                    overlayOpacity: 0.5,
+                    targetShapeBorder: const CircleBorder(),
+                    targetPadding: const EdgeInsets.all(8),
+                    child: Container(
+                      width: 0.80 * MediaQuery.of(context).size.width,
+                      height: 60,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Validation()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green[800],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'SOLICITAR ACESSO AO LABMAKER',
-                        style: GoogleFonts.oswald(
-                          textStyle: TextStyle(
-                            fontSize: 20.0, // Tamanho de fonte aumentado
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                        child: Text(
+                          'SOLICITAR ACESSO AO LABMAKER',
+                          style: GoogleFonts.oswald(
+                            textStyle: TextStyle(
+                              fontSize: 20.0, // Tamanho de fonte aumentado
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
+                // if (dados == false)
+                
+
                 SizedBox(height: 10),
               ],
             ),

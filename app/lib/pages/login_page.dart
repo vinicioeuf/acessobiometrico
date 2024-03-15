@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:app/pages/esqueceu_senha.dart';
 import 'package:app/pages/home_page.dart';
+import 'package:app/pages/teste2.dart';
 import 'package:app/services/auth_service.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -31,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   late String actionButton;
   late String toogleDesc;
   late String toogleButton;
+  late String pass;
   bool loading = false;
 
   @override
@@ -46,11 +48,13 @@ class _LoginPageState extends State<LoginPage> {
 
       if (isLogin) {
         titulo = "LOGIN";
+        pass = "Esqueceu sua senha?";
         actionButton = "Entrar";
         toogleDesc = "Ainda não tem uma conta?";
         toogleButton = "Cadastre-se";
       } else {
         titulo = "CADASTRE-SE";
+        pass = "";
         actionButton = "Enviar";
         toogleDesc = "Já possui uma conta?";
         toogleButton = "Entrar";
@@ -69,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
       await authService.login(email.text, senha.text);
       setState(() {
       });
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HomePage()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Teste2()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message),
@@ -250,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
                               );
                     },
                     child: Text(
-                      'Esqueceu sua senha?',
+                      pass,
                       style: TextStyle(
                         color: Colors.green[800],
                         fontSize: 16,
