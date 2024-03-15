@@ -44,7 +44,7 @@ class AuthService extends ChangeNotifier {
   Future<void> registrar(String nome, String email, String senha, String foto) async {
   // Validar o formato do e-mail usando expressão regular
     final emailRegex = RegExp(
-        r"^[a-zA-Z0-9_.+-]+@(gmail\.com|hotmail\.com|aluno\.ifsertao-pe\.edu\.br|ifsertao-pe\.edu\.br)$");
+        r"^[a-zA-Z0-9_.+-]+@(aluno\.ifsertao-pe\.edu\.br|ifsertao-pe\.edu\.br)$");
 
     if (!emailRegex.hasMatch(email)) {
       throw AuthException('E-mail inválido. Utilize um e-mail permitido.');
