@@ -26,9 +26,9 @@ class _AboutPageState extends State<AboutPage> {
   }
   Future<void> _checkShowCaseStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? showCaseDisplayed = prefs.getBool('show_case_displayed');
+    bool showcaseDisplayed = prefs.getBool('show_case_displayed') ?? false;
 
-    if (showCaseDisplayed == false) {
+    if (!showcaseDisplayed) {
       // Exibe o ShowCase
       Future.delayed(Duration.zero, () {
         ShowCaseWidget.of(context).startShowCase([_team]);
