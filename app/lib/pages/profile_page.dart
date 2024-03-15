@@ -37,9 +37,9 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      ShowCaseWidget.of(context).startShowCase([_three, _four, _five]);
-    });
+    // Future.delayed(Duration.zero, () {
+    //   ShowCaseWidget.of(context).startShowCase([_three, _four, _five]);
+    // });
     _isMounted = true;
     _checkShowCaseStatus();
     initializeData();
@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (!showcaseDisplayed) {
       // Exibe o ShowCase
       Future.delayed(Duration.zero, () {
-        ShowCaseWidget.of(context).startShowCase([_three]);
+        ShowCaseWidget.of(context).startShowCase([_three, _four, _five]);
       });
 
       // Marca o ShowCase como exibido nas preferências compartilhadas
