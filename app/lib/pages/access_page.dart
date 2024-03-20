@@ -324,12 +324,9 @@ class _AccessPageState extends State<AccessPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     Widget getContent() {
-      
       if (isLoading) {
         return Center(
-          
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(Colors.green[800]!),
           ), // Indicador de progresso circular
@@ -343,7 +340,6 @@ class _AccessPageState extends State<AccessPage> {
         );
       } else {
         return ListView.builder(
-          
           itemCount: breeds.length,
           itemBuilder: (context, index) {
             // Adapte a lógica para verificar se a data está dentro do intervalo selecionado
@@ -375,11 +371,10 @@ class _AccessPageState extends State<AccessPage> {
 
     return MaterialApp(
       localizationsDelegates: [
-
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       supportedLocales: const [Locale('pt', 'BR')],
       home: Scaffold(
         body: Column(
@@ -463,11 +458,11 @@ class _AccessPageState extends State<AccessPage> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: OutlinedButton(
                       onPressed: () {
-                        showDateRangePicker(barrierColor: Colors.green[800],
+                        showDateRangePicker(
+                          barrierColor: Colors.green[800],
                           context: context,
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2101),
-                          
                         ).then((pickedDateRange) {
                           if (pickedDateRange != null) {
                             setState(() {
@@ -540,7 +535,6 @@ class DogBreed {
 @override
 Widget Enfeites() {
   return SingleChildScrollView(
-    
       child: Column(
           mainAxisAlignment:
               MainAxisAlignment.center // Centraliza verticalmente
