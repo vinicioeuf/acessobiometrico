@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter/material.dart' show MaterialLocalizations;
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class AccessPage extends StatefulWidget {
   const AccessPage({Key? key}) : super(key: key);
@@ -22,6 +24,8 @@ class _AccessPageState extends State<AccessPage> {
   String sortBy = 'Recentes';
   String filterBy = 'Seus acessos';
   int? userCredential;
+  DateTime? startDate;
+  DateTime? endDate;
   bool isLoading = false; // Adicionado
   // bool showAllUsers = false;
   bool showFilterDropdown = true;
@@ -35,10 +39,62 @@ class _AccessPageState extends State<AccessPage> {
   @override
   void initState() {
     super.initState();
+
     // Verifique se o ShowCase já foi exibido nas preferências compartilhadas
     _checkShowCaseStatus();
     fetchData();
     inicia();
+  }
+
+  Future<void> fetchDataByDateRange(
+      DateTime startDate, DateTime endDate) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final response = await http.get(
+        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+      );
+
+      if (mounted) {
+        print(response.body);
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> data = json.decode(response.body);
+          final List<dynamic> breedsList = data['acessos'];
+
+          setState(() {
+            breeds = breedsList.map((json) => DogBreed.fromJson(json)).toList();
+
+            // Filtrar os acessos pelo intervalo de datas selecionado
+            breeds = breeds.where((breed) {
+              DateTime dateTime = DateTime.parse(breed.createdAt);
+              dateTime = dateTime.subtract(Duration(hours: 3));
+              return dateTime.isAfter(startDate.subtract(Duration(days: 1))) &&
+                  dateTime.isBefore(endDate.add(Duration(days: 1)));
+            }).toList();
+
+            // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
+            if (sortBy == 'Antigos') {
+              breeds.sort((a, b) {
+                DateTime dateTimeA = DateTime.parse(a.createdAt);
+                DateTime dateTimeB = DateTime.parse(b.createdAt);
+                return dateTimeA.compareTo(dateTimeB);
+              });
+            }
+
+            isLoading = false;
+          });
+        } else {
+          throw Exception('Failed to load data');
+        }
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   Future<void> _checkShowCaseStatus() async {
@@ -268,9 +324,12 @@ class _AccessPageState extends State<AccessPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     Widget getContent() {
+      
       if (isLoading) {
         return Center(
+          
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(Colors.green[800]!),
           ), // Indicador de progresso circular
@@ -284,6 +343,7 @@ class _AccessPageState extends State<AccessPage> {
         );
       } else {
         return ListView.builder(
+          
           itemCount: breeds.length,
           itemBuilder: (context, index) {
             // Adapte a lógica para verificar se a data está dentro do intervalo selecionado
@@ -314,6 +374,13 @@ class _AccessPageState extends State<AccessPage> {
     }
 
     return MaterialApp(
+      localizationsDelegates: [
+
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+      supportedLocales: const [Locale('pt', 'BR')],
       home: Scaffold(
         body: Column(
           children: [
@@ -358,20 +425,18 @@ class _AccessPageState extends State<AccessPage> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: OutlinedButton(
                       onPressed: () {
-                        showDatePicker(
+                        showDateRangePicker(
                           context: context,
-                          initialDate: DateTime.now(),
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2101),
-                        ).then((selectedDate) {
-                          if (selectedDate != null) {
+                        ).then((pickedDateRange) {
+                          if (pickedDateRange != null) {
                             setState(() {
-                              // Atualize a data selecionada no seu estado, ou use como necessário
-                              // Aqui, estou apenas imprimindo a data selecionada no console
-                              print(selectedDate);
-
-                              // Chame a função fetchDataByDate com a data selecionada
-                              fetchDataByDate(selectedDate);
+                              // Atualize o intervalo de datas selecionado no seu estado
+                              startDate = pickedDateRange.start;
+                              endDate = pickedDateRange.end;
+                              // Chame a função fetchDataByDateRange com o intervalo de datas selecionado
+                              fetchDataByDateRange(startDate!, endDate!);
                             });
                           }
                         });
@@ -379,19 +444,14 @@ class _AccessPageState extends State<AccessPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Showcase(
-                            key: _one,
-                            description:
-                                'Aqui você pode escolher quais acessos deseja ver',
-                            overlayOpacity: 0.5,
-                            targetShapeBorder: const CircleBorder(),
-                            targetPadding: const EdgeInsets.all(8),
-                            child: const Icon(Icons.calendar_today, color: Color.fromARGB(255, 36, 64, 25)),
-                          ),
-                          // Icon(Icons.calendar_today),
+                          Icon(Icons.calendar_today,
+                              color: Color.fromARGB(255, 36, 64, 25)),
                           SizedBox(width: 8), // Espaço entre o ícone e o texto
+                          // Atualize o texto do botão com base nas datas selecionadas
                           Text(
-                            'Selecionar Data',
+                            startDate != null && endDate != null
+                                ? 'Início ${DateFormat('dd/MM/yyyy').format(startDate!)} Fim ${DateFormat('dd/MM/yyyy').format(endDate!)}'
+                                : 'Selecionar Intervalo de Datas',
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
@@ -403,20 +463,19 @@ class _AccessPageState extends State<AccessPage> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: OutlinedButton(
                       onPressed: () {
-                        showDatePicker(
+                        showDateRangePicker(barrierColor: Colors.green[800],
                           context: context,
-                          initialDate: DateTime.now(),
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2101),
-                        ).then((selectedDate) {
-                          if (selectedDate != null) {
+                          
+                        ).then((pickedDateRange) {
+                          if (pickedDateRange != null) {
                             setState(() {
-                              // Atualize a data selecionada no seu estado, ou use como necessário
-                              // Aqui, estou apenas imprimindo a data selecionada no console
-                              print(selectedDate);
-
-                              // Chame a função fetchDataByDate com a data selecionada
-                              fetchDataByDate(selectedDate);
+                              // Atualize o intervalo de datas selecionado no seu estado
+                              startDate = pickedDateRange.start;
+                              endDate = pickedDateRange.end;
+                              // Chame a função fetchDataByDateRange com o intervalo de datas selecionado
+                              fetchDataByDateRange(startDate!, endDate!);
                             });
                           }
                         });
@@ -424,10 +483,14 @@ class _AccessPageState extends State<AccessPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.calendar_today, color: Color.fromARGB(255, 36, 64, 25)),
+                          Icon(Icons.calendar_today,
+                              color: Color.fromARGB(255, 36, 64, 25)),
                           SizedBox(width: 8), // Espaço entre o ícone e o texto
+                          // Atualize o texto do botão com base nas datas selecionadas
                           Text(
-                            'Selecionar Data',
+                            startDate != null && endDate != null
+                                ? 'Início ${DateFormat('dd/MM/yyyy').format(startDate!)} Fim ${DateFormat('dd/MM/yyyy').format(endDate!)}'
+                                : 'Selecionar Intervalo de Datas',
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
@@ -477,6 +540,7 @@ class DogBreed {
 @override
 Widget Enfeites() {
   return SingleChildScrollView(
+    
       child: Column(
           mainAxisAlignment:
               MainAxisAlignment.center // Centraliza verticalmente

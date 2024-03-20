@@ -24,7 +24,7 @@ dependencies:
   flutter_spinkit: ^5.2.0
   firebase_messaging: ^14.7.9
   fluttertoast: ^8.2.4
-  intl: ^0.19.0
+  intl: 0.18.1
   timezone: ^0.9.2
   introduction_screen: ^3.1.12
   showcaseview: ^2.0.3
@@ -34,6 +34,8 @@ dependencies:
   awesome_notifications_core: ^0.8.0 # <~ always ensure to use the latest version
   awesome_notifications: 
   mailer: ^6.1.0
+  flutter_localization: ^0.2.0
+
 
 
 
