@@ -41,7 +41,7 @@ class _AccessPageState extends State<AccessPage> {
     super.initState();
 
     // Verifique se o ShowCase já foi exibido nas preferências compartilhadas
-    _checkShowCaseStatus();
+    _checkShowCaseStatus2();
     fetchData();
     inicia();
   }
@@ -97,7 +97,7 @@ class _AccessPageState extends State<AccessPage> {
     }
   }
 
-  Future<void> _checkShowCaseStatus() async {
+  Future<void> _checkShowCaseStatus2() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool showcaseDisplayed = prefs.getBool('show_case_displayed') ?? false;
 
@@ -421,7 +421,14 @@ class _AccessPageState extends State<AccessPage> {
                   ),
 
                 if (filterBy != 'Todo mundo')
-                  Container(
+                Showcase(
+                    key: _one,
+                    description:
+                        'Você também pode ver a nossa equipe maker!',
+                    overlayOpacity: 0.5,
+                    targetShapeBorder: const CircleBorder(),
+                    targetPadding: const EdgeInsets.all(3),
+                    child: Container(
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: OutlinedButton(
                       onPressed: () {
@@ -457,6 +464,7 @@ class _AccessPageState extends State<AccessPage> {
                         ],
                       ),
                     ),
+                  ),
                   )
                 else
                   Container(
