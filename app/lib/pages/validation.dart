@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
-
+import 'package:mailer/smtp_server/gmail.dart';
+import 'package:mailer/mailer.dart';
 import 'package:app/notification_controller.dart';
 import 'package:app/services/firebase_message_service.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -68,7 +69,50 @@ class _ValidationState extends State<Validation> {
 // ignore: unrelated_type_equality_checks
   }
   
+  sendEmail(BuildContext context, List<String> recipientEmails) async {
+    String username = 'vinicioseufrazio3@gmail.com'; // Seu email
+    String password = 'gmegrmmpwodgexkc'; // Sua senha
 
+    final smtpServer = gmail(username, password);
+
+    final message = Message()
+      ..from = Address(username, 'Labmaker')
+      ..recipients.addAll(recipientEmails)
+      // ..ccRecipients.addAll(['abc@gmail.com', 'xyz@gmail.com']) // Seus ccRecipients
+      ..subject = 'Alguem fez uma nova solicitacao!'
+      ..text =
+          'Olá! Fizeram uma nova solicitação de acesso ao labmaker, abra o app e confira.';
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Email enviado com sucesso")));
+    } on MailerException catch (e) {
+      print('Message not sent.');
+      print(e.message);
+      for (var p in e.problems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
+    }
+  }
+
+  Future<List<String>> getEmailsFromFirestore() async {
+  List<String> emails = [];
+  try {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("validações").get();
+    querySnapshot.docs.forEach((doc) {
+      // Verifique se o campo 'credencial' é igual a 1 antes de adicionar o email à lista
+      if (doc['credencial'] == 1) {
+        emails.add(doc['email']);
+      }
+    });
+  } catch (e) {
+    print("Erro ao obter emails: $e");
+  }
+  return emails;
+}
   Future<void> enviaNotificacao() async {
     User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
     if (userCredencial != null) {
@@ -596,10 +640,12 @@ class _ValidationState extends State<Validation> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
+                        
                         setState(() {
                           isLoading = true;
                         });
-                        
+                        List<String> recipientEmails = await getEmailsFromFirestore();
+                        await sendEmail(context, recipientEmails);
                         await FirebaseMessage().initNotifications();
                         enviarValidacao();
                         setState(() {

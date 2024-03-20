@@ -33,6 +33,7 @@ dependencies:
   flutter_local_notifications: ^16.3.0
   awesome_notifications_core: ^0.8.0 # <~ always ensure to use the latest version
   awesome_notifications: 
+  mailer: ^6.1.0
 
 
 
