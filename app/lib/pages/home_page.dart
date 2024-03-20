@@ -1,6 +1,7 @@
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/dog.dart';
 import 'package:app/pages/profile_page.dart';
+import 'package:app/pages/testeNotific.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -90,6 +91,11 @@ class HomePageState extends State<HomePage> {
                 ShowCaseWidget(
                   builder: Builder(
                     builder: (context) => AccessPage(),
+                  ),
+                ),
+                ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context) => testeNotifc(),
                   ),
                 ),
                 // AccessPage(),
