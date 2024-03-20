@@ -463,7 +463,8 @@ class _AccessPageState extends State<AccessPage> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: OutlinedButton(
                       onPressed: () {
-                        showDateRangePicker(barrierColor: Colors.green[800],
+                        showDateRangePicker(
+                          // barrierColor: Colors.green[800],
                           context: context,
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2101),
