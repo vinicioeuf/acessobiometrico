@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:mailer/mailer.dart';
 import 'package:app/notification_controller.dart';
@@ -8,6 +9,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -63,7 +65,7 @@ class _ValidationState extends State<Validation> {
         agora = hora;
       });
     });
-  enviaNotificacao();
+    
     // onButtonPressed();
     // print(credencial);
 // ignore: unrelated_type_equality_checks
@@ -113,44 +115,17 @@ class _ValidationState extends State<Validation> {
   }
   return emails;
 }
-  Future<void> enviaNotificacao() async {
-    User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
-    if (userCredencial != null) {
-      String uid2 = userCredencial.uid;
-
-      DatabaseReference puxaCredencial =
-          FirebaseDatabase.instance.ref('users/$uid2/credencial');
-      puxaCredencial.onValue.listen((DatabaseEvent event) {
-        final dadin = event.snapshot.value;
-        if (mounted) {
-          setState(() {
-            credencial = dadin as int?;
-            print("A credencial é: $credencial");
-            if (credencial == 1) {
-              FirebaseFirestore.instance
-                  .collection("validações")
-                  .snapshots()
-                  .listen((QuerySnapshot snapshot) {
-                snapshot.docChanges.forEach((change) {
-                  if (change.type == DocumentChangeType.added) {
-                    AwesomeNotifications().createNotification(
-                        content: NotificationContent(
-                            id: 1,
-                            channelKey: 'basic_channel',
-                            title: "Labmaker",
-                            body:
-                                "Alguém fez uma solicitação de acesso, vem conferir!"));
-                  }
-                });
-              });
-            } else {
-              print("Veja se agora vai.");
-            }
-            
-          });
-        }
-      });
-    }
+  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 10,
+        channelKey: 'basic_channel',
+        title: 'Labmaker',
+        body: 'Alguem fez uma solicitação, vem conferir!',
+      ),
+    );
+    print("Handling a background message: ${message.messageId}");
   }
 
   pegarEmail(email) {
@@ -640,13 +615,15 @@ class _ValidationState extends State<Validation> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
-                        
+                        // enviaNotificacao();
                         setState(() {
                           isLoading = true;
                         });
+                        // await _firebaseMessagingBackgroundHandler(RemoteMessage());
                         List<String> recipientEmails = await getEmailsFromFirestore();
                         await sendEmail(context, recipientEmails);
                         await FirebaseMessage().initNotifications();
+                        
                         enviarValidacao();
                         setState(() {
                           isLoading = true;
@@ -678,4 +655,5 @@ class _ValidationState extends State<Validation> {
     );
   }
 }
+
 

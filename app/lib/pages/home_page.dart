@@ -1,6 +1,10 @@
 import 'package:app/pages/access_page.dart';
 import 'package:app/pages/dog.dart';
 import 'package:app/pages/profile_page.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -18,12 +22,53 @@ class HomePageState extends State<HomePage> {
   int paginaAtual = 0;
   late PageController pc;
   bool showTutorial = true; // Adiciona um estado para controlar a exibição do tutorial
-
+  int? credencial;
   @override
   void initState() {
     super.initState();
+    // enviaNotificacao();
     pc = PageController(initialPage: paginaAtual);
   }
+  
+  // Future<void> enviaNotificacao() async {
+  //   User? userCredencial = await FirebaseAuth.instance.authStateChanges().first;
+  //   if (userCredencial != null) {
+  //     String uid2 = userCredencial.uid;
+
+  //     DatabaseReference puxaCredencial =
+  //         FirebaseDatabase.instance.ref('users/$uid2/credencial');
+  //     puxaCredencial.onValue.listen((DatabaseEvent event) {
+  //       final dadin = event.snapshot.value;
+  //       credencial = dadin as int?;
+  //       print("A credencial é: $credencial");
+  //       if (credencial == 1) {
+  //         FirebaseFirestore.instance
+  //             .collection("validações")
+  //             .snapshots()
+  //             .listen((QuerySnapshot snapshot) {
+  //           snapshot.docChanges.forEach((change) {
+  //             if (change.type == DocumentChangeType.added) {
+  //               sendNotification();
+  //             }
+  //           });
+  //         });
+  //       } else {
+  //         print("Veja se agora vai.");
+  //       }
+  //     });
+  //   }
+  // }
+
+  // void sendNotification() {
+  //   AwesomeNotifications().createNotification(
+  //     content: NotificationContent(
+  //       id: 5,
+  //       channelKey: 'basic_channel',
+  //       title: "Labmaker",
+  //       body: "Alguém fez uma solicitação de acesso, vem conferir!",
+  //     ),
+  //   );
+  // }
 
   setPaginaAtual(pagina) {
     setState(() {
