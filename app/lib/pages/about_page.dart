@@ -21,23 +21,23 @@ class _AboutPageState extends State<AboutPage> {
     //     ShowCaseWidget.of(context).startShowCase([_team]);
     //   });
     // Verifique se o ShowCase já foi exibido nas preferências compartilhadas
-    _checkShowCaseStatus();
+    _checkShowCaseStatus(context);
 
   }
-  Future<void> _checkShowCaseStatus() async {
+  Future<void> _checkShowCaseStatus(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool showcaseDisplayed = prefs.getBool('show_case_displayed') ?? false;
+    bool showcaseDisplayed = prefs.getBool('show_case_displayed_about') ?? false;
 
     if (!showcaseDisplayed) {
-      // Exibe o ShowCase
-      Future.delayed(Duration.zero, () {
-        ShowCaseWidget.of(context).startShowCase([_team]);
-      });
+        // Exibe o ShowCase
+        Future.delayed(Duration.zero, () {
+            ShowCaseWidget.of(context).startShowCase([_team]);
+        });
 
-      // Marca o ShowCase como exibido nas preferências compartilhadas
-      prefs.setBool('show_case_displayed', true);
+        // Marca o ShowCase como exibido nas preferências compartilhadas
+        prefs.setBool('show_case_displayed_about', true);
     }
-  }
+}
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -80,10 +80,6 @@ class _AboutPageState extends State<AboutPage> {
                     overlayOpacity: 0.5,
                     targetShapeBorder: const CircleBorder(),
                     targetPadding: const EdgeInsets.all(3),
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      width: 0.5 * MediaQuery.of(context).size.width,
-                      
                     child: Column(
                     children: [
                       ElevatedButton(
@@ -134,7 +130,6 @@ class _AboutPageState extends State<AboutPage> {
                       )
                       )
                     ],
-                  ),
                   ),
                   ),
                   

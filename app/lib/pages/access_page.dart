@@ -33,6 +33,7 @@ class _AccessPageState extends State<AccessPage> {
   int? selectedMonth;
   int? selectedYear;
   GlobalKey _one = GlobalKey();
+  GlobalKey _two = GlobalKey();
 
   late bool _showCaseDisplayed;
 
@@ -104,7 +105,7 @@ class _AccessPageState extends State<AccessPage> {
     if (!showcaseDisplayed) {
         // Exibe o ShowCase
         Future.delayed(Duration.zero, () {
-            ShowCaseWidget.of(context).startShowCase([_one]);
+            ShowCaseWidget.of(context).startShowCase([_one, _two]);
         });
 
         // Marca o ShowCase como exibido nas preferências compartilhadas
@@ -335,11 +336,21 @@ class _AccessPageState extends State<AccessPage> {
           ), // Indicador de progresso circular
         );
       } else if (breeds.isEmpty) {
-        return Center(
-          child: Text(
-            'Você não acessou o LabMaker ainda',
-            style: TextStyle(fontSize: 16, color: Colors.black87),
+        return Container(
+          child: Showcase(
+                      key: _two,
+                      description:
+                          'Seus acessos serão exibidos aqui!',
+                      overlayOpacity: 0.5,
+                      targetShapeBorder: const CircleBorder(),
+                      targetPadding: const EdgeInsets.all(3),
+                      child: Center(
+            child: Text(
+              'Você não acessou o LabMaker ainda',
+              style: TextStyle(fontSize: 16, color: Colors.black87),
+            ),
           ),
+                    ),
         );
       } else {
         return ListView.builder(
@@ -424,7 +435,7 @@ class _AccessPageState extends State<AccessPage> {
                 Showcase(
                     key: _one,
                     description:
-                        'Você também pode ver a nossa equipe maker!',
+                        'Você pode filtrar seus acessos por um período!',
                     overlayOpacity: 0.5,
                     targetShapeBorder: const CircleBorder(),
                     targetPadding: const EdgeInsets.all(3),

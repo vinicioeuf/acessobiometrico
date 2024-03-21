@@ -348,7 +348,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Showcase(
                         key: _five,
-                        description: 'Ãqui você pode aprovar a solicitação de alguém.',
+                        description: 'Aqui você pode aprovar a solicitação de alguém.',
                         overlayOpacity: 0.5,
                         targetShapeBorder: const CircleBorder(),
                         targetPadding: const EdgeInsets.all(8),
