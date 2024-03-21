@@ -43,25 +43,25 @@ class _ProfilePageState extends State<ProfilePage> {
     // });
     _isMounted = true;
     initializeData();
-    _checkShowCaseStatus();
+    _checkShowCaseStatus(context);
     _checkAnimationStatus();
     // Add a delay to trigger the initial animation after 1 second
   }
 
-  Future<void> _checkShowCaseStatus() async {
+  Future<void> _checkShowCaseStatus(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool showcaseDisplayed = prefs.getBool('show_case_displayed') ?? false;
+    bool showcaseDisplayed = prefs.getBool('show_case_displayed_profile') ?? false;
 
     if (!showcaseDisplayed) {
-      // Exibe o ShowCase
-      Future.delayed(Duration.zero, () {
-        ShowCaseWidget.of(context).startShowCase([_three, _four, _five, _six]);
-      });
+        // Exibe o ShowCase
+        Future.delayed(Duration.zero, () {
+            ShowCaseWidget.of(context).startShowCase([_three, _four, _five, _six]);
+        });
 
-      // Marca o ShowCase como exibido nas preferências compartilhadas
-      prefs.setBool('show_case_displayed', true);
+        // Marca o ShowCase como exibido nas preferências compartilhadas
+        prefs.setBool('show_case_displayed_profile', true);
     }
-  }
+}
 
   Future<void> _checkAnimationStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

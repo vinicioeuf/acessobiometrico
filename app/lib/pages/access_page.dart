@@ -41,7 +41,7 @@ class _AccessPageState extends State<AccessPage> {
     super.initState();
 
     // Verifique se o ShowCase já foi exibido nas preferências compartilhadas
-    _checkShowCaseStatus2();
+    _checkShowCaseStatus(context);
     fetchData();
     inicia();
   }
@@ -97,20 +97,20 @@ class _AccessPageState extends State<AccessPage> {
     }
   }
 
-  Future<void> _checkShowCaseStatus2() async {
+  Future<void> _checkShowCaseStatus(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool showcaseDisplayed = prefs.getBool('show_case_displayed') ?? false;
+    bool showcaseDisplayed = prefs.getBool('show_case_displayed_access') ?? false;
 
     if (!showcaseDisplayed) {
-      // Exibe o ShowCase
-      Future.delayed(Duration.zero, () {
-        ShowCaseWidget.of(context).startShowCase([_one]);
-      });
+        // Exibe o ShowCase
+        Future.delayed(Duration.zero, () {
+            ShowCaseWidget.of(context).startShowCase([_one]);
+        });
 
-      // Marca o ShowCase como exibido nas preferências compartilhadas
-      prefs.setBool('show_case_displayed', true);
+        // Marca o ShowCase como exibido nas preferências compartilhadas
+        prefs.setBool('show_case_displayed_access', true);
     }
-  }
+}
 
   Future<void> fetchDataByDate(DateTime selectedDate) async {
     setState(() {
