@@ -357,6 +357,7 @@ class _AccessPageState extends State<AccessPage> {
           
           itemCount: breeds.length,
           itemBuilder: (context, index) {
+            
             // Adapte a lógica para verificar se a data está dentro do intervalo selecionado
             DateTime dateTime = DateTime.parse(breeds[index].createdAt);
             dateTime = dateTime.subtract(Duration(hours: 3));
@@ -367,7 +368,7 @@ class _AccessPageState extends State<AccessPage> {
               String formattedDateTime = DateFormat('HH:mm').format(dateTime) +
                   ' do dia ' +
                   DateFormat('dd/MM/yyyy').format(dateTime);
-
+              
               return Acessos(
                 context,
                 breeds[index].foto,
@@ -375,13 +376,18 @@ class _AccessPageState extends State<AccessPage> {
                 breeds[index].email,
                 breeds[index].tipo,
                 formattedDateTime,
+                filterBy
               );
             } else {
               return Container(); // Não exibe se a data não estiver no intervalo selecionado
             }
+            
           },
+          
         );
+        
       }
+      
     }
 
     return MaterialApp(
@@ -517,6 +523,7 @@ class _AccessPageState extends State<AccessPage> {
                       ),
                     ),
                   ),
+                  
               ],
             ),
             Expanded(
@@ -593,7 +600,8 @@ Widget Enfeites() {
 }
 
 Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
-    String estado, String hora) {
+    String estado, String hora, String filterBy) {
+      
   return Container(
     margin: EdgeInsets.all(8),
     padding: EdgeInsets.all(8),
@@ -648,27 +656,34 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
             ],
           ),
         ),
-        Container(
-          width: 0.2 * MediaQuery.of(context).size.width,
-          height: 60,
-          alignment: Alignment.centerRight,
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            GestureDetector(
-              onTap: () {
-                // Navegar para a HomePage quando o ícone de perfil for clicado
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => VerAcesso()),
-                );
-              },
-              child: Icon(
-                Icons.double_arrow_sharp,
-                size: 35.0,
-                color: Colors.green[800],
-              ),
+
+        if (filterBy == 'Todo mundo')
+          Container(
+            width: 0.2 * MediaQuery.of(context).size.width,
+            height: 60,
+            alignment: Alignment.centerRight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    // Navegar para a HomePage quando o ícone de perfil for clicado
+                    Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => VerAcesso(), //Depois eu volto para ValidacoesScreen()
+                                  ),
+                                );
+                  },
+                  child: Icon(
+                    Icons.double_arrow_sharp,
+                    size: 35.0,
+                    color: Colors.green[800],
+                  ),
+                ),
+              ],
             ),
-          ]),
-        ),
+          ),
         SizedBox(height: 5),
         Container(
           color: Colors.grey,

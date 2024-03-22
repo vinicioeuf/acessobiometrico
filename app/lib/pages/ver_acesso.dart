@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 // import 'package:app/pages/dog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -13,33 +16,98 @@ class VerAcesso extends StatefulWidget {
 
 class _VerAcessoState extends State<VerAcesso> {
   List<DogBreed> breeds = [];
-
+  String? uu;
+  bool carregando = true;
+  late String estado;
   @override
   void initState() {
     super.initState();
     fetchData();
+    initializeData();
+  }
+Future<void> initializeData() async {
+    User? user = await FirebaseAuth.instance.authStateChanges().first;
+    if (user != null) {
+      String uid = user.uid;
+
+
+      DatabaseReference starCountRef2 =
+          FirebaseDatabase.instance.ref('users/$uid/matricula');
+      starCountRef2.onValue.listen((DatabaseEvent event) {
+        final data = event.snapshot.value;
+        if (mounted) {
+          setState(() {
+            uu = data as String?;
+          });
+        }
+      });
+    }
   }
   Future<void> fetchData() async {
-    final response = await http.get(
-      Uri.parse('https://dogbreeddb.p.rapidapi.com/'),
-      headers: {
-        "X-RapidAPI-Key": "c3564955bfmsh215d19541e7ca79p11b5dfjsna3b5c6f6b0c8",
-        "X-RapidAPI-Host": "dogbreeddb.p.rapidapi.com",
-      },
-    );
+    try {
+      final response = await http.get(
+        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+      );
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      setState(() {
-        breeds = data.map((json) => DogBreed.fromJson(json)).toList();
-      });
-    } else {
-      throw Exception('Failed to load data');
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        final List<dynamic> breedsList = data['acessos'];
+
+        setState(() {
+          breeds = breedsList.map((json) => DogBreed.fromJson(json)).toList();
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
     }
   }
 
+  Map<String, List<DogBreed>> groupByUser() {
+    Map<String, List<DogBreed>> userAccess = {};
+
+    for (var breed in breeds) {
+      if (!userAccess.containsKey(breed.email)) {
+        userAccess[breed.email] = [];
+      }
+      userAccess[breed.email]?.add(breed);
+    }
+
+    return userAccess;
+  }
+
+  Map<String, double> calculateWorkHours() {
+    var userAccess = groupByUser();
+    Map<String, double> workHours = {};
+
+    userAccess.forEach((user, accessList) {
+      accessList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
+      double totalHours = 0;
+      DateTime? lastInTime;
+
+      for (var access in accessList) {
+        if (access.tipo == 'Entrou') {
+          lastInTime = DateTime.parse(access.createdAt);
+        } else if (access.tipo == 'Saiu' && lastInTime != null) {
+          DateTime outTime = DateTime.parse(access.createdAt);
+          totalHours += outTime.difference(lastInTime).inHours.toDouble();
+          lastInTime = null;
+        }
+      }
+
+      workHours[user] = totalHours;
+    });
+
+    return workHours;
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    Map<String, double> userWorkHours = calculateWorkHours();
+    CollectionReference users = FirebaseFirestore.instance.collection('validações');
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
@@ -52,7 +120,7 @@ class _VerAcessoState extends State<VerAcesso> {
                 },
               ),
               title: Text(
-                "VER MAIS",
+                "Banco de Horas",
                 style: GoogleFonts.oswald(
                     fontWeight: FontWeight.bold,
                     color: const Color.fromARGB(255, 255, 255, 255)),
@@ -62,7 +130,12 @@ class _VerAcessoState extends State<VerAcesso> {
               iconTheme: IconThemeData(
                   color: const Color.fromARGB(255, 255, 255, 255)),
             ),
-            body: SingleChildScrollView(
+            body: ListView.builder(
+                itemCount: userWorkHours.length,
+                itemBuilder: (context, index) {
+                  var user = userWorkHours.keys.elementAt(index);
+                  var workHours = userWorkHours[user];
+                  return SingleChildScrollView(
                 child: Transform.translate(
               offset: Offset(0, -40),
               child: Column(
@@ -79,7 +152,34 @@ class _VerAcessoState extends State<VerAcesso> {
                       ),
                     ),
                   ),
-                  Container(
+                  FutureBuilder<DocumentSnapshot>(
+                    future: users.doc(uu).get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      Map<String, dynamic> data = {};
+                      if (snapshot.data?.data() != null) {
+                        data = snapshot.data!.data() as Map<String, dynamic>;
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting &&
+                          carregando) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.green[800],
+                          ),
+                        );
+                      } else {
+                        if (data['aguardando'] == true) {
+                          estado = "EM ESPERA";
+                        } else if (data['autorizado'] == true) {
+                          estado = "AUTORIZADO";
+                        } else if (data['negado'] == true) {
+                          estado = "NEGADO";
+                        } else {
+                          estado = "Erro";
+                        }
+                        carregando = false;
+                        return Column(children: [
+                          Container(
                       alignment: Alignment.center,
                       child: Transform.translate(
                         offset: Offset(0, -80),
@@ -94,23 +194,24 @@ class _VerAcessoState extends State<VerAcesso> {
                                   Container(
                                     child: CircleAvatar(
                                       radius: 75,
-                                      backgroundImage: AssetImage(
-                                          'assets/imagens/vicCarlos.jpg'),
+                                      backgroundImage: NetworkImage(
+                                          '${data['foto'] ?? ''}'),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             Text(
-                              "Álvaro Victor",
-                              style:GoogleFonts.oswald(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                              "${data['nome'] ?? ''}",
+                              style: GoogleFonts.oswald(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             SizedBox(height: 5),
                             Text(
-                              "Bolsista",
+                              "${data['vinculo']['tipoVinculo'] ?? ''}",
                               style: GoogleFonts.oswald(
                                   color: Colors.grey,
                                   fontSize: 18,
@@ -138,7 +239,7 @@ class _VerAcessoState extends State<VerAcesso> {
                                       fontSize: 15),
                                 ),
                                 Text(
-                                  "67h",
+                                  '${workHours?.toStringAsFixed(2)}',
                                   style: GoogleFonts.oswald(
                                       color: Colors.black,
                                       fontSize: 15),
@@ -188,34 +289,45 @@ class _VerAcessoState extends State<VerAcesso> {
                       )),
                   info(context, "STATUS:", "AUTORIZADO"),
                   SizedBox(height: 15),
-                  info(context, "CURSO:", "SISTEMAS PARA INTERNET"),
+                  info(context, "CURSO:", "${data['vinculo']['curso'] ?? ''}"),
                   SizedBox(height: 15),
-                  info(context, "PER/ANO:", "3º PERÍODO"),
+                  info(context, "PER/ANO:", "${data['vinculo']['tempo'] ?? ''}"),
                   SizedBox(height: 15),
-                  Container(
-                    alignment: Alignment.center,
-                    width: 0.9 * MediaQuery.of(context).size.width,
-                    child: Container(
-                      width: 0.9 * MediaQuery.of(context).size.width,
-                      height: 50,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.red, // Cor de fundo do Container interno
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: Text(
-                        "DENUNCIAR",
-                        style: GoogleFonts.oswald(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                        ],);
+                      }
+                    },
                   ),
+                  
+                  // Container(
+                  //   alignment: Alignment.center,
+                  //   width: 0.9 * MediaQuery.of(context).size.width,
+                  //   child: Container(
+                  //     width: 0.9 * MediaQuery.of(context).size.width,
+                  //     height: 50,
+                  //     alignment: Alignment.center,
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.red, // Cor de fundo do Container interno
+                  //       borderRadius: BorderRadius.circular(30.0),
+                  //     ),
+                  //     child: Text(
+                  //       "DENUNCIAR",
+                  //       style: GoogleFonts.oswald(
+                  //         color: Color.fromARGB(255, 255, 255, 255),
+                  //         fontSize: 20,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
-            ))));
+            )
+          );
+        }
+      ),
+    ));
+   }
+                
   }
 
   Widget info(context, String titulo, String dado) {
@@ -285,29 +397,33 @@ class _VerAcessoState extends State<VerAcesso> {
       ),
     );
   }
-}
+
 class DogBreed {
-  final int id;
-  final String breedName;
-  final String breedType;
-  final String breedDescription;
-  final String imgThumb;
+  final int? id;
+  final String nome;
+  final String email;
+  final String foto;
+  final String createdAt;
+  final String tipo;
 
   DogBreed({
     required this.id,
-    required this.breedName,
-    required this.breedType,
-    required this.breedDescription,
-    required this.imgThumb,
+    required this.nome,
+    required this.email,
+    required this.foto,
+    required this.createdAt,
+    required this.tipo,
   });
 
   factory DogBreed.fromJson(Map<String, dynamic> json) {
     return DogBreed(
-      id: json['id'],
-      breedName: json['breedName'],
-      breedType: json['breedType'],
-      breedDescription: json['breedDescription'],
-      imgThumb: json['imgThumb'] ?? '',
+      id: json['id'] as int?,
+      nome: json['nome'] as String,
+      email: json['email'] as String,
+      foto: json['foto'] as String,
+      createdAt: json['createdAt'] as String? ?? '',
+      tipo: json['tipo'] as String,
     );
   }
 }
+
