@@ -5,6 +5,7 @@ import 'package:app/pages/show_data.dart';
 import 'package:app/pages/teste.dart';
 import 'package:app/pages/teste2.dart';
 import 'package:app/pages/validation.dart';
+import 'package:app/pages/ver_acesso.dart';
 import 'package:app/services/prefs_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -322,7 +323,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ValidacoesScreen(),
+                                    builder: (context) => VerAcesso(), //Depois eu volto para ValidacoesScreen()
                                   ),
                                 );
                               },
