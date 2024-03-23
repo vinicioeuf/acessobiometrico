@@ -674,6 +674,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
                                     builder: (context) => VerAcesso(), //Depois eu volto para ValidacoesScreen()
                                   ),
                                 );
+
                   },
                   child: Icon(
                     Icons.double_arrow_sharp,
