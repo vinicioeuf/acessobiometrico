@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
-class VerAcesso extends StatefulWidget {
-  const VerAcesso({super.key});
+class VerAcessoAdm extends StatefulWidget {
+  const VerAcessoAdm({super.key});
 
   @override
-  State<VerAcesso> createState() => _VerAcessoState();
+  State<VerAcessoAdm> createState() => _VerAcessoAdmState();
 }
 
-class _VerAcessoState extends State<VerAcesso> {
+class _VerAcessoAdmState extends State<VerAcessoAdm> {
   List<DogBreed> breeds = [];
   String? uu;
   bool carregando = true;

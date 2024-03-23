@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app/pages/ver_acess_adm.dart';
 import 'package:app/pages/ver_acesso.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,56 +48,110 @@ class _AccessPageState extends State<AccessPage> {
     inicia();
   }
 
-  Future<void> fetchDataByDateRange(
-      DateTime startDate, DateTime endDate) async {
-    setState(() {
-      isLoading = true;
-    });
+  Future<void> fetchDataByDateRange(DateTime startDate, DateTime endDate) async {
+  setState(() {
+    isLoading = true;
+  });
 
-    try {
-      final response = await http.get(
-        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
-      );
+  try {
+    final response = await http.get(
+      Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+    );
 
-      if (mounted) {
-        print(response.body);
-        if (response.statusCode == 200) {
-          final Map<String, dynamic> data = json.decode(response.body);
-          final List<dynamic> breedsList = data['acessos'];
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final List<dynamic> breedsList = data['acessos'];
 
-          setState(() {
-            breeds = breedsList.map((json) => DogBreed.fromJson(json)).toList();
-
-            // Filtrar os acessos pelo intervalo de datas selecionado
-            breeds = breeds.where((breed) {
-              DateTime dateTime = DateTime.parse(breed.createdAt);
-              dateTime = dateTime.subtract(Duration(hours: 3));
-              return dateTime.isAfter(startDate.subtract(Duration(days: 1))) &&
-                  dateTime.isBefore(endDate.add(Duration(days: 1)));
-            }).toList();
-
-            // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
-            if (sortBy == 'Antigos') {
-              breeds.sort((a, b) {
-                DateTime dateTimeA = DateTime.parse(a.createdAt);
-                DateTime dateTimeB = DateTime.parse(b.createdAt);
-                return dateTimeA.compareTo(dateTimeB);
-              });
-            }
-
-            isLoading = false;
-          });
-        } else {
-          throw Exception('Failed to load data');
-        }
-      }
-    } catch (e) {
-      print('Error fetching data: $e');
       setState(() {
+        breeds = breedsList.map((json) => DogBreed.fromJson(json)).toList();
+
+        // Filtrar os acessos pelo intervalo de datas selecionado
+        breeds = breeds.where((breed) {
+          DateTime dateTime = DateTime.parse(breed.createdAt);
+          dateTime = dateTime.subtract(Duration(hours: 3));
+          return dateTime.isAfter(startDate.subtract(Duration(days: 1))) &&
+              dateTime.isBefore(endDate.add(Duration(days: 1)));
+        }).toList();
+
+        // Se a opção "Seus acessos" estiver selecionada, filtrar para exibir apenas os acessos do usuário atual
+        if (filterBy == 'Seus acessos') {
+          breeds = breeds.where((breed) => breed.email == FirebaseAuth.instance.currentUser?.email).toList();
+        }
+
+        // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
+        if (sortBy == 'Antigos') {
+          breeds.sort((a, b) {
+            DateTime dateTimeA = DateTime.parse(a.createdAt);
+            DateTime dateTimeB = DateTime.parse(b.createdAt);
+            return dateTimeA.compareTo(dateTimeB);
+          });
+        }
+
         isLoading = false;
       });
+    } else {
+      throw Exception('Failed to load data');
     }
+  } catch (e) {
+    print('Error fetching data: $e');
+    setState(() {
+      isLoading = false;
+    });
   }
+}
+
+Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime endDate) async {
+  setState(() {
+    isLoading = true;
+  });
+
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    final response = await http.get(
+      Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final List<dynamic> breedsList = data['acessos'];
+
+      setState(() {
+        breeds = breedsList
+            .map((json) => DogBreed.fromJson(json))
+            .where((breed) => breed.email == user?.email)
+            .toList();
+
+        // Filtrar os acessos pelo intervalo de datas selecionado
+        breeds = breeds.where((breed) {
+          DateTime dateTime = DateTime.parse(breed.createdAt);
+          dateTime = dateTime.subtract(Duration(hours: 3));
+          return dateTime.isAfter(startDate.subtract(Duration(days: 1))) &&
+              dateTime.isBefore(endDate.add(Duration(days: 1)));
+        }).toList();
+
+        // Adicione esta verificação para inverter a ordem quando "Antigas" for selecionado
+        if (sortBy == 'Antigos') {
+          breeds.sort((a, b) {
+            DateTime dateTimeA = DateTime.parse(a.createdAt);
+            DateTime dateTimeB = DateTime.parse(b.createdAt);
+            return dateTimeA.compareTo(dateTimeB);
+          });
+        }
+
+        isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  } catch (e) {
+    print('Error fetching data: $e');
+    setState(() {
+      isLoading = false;
+    });
+  }
+}
+
+
 
   Future<void> _checkShowCaseStatus(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -439,50 +494,56 @@ class _AccessPageState extends State<AccessPage> {
 
                 if (filterBy != 'Todo mundo')
                 Showcase(
-                    key: _one,
-                    description:
-                        'Você pode filtrar seus acessos por um período!',
-                    overlayOpacity: 0.5,
-                    targetShapeBorder: const CircleBorder(),
-                    targetPadding: const EdgeInsets.all(3),
-                    child: Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        showDateRangePicker(
-                          context: context,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2101),
-                        ).then((pickedDateRange) {
-                          if (pickedDateRange != null) {
-                            setState(() {
-                              // Atualize o intervalo de datas selecionado no seu estado
-                              startDate = pickedDateRange.start;
-                              endDate = pickedDateRange.end;
-                              // Chame a função fetchDataByDateRange com o intervalo de datas selecionado
-                              fetchDataByDateRange(startDate!, endDate!);
-                            });
-                          }
-                        });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.calendar_today,
-                              color: Color.fromARGB(255, 36, 64, 25)),
-                          SizedBox(width: 8), // Espaço entre o ícone e o texto
-                          // Atualize o texto do botão com base nas datas selecionadas
-                          Text(
-                            startDate != null && endDate != null
-                                ? 'Início ${DateFormat('dd/MM/yyyy').format(startDate!)} Fim ${DateFormat('dd/MM/yyyy').format(endDate!)}'
-                                : 'Selecionar Intervalo de Datas',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  )
+    key: _one,
+    description: 'Você pode filtrar seus acessos por um período!',
+    overlayOpacity: 0.5,
+    targetShapeBorder: const CircleBorder(),
+    targetPadding: const EdgeInsets.all(3),
+    child: Container(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: OutlinedButton(
+        onPressed: () {
+          showDateRangePicker(
+            context: context,
+            firstDate: DateTime(2000),
+            lastDate: DateTime(2101),
+          ).then((pickedDateRange) {
+            if (pickedDateRange != null) {
+              setState(() {
+                // Atualize o intervalo de datas selecionado no seu estado
+                startDate = pickedDateRange.start;
+                endDate = pickedDateRange.end;
+                // Verifique se o usuário selecionou uma data com registros de outras pessoas
+                if (filterBy != 'Todo mundo' && userCredential != 1) {
+                  // Se não for o usuário administrador (credencial = 1),
+                  // filtre os registros apenas da pessoa logada
+                  fetchDataByDateRangeForCurrentUser(startDate!, endDate!);
+                } else {
+                  // Caso contrário, chame a função fetchDataByDateRange com o intervalo de datas selecionado
+                  fetchDataByDateRange(startDate!, endDate!);
+                }
+              });
+            }
+          });
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.calendar_today,
+                color: Color.fromARGB(255, 36, 64, 25)),
+            SizedBox(width: 8), // Espaço entre o ícone e o texto
+            // Atualize o texto do botão com base nas datas selecionadas
+            Text(
+              startDate != null && endDate != null
+                  ? 'Início ${DateFormat('dd/MM/yyyy').format(startDate!)} Fim ${DateFormat('dd/MM/yyyy').format(endDate!)}'
+                  : 'Selecionar Intervalo de Datas',
+              style: TextStyle(color: Colors.black),
+            ),
+          ],
+        ),
+      ),
+    ),
+  )
                 else
                   Container(
                     width: MediaQuery.of(context).size.width * 0.9,
@@ -671,7 +732,7 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
                     Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => VerAcesso(), //Depois eu volto para ValidacoesScreen()
+                                    builder: (context) => VerAcessoAdm(), //Depois eu volto para ValidacoesScreen()
                                   ),
                                 );
 

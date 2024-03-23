@@ -11,6 +11,7 @@ import 'package:app/pages/access_page.dart';
 import 'package:app/pages/team_dev.dart';
 import 'package:app/pages/teste.dart';
 import 'package:app/pages/teste2.dart';
+import 'package:app/pages/ver_acess_adm.dart';
 import 'package:app/pages/ver_acesso.dart';
 import 'package:app/widgets/auth_check.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,8 @@ class AppWidget extends StatelessWidget {
   '/esqueceu_senha': (_) => EsqueceuSenha(),
   '/teste': (_) => Teste(),
   '/teste2': (_) => Teste2(),
-  '/ver_acesso': (_) => VerAcesso()
+  '/ver_acesso': (_) => VerAcesso(),
+  '/ver_acess_adm': (_) => VerAcessoAdm()
 },
 
       home: AuthCheck(),
