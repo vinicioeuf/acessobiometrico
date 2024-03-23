@@ -51,18 +51,19 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _checkShowCaseStatus(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool showcaseDisplayed = prefs.getBool('show_case_displayed_profile') ?? false;
+    bool showcaseDisplayed =
+        prefs.getBool('show_case_displayed_profile') ?? false;
 
     if (!showcaseDisplayed) {
-        // Exibe o ShowCase
-        Future.delayed(Duration.zero, () {
-            ShowCaseWidget.of(context).startShowCase([_three, _four, _five, _six]);
-        });
+      // Exibe o ShowCase
+      Future.delayed(Duration.zero, () {
+        ShowCaseWidget.of(context).startShowCase([_three, _four, _five, _six]);
+      });
 
-        // Marca o ShowCase como exibido nas preferências compartilhadas
-        prefs.setBool('show_case_displayed_profile', true);
+      // Marca o ShowCase como exibido nas preferências compartilhadas
+      prefs.setBool('show_case_displayed_profile', true);
     }
-}
+  }
 
   Future<void> _checkAnimationStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -298,7 +299,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       Showcase(
                         key: _four,
-                        description: 'Ãqui você pode aprovar a solicitação de alguém.',
+                        description:
+                            'Ãqui você pode aprovar a solicitação de alguém.',
                         overlayOpacity: 0.5,
                         targetShapeBorder: const CircleBorder(),
                         targetPadding: const EdgeInsets.all(8),
@@ -323,7 +325,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => VerAcesso(), //Depois eu volto para ValidacoesScreen()
+                                    builder: (context) =>
+                                        ValidacoesScreen(), //Depois eu volto para ValidacoesScreen()
                                   ),
                                 );
                               },
@@ -349,56 +352,56 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Showcase(
                         key: _five,
-                        description: 'Aqui você pode aprovar a solicitação de alguém.',
+                        description:
+                            'Aqui você pode aprovar a solicitação de alguém.',
                         overlayOpacity: 0.5,
                         targetShapeBorder: const CircleBorder(),
                         targetPadding: const EdgeInsets.all(8),
                         child: Container(
-                        width: 0.42 * MediaQuery.of(context).size.width,
-                        height: 60,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: Offset(0,
-                                    3), // altere os valores conforme necessário
-                              ),
-                            ],
-                          ),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddAdm(),
+                          width: 0.42 * MediaQuery.of(context).size.width,
+                          height: 60,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: Offset(0,
+                                      3), // altere os valores conforme necessário
                                 ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.green[800],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
+                              ],
                             ),
-                            child: Text(
-                              'INCLUIR GESTOR',
-                              style: GoogleFonts.oswald(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.5,
-                                  color: Colors.white,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AddAdm(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green[800],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                              ),
+                              child: Text(
+                                'INCLUIR GESTOR',
+                                style: GoogleFonts.oswald(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.5,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      ),
-                      
                     ],
                   ),
                 SizedBox(
@@ -432,6 +435,33 @@ class _ProfilePageState extends State<ProfilePage> {
                         }
                         carregando = false;
                         return Column(children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        VerAcesso(), //Depois eu volto para ValidacoesScreen()
+                                  ),
+                                );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  right:
+                                      26), // Adiciona espaço à direita do texto
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  'Ver histórico',
+                                  style: GoogleFonts.oswald(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                           info(context, "STATUS:", "STATUS", estado, false, 6),
                           SizedBox(height: 10),
                           if (estado == "AUTORIZADO")
@@ -510,7 +540,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 // if (dados == false)
-                
 
                 SizedBox(height: 10),
               ],

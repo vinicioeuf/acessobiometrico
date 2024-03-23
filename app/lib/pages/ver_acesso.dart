@@ -18,6 +18,7 @@ class _VerAcessoState extends State<VerAcesso> {
   List<DogBreed> breeds = [];
   String? uu;
   bool carregando = true;
+  List<DogBreed> originalBreeds = []; 
   late String estado;
   @override
   void initState() {
@@ -25,6 +26,60 @@ class _VerAcessoState extends State<VerAcesso> {
     fetchData();
     initializeData();
   }
+  
+  Future<void> _selectDateRange(BuildContext context) async {
+  final DateTime now = DateTime.now();
+  final DateTimeRange? picked = await showDateRangePicker(
+    context: context,
+    firstDate: DateTime(2022),
+    lastDate: DateTime(now.year, now.month, now.day, 23, 59, 59),
+  );
+
+  if (picked != null) {
+    DateTime startDate = picked.start;
+    DateTime endDate = picked.end;
+
+    // Ajuste nas datas para considerar todo o intervalo selecionado
+    startDate = DateTime(startDate.year, startDate.month, startDate.day, 0, 0, 0);
+    endDate = DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59);
+
+    // Filtrar os dados com base no intervalo selecionado
+    List<DogBreed> filteredBreeds = breeds.where((breed) {
+      DateTime createdAt = DateTime.parse(breed.createdAt);
+      return createdAt.isAtSameMomentAs(startDate) ||
+             createdAt.isAfter(startDate) && createdAt.isBefore(endDate) ||
+             createdAt.isAtSameMomentAs(endDate);
+    }).toList();
+    if (filteredBreeds.isEmpty) {
+      // Caso não haja dados dentro do intervalo selecionado, exibir uma mensagem ou tomar outra ação
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Sem dados"),
+            content: Text("Não há dados dentro do intervalo selecionado."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // Atualizar os dados exibidos com base no intervalo filtrado
+      setState(() {
+        breeds = filteredBreeds;
+      });
+    }
+  }
+}
+
+
 Future<void> initializeData() async {
     User? user = await FirebaseAuth.instance.authStateChanges().first;
     if (user != null) {
@@ -77,64 +132,80 @@ Future<void> initializeData() async {
     return userAccess;
   }
 
-  Map<String, double> calculateWorkHours() {
-    var userAccess = groupByUser();
-    Map<String, double> workHours = {};
+  Map<String, Map<String, dynamic>> calculateWorkHoursAndCounts() {
+  var userAccess = groupByUser();
+  Map<String, Map<String, dynamic>> workData = {};
 
-    userAccess.forEach((user, accessList) {
-      accessList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+  userAccess.forEach((user, accessList) {
+    accessList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
-      double totalHours = 0;
-      DateTime? lastInTime;
+    double totalHours = 0;
+    int entryCount = 0;
+    int exitCount = 0;
+    DateTime? lastInTime;
 
-      for (var access in accessList) {
-        if (access.tipo == 'Entrou') {
-          lastInTime = DateTime.parse(access.createdAt);
-        } else if (access.tipo == 'Saiu' && lastInTime != null) {
-          DateTime outTime = DateTime.parse(access.createdAt);
-          totalHours += outTime.difference(lastInTime).inHours.toDouble();
-          lastInTime = null;
-        }
+    for (var access in accessList) {
+      if (access.tipo == 'Entrou') {
+        entryCount++;
+        lastInTime = DateTime.parse(access.createdAt);
+      } else if (access.tipo == 'Saiu' && lastInTime != null) {
+        exitCount++;
+        DateTime outTime = DateTime.parse(access.createdAt);
+        Duration duration = outTime.difference(lastInTime);
+        totalHours += duration.inMinutes.toDouble() / 60; // Convertendo minutos para horas
+        lastInTime = null;
       }
+    }
 
-      workHours[user] = totalHours;
-    });
+    workData[user] = {
+      'totalHours': totalHours,
+      'entryCount': entryCount,
+      'exitCount': exitCount,
+    };
+  });
 
-    return workHours;
-  }
+  return workData;
+}
+
 
 
   @override
   Widget build(BuildContext context) {
-    Map<String, double> userWorkHours = calculateWorkHours();
+    Map<String, Map<String, dynamic>> userData = calculateWorkHoursAndCounts();
     CollectionReference users = FirebaseFirestore.instance.collection('validações');
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
-              centerTitle: true,
-              elevation: 0,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_circle_left_outlined, size: 40),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              title: Text(
-                "Banco de Horas",
-                style: GoogleFonts.oswald(
-                    fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 255, 255, 255)),
-              ),
-              backgroundColor: Colors.green[800],
-              shadowColor: Colors.white,
-              iconTheme: IconThemeData(
-                  color: const Color.fromARGB(255, 255, 255, 255)),
-            ),
+  centerTitle: true,
+  elevation: 0,
+  leading: IconButton(
+    icon: Icon(Icons.arrow_circle_left_outlined, size: 40),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  ),
+  title: Text(
+    "Banco de Horas",
+    style: GoogleFonts.oswald(
+        fontWeight: FontWeight.bold,
+        color: const Color.fromARGB(255, 255, 255, 255)),
+  ),
+  backgroundColor: Colors.green[800],
+  shadowColor: Colors.white,
+  iconTheme: IconThemeData(
+      color: const Color.fromARGB(255, 255, 255, 255)),
+  actions: [
+    IconButton(
+      onPressed: () => _selectDateRange(context),
+      icon: Icon(Icons.date_range),
+    ),
+  ],
+),
             body: ListView.builder(
-                itemCount: userWorkHours.length,
+                itemCount: userData.length,
                 itemBuilder: (context, index) {
-                  var user = userWorkHours.keys.elementAt(index);
-                  var workHours = userWorkHours[user];
+                  var user = userData.keys.elementAt(index);
+                  var workData = userData[user];
                   return SingleChildScrollView(
                 child: Transform.translate(
               offset: Offset(0, -40),
@@ -239,7 +310,7 @@ Future<void> initializeData() async {
                                       fontSize: 15),
                                 ),
                                 Text(
-                                  '${workHours?.toStringAsFixed(2)}',
+                                  '${workData?['totalHours']?.toStringAsFixed(2)}',
                                   style: GoogleFonts.oswald(
                                       color: Colors.black,
                                       fontSize: 15),
@@ -258,7 +329,7 @@ Future<void> initializeData() async {
                                       fontSize: 15),
                                 ),
                                 Text(
-                                  "13",
+                                  "${workData?['entryCount']}",
                                   style: GoogleFonts.oswald(
                                       color: Colors.black,
                                       fontSize: 15),
@@ -277,7 +348,7 @@ Future<void> initializeData() async {
                                       fontSize: 15),
                                 ),
                                 Text(
-                                  "13",
+                                  "${workData?['exitCount']}",
                                   style: GoogleFonts.oswald(
                                       color: Colors.black,
                                       fontSize: 15),
