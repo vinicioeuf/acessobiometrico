@@ -73,17 +73,17 @@ class _AboutPageState extends State<AboutPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width:5),
-                  Showcase(
+                  Column(
+                    children: [
+                      Showcase(
                     key: _team,
-                    descriptionPadding: EdgeInsets.all(10),
+                    // descriptionPadding: EdgeInsets.all(10),s
                     description:
                         'Você também pode ver a nossa equipe maker!',
                     overlayOpacity: 0.5,
                     targetShapeBorder: const CircleBorder( ),
                     targetPadding: const EdgeInsets.all(3),
-                    child: Column(
-                    children: [
-                      ElevatedButton(
+                    child: ElevatedButton(
                         onPressed: () {
                         Navigator.push(
                       context,
@@ -105,6 +105,7 @@ class _AboutPageState extends State<AboutPage> {
                             color: Colors.white,
                         )
                       )
+                      ),
                       ),
                       SizedBox(height: 10),
                       ElevatedButton(
@@ -132,7 +133,7 @@ class _AboutPageState extends State<AboutPage> {
                       )
                     ],
                   ),
-                  ),
+                  
                   
                   
                     
