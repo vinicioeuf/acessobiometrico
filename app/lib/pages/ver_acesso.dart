@@ -136,43 +136,43 @@ class _VerAcessoState extends State<VerAcesso> {
   }
 
   Map<String, Map<String, dynamic>> calculateWorkHoursAndCounts() {
-  var userAccess = groupByUser();
-  Map<String, Map<String, dynamic>> workData = {};
+    var userAccess = groupByUser();
+    Map<String, Map<String, dynamic>> workData = {};
 
-  String currentUserEmail = FirebaseAuth.instance.currentUser?.email ?? '';
+    String currentUserEmail = FirebaseAuth.instance.currentUser?.email ?? '';
 
-  userAccess.forEach((user, accessList) {
-    if (user == currentUserEmail) {
-      accessList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    userAccess.forEach((user, accessList) {
+      if (user == currentUserEmail) {
+        accessList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
-      double totalHours = 0;
-      int entryCount = 0;
-      int exitCount = 0;
-      DateTime? lastInTime;
+        double totalHours = 0;
+        int entryCount = 0;
+        int exitCount = 0;
+        DateTime? lastInTime;
 
-      for (var access in accessList) {
-        if (access.tipo == 'Entrou') {
-          entryCount++;
-          lastInTime = DateTime.parse(access.createdAt);
-        } else if (access.tipo == 'Saiu' && lastInTime != null) {
-          exitCount++;
-          DateTime outTime = DateTime.parse(access.createdAt);
-          Duration duration = outTime.difference(lastInTime);
-          totalHours += duration.inMinutes.toDouble() / 60;
-          lastInTime = null;
+        for (var access in accessList) {
+          if (access.tipo == 'Entrou') {
+            entryCount++;
+            lastInTime = DateTime.parse(access.createdAt);
+          } else if (access.tipo == 'Saiu' && lastInTime != null) {
+            exitCount++;
+            DateTime outTime = DateTime.parse(access.createdAt);
+            Duration duration = outTime.difference(lastInTime);
+            totalHours += duration.inMinutes.toDouble() / 60;
+            lastInTime = null;
+          }
         }
+
+        workData[user] = {
+          'totalHours': totalHours,
+          'entryCount': entryCount,
+          'exitCount': exitCount,
+        };
       }
+    });
 
-      workData[user] = {
-        'totalHours': totalHours,
-        'entryCount': entryCount,
-        'exitCount': exitCount,
-      };
-    }
-  });
-
-  return workData;
-}
+    return workData;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -280,13 +280,13 @@ class _VerAcessoState extends State<VerAcesso> {
                                         ),
                                       ),
                                       Text(
-  "${FirebaseAuth.instance.currentUser?.displayName ?? ''}",
-  style: GoogleFonts.oswald(
-    color: Colors.black,
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-  ),
-),
+                                        "${FirebaseAuth.instance.currentUser?.displayName ?? ''}",
+                                        style: GoogleFonts.oswald(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                       SizedBox(height: 5),
                                       Text(
                                         "${data['vinculo']['tipoVinculo'] ?? ''}",
