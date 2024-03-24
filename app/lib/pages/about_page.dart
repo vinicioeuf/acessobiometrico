@@ -75,10 +75,11 @@ class _AboutPageState extends State<AboutPage> {
                   SizedBox(width:5),
                   Showcase(
                     key: _team,
+                    descriptionPadding: EdgeInsets.all(10),
                     description:
                         'Você também pode ver a nossa equipe maker!',
                     overlayOpacity: 0.5,
-                    targetShapeBorder: const CircleBorder(),
+                    targetShapeBorder: const CircleBorder( ),
                     targetPadding: const EdgeInsets.all(3),
                     child: Column(
                     children: [
