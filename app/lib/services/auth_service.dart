@@ -93,7 +93,7 @@ class AuthService extends ChangeNotifier {
 
     _getUser();
   } catch (e) {
-    throw AuthException('Erro no registro. Tente novamente.');
+    throw AuthException('Esse email já está em uso. Tente novamente.');
   }
 }
 
@@ -119,7 +119,7 @@ class AuthService extends ChangeNotifier {
   Future<void> login(String email, String senha) async {
     // Validar o formato do e-mail usando expressão regular
     final emailRegex = RegExp(
-        r"^[a-zA-Z0-9_.+-]+@(gmail\.com|hotmail\.com|aluno\.ifsertao-pe\.edu\.br|ifsertao-pe\.edu\.br)$");
+        r"^[a-zA-Z0-9_.+-]+@(aluno\.ifsertao-pe\.edu\.br|ifsertao-pe\.edu\.br)$");
 
     if (!emailRegex.hasMatch(email)) {
       throw AuthException('E-mail inválido. Utilize um e-mail permitido.');
@@ -137,6 +137,12 @@ class AuthService extends ChangeNotifier {
 
       PrefsService.save(email);
       _getUser();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
+        throw AuthException('Senha incorreta. Verifique sua senha e tente novamente.');
+      } else {
+        throw AuthException('Erro no login. Verifique suas credenciais.');
+      }
     } catch (e) {
       throw AuthException('Erro no login. Verifique suas credenciais.');
     }

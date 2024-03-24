@@ -75,9 +75,23 @@ class _LoginPageState extends State<LoginPage> {
       });
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Teste2()),(Route<dynamic> route) => false); // Substitui a rota da página atual pela página principal
     } on AuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
-      ));
+      showDialog(
+        context: context,
+        barrierDismissible: false, 
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Ocorreu um erro, verifique as credenciais.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/login');
+                },
+              ),
+            ],
+          );
+        },
+      );
     } finally {
       setState(() {
         loading = false;
@@ -112,9 +126,24 @@ class _LoginPageState extends State<LoginPage> {
       );
     } on AuthException catch (e) {
       if (e is AuthException) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(e.message),
-    ));
+        print(e.message);
+    showDialog(
+        context: context,
+        barrierDismissible: false, 
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(e.message),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/login');
+                },
+              ),
+            ],
+          );
+        },
+      );
   } 
     } finally {
       setState(() {
