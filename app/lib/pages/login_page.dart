@@ -111,9 +111,11 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
     } on AuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
-      ));
+      if (e is AuthException) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(e.message),
+    ));
+  } 
     } finally {
       setState(() {
         loading = false;

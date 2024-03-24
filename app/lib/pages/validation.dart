@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:mailer/mailer.dart';
 import 'package:app/notification_controller.dart';
@@ -361,7 +362,8 @@ class _ValidationState extends State<Validation> {
                           decoration: InputDecoration(
                             hintText: "202300000000",
                             hintStyle: TextStyle(
-                                color: Color.fromARGB(255, 117, 115, 115)),
+                              color: Color.fromARGB(255, 117, 115, 115),
+                            ),
                             filled: true,
                             fillColor: Color.fromARGB(255, 238, 244, 236),
                             labelStyle: GoogleFonts.oswald(
@@ -372,6 +374,10 @@ class _ValidationState extends State<Validation> {
                               borderSide: BorderSide.none,
                             ),
                           ),
+                          keyboardType: TextInputType.number, // Defina o tipo de entrada como numérico
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly // Permita apenas dígitos
+                          ],
                         ),
                       ),
                     ],

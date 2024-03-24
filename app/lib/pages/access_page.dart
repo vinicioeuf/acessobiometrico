@@ -729,10 +729,11 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
                 GestureDetector(
                   onTap: () {
                     // Navegar para a HomePage quando o ícone de perfil for clicado
+                    
                     Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => VerAcessoAdm(), //Depois eu volto para ValidacoesScreen()
+                                    builder: (context) => VerAcessoAdm(vinculo: vinculo), //Depois eu volto para ValidacoesScreen()
                                   ),
                                 );
 
@@ -756,3 +757,4 @@ Widget Acessos(BuildContext context, String imagem, String nome, String vinculo,
     ),
   );
 }
+

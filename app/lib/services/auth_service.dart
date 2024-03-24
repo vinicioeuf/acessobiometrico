@@ -43,53 +43,60 @@ class AuthService extends ChangeNotifier {
 
   Future<void> registrar(String nome, String email, String senha, String foto) async {
   // Validar o formato do e-mail usando expressão regular
-    final emailRegex = RegExp(
-        r"^[a-zA-Z0-9_.+-]+@(aluno\.ifsertao-pe\.edu\.br|ifsertao-pe\.edu\.br)$");
+  final emailRegex = RegExp(
+      r"^[a-zA-Z0-9_.+-]+@(aluno\.ifsertao-pe\.edu\.br|ifsertao-pe\.edu\.br)$");
 
-    if (!emailRegex.hasMatch(email)) {
-      throw AuthException('E-mail inválido. Utilize um e-mail permitido.');
-    }
-
-    try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: senha);
-      User? user = _auth.currentUser;
-      if (user != null) {
-        await user.updateDisplayName(nome); // Define o nome do usuário
-        String? foto = await pickAndUploadImage();
-        if (foto != null) {
-          await user.updatePhotoURL(foto);
-        }
-        // ignore: unnecessary_null_comparison
-        if (user != null) {
-          String uid = user.uid; // Obter o UID do usuário
-          DatabaseReference newUserRef = ref.child(uid); // Usar o UID como nome da referência
-          await newUserRef.set({
-            "uid": uid,
-            "nome": nome,
-            "email": email,
-            "foto": foto,
-            "biometria": null,
-            "credencial": 0,
-            "solicitou": false,
-            "aprovado": false,
-            "negado": false,
-            "matricula": null,
-            "vinculo": null,
-            "curso": null,
-            "tempo": null,
-            "tipoCurso": null,
-            "idBiometria": null
-            
-          });
-          
-        }
-      }
-
-      _getUser();
-    } catch (e) {
-      throw AuthException('Erro no registro. Tente novamente.');
-    }
+  if (!emailRegex.hasMatch(email)) {
+    throw AuthException('E-mail inválido. Utilize um e-mail permitido.');
   }
+
+  try {
+    // Verificar se o e-mail já está em uso
+    List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
+    if (signInMethods.isNotEmpty) {
+      throw AuthException('O e-mail fornecido já está em uso.');
+    }
+
+    // Se o e-mail não estiver em uso, criar o novo usuário
+    await _auth.createUserWithEmailAndPassword(email: email, password: senha);
+    User? user = _auth.currentUser;
+    if (user != null) {
+      await user.updateDisplayName(nome); // Define o nome do usuário
+      String? foto = await pickAndUploadImage();
+      if (foto != null) {
+        await user.updatePhotoURL(foto);
+      }
+      // ignore: unnecessary_null_comparison
+      if (user != null) {
+        String uid = user.uid; // Obter o UID do usuário
+        DatabaseReference newUserRef = ref.child(uid); // Usar o UID como nome da referência
+        await newUserRef.set({
+          "uid": uid,
+          "nome": nome,
+          "email": email,
+          "foto": foto,
+          "biometria": null,
+          "credencial": 0,
+          "solicitou": false,
+          "aprovado": false,
+          "negado": false,
+          "matricula": null,
+          "vinculo": null,
+          "curso": null,
+          "tempo": null,
+          "tipoCurso": null,
+          "idBiometria": null
+            
+        });
+      }
+    }
+
+    _getUser();
+  } catch (e) {
+    throw AuthException('Erro no registro. Tente novamente.');
+  }
+}
+
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);

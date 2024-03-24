@@ -56,7 +56,8 @@ class AppWidget extends StatelessWidget {
   '/teste': (_) => Teste(),
   '/teste2': (_) => Teste2(),
   '/ver_acesso': (_) => VerAcesso(),
-  '/ver_acess_adm': (_) => VerAcessoAdm()
+  '/ver_acess_adm': (_) => VerAcessoAdm(vinculo: 'valor do vinculo')
+
 },
 
       home: AuthCheck(),
