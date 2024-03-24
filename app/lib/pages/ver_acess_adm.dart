@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -14,19 +15,45 @@ class VerAcessoAdm extends StatefulWidget {
 }
 
 class _VerAcessoAdmState extends State<VerAcessoAdm> {
-  
-
+  String vinculo = '';
+  String curso = '';
+  String perAno = '';
+List<DogBreed?> breeds = [];
+  double totalHoras = 0;
+  int totalEntradas = 0;
+  int totalSaidas = 0;
+  DateTime? startDate;
+  DateTime? endDate;
   @override
   void initState() {
     super.initState();
     fetchData();
-    // initializeData();
+    fetchUserInfo(widget.vinculo);
   }
-  List<DogBreed?> breeds = [];
-  Future<void> _selectDateRange(BuildContext context) async {
-    
+  _selectDateRange(BuildContext context) async {
+    final initialDateRange = DateTimeRange(
+      start: startDate ?? DateTime.now(),
+      end: endDate ?? DateTime.now(),
+    );
+
+    final pickedDateRange = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+      initialDateRange: initialDateRange,
+    );
+
+    if (pickedDateRange != null) {
+      setState(() {
+        startDate = pickedDateRange.start;
+        endDate = pickedDateRange.end;
+      });
+
+      // Filtrar os dados com base no intervalo de datas selecionado
+      filterData();
+    }
   }
-  Future<void> fetchData() async {
+  Future<void> filterData() async {
   try {
     final response = await http.get(
       Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
@@ -36,25 +63,129 @@ class _VerAcessoAdmState extends State<VerAcessoAdm> {
       final Map<String, dynamic> data = json.decode(response.body);
       final List<dynamic> breedsList = data['acessos'];
 
-      DogBreed? foundBreed;
+      List<DogBreed?> foundBreeds = [];
       for (var json in breedsList) {
         final breed = DogBreed.fromJson(json);
-        if (breed.email == widget.vinculo) {
-          foundBreed = breed;
-          break; // Parar a busca quando encontrar o primeiro resultado
+        DateTime createdAt = DateTime.parse(breed.createdAt);
+        if (breed.email == widget.vinculo &&
+            (startDate == null || createdAt.isAfter(startDate!) || createdAt.isAtSameMomentAs(startDate!)) &&
+            (endDate == null || createdAt.isBefore(endDate!) || createdAt.isAtSameMomentAs(endDate!))) {
+          foundBreeds.add(breed);
         }
       }
 
-      if (foundBreed != null) {
-        setState(() {
-          breeds = [foundBreed];
-        });
+      if (foundBreeds.isEmpty) {
+        // ignore: use_build_context_synchronously
+        fetchData();
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Sem dados"),
+              content: Text("Não há dados dentro do intervalo selecionado."),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
       }
+
+      calculateTotals(foundBreeds);
+
+      setState(() {
+        breeds = foundBreeds;
+      });
     } else {
       throw Exception('Failed to load data');
     }
   } catch (e) {
     print('Error fetching data: $e');
+  }
+}
+
+  Future<void> fetchData() async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        final List<dynamic> breedsList = data['acessos'];
+
+        List<DogBreed?> foundBreeds = [];
+        for (var json in breedsList) {
+          final breed = DogBreed.fromJson(json);
+          if (breed.email == widget.vinculo) {
+            foundBreeds.add(breed);
+          }
+        }
+
+        calculateTotals(foundBreeds);
+
+        setState(() {
+          breeds = foundBreeds;
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
+  void calculateTotals(List<DogBreed?> breedsList) {
+    totalHoras = 0.0;
+    totalEntradas = 0;
+    totalSaidas = 0;
+
+    breedsList.forEach((breed) {
+      if (breed != null) {
+        if (breed.tipo == "Entrou") {
+          totalEntradas++;
+        } else if (breed.tipo == "Saiu") {
+          totalSaidas++;
+        }
+      }
+    });
+
+    for (int i = 0; i < breedsList.length - 1; i++) {
+      if (breedsList[i]?.tipo == "Entrou" &&
+          breedsList[i + 1]?.tipo == "Saiu") {
+        DateTime entrada = DateTime.parse(breedsList[i]!.createdAt);
+        DateTime saida = DateTime.parse(breedsList[i + 1]!.createdAt);
+        totalHoras += saida.difference(entrada).inMinutes / 60; // Modificação aqui
+      }
+    }
+    totalHoras = double.parse(totalHoras.toStringAsFixed(2));
+  }
+  Future<void> fetchUserInfo(String email) async {
+  try {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('validações')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      final data = snapshot.docs.first.data();
+      vinculo = data['vinculo']['tipoVinculo'];
+      curso = data['vinculo']['curso'];
+      perAno = data['vinculo']['tempo'];
+
+      // Faça o que quiser com as informações aqui
+      print('vinculo: $vinculo, Curso: $curso, Período/Ano: $perAno');
+    } else {
+      print('Nenhum usuário encontrado com o email $email');
+    }
+  } catch (e) {
+    print('Erro ao buscar informações do usuário: $e');
   }
 }
 
@@ -78,8 +209,7 @@ class _VerAcessoAdmState extends State<VerAcessoAdm> {
         ),
         backgroundColor: Colors.green[800],
         shadowColor: Colors.white,
-        iconTheme:
-            IconThemeData(color: const Color.fromARGB(255, 255, 255, 255)),
+        iconTheme: IconThemeData(color: const Color.fromARGB(255, 255, 255, 255)),
         actions: [
           IconButton(
             onPressed: () => _selectDateRange(context),
@@ -87,158 +217,167 @@ class _VerAcessoAdmState extends State<VerAcessoAdm> {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: breeds.length,
-        itemBuilder: (context, index) {
-          final breed = breeds[index];
-          return SingleChildScrollView(
-                child: Transform.translate(
-              offset: Offset(0, -40),
-              child: Column(
+      body: SingleChildScrollView(
+        child: Transform.translate(
+          offset: Offset(0, -60),
+          child: Column(
             children: [
-              SizedBox(height: 5),
-              Container(
-                width: double.infinity,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.green[800],
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(100),
-                    bottomRight: Radius.circular(100),
-                  ),
-                ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 75,
-                        backgroundImage: NetworkImage(breed?.foto ?? ""),
+              if (breeds.isNotEmpty)
+                Column(
+                  children: [
+                    SizedBox(height: 0),
+                    Container(
+                      width: double.infinity,
+                      height: 170,
+                      decoration: BoxDecoration(
+                        color: Colors.green[800],
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(100),
+                          bottomRight: Radius.circular(100),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              Text(
-                "${breed?.nome}",
-                style: GoogleFonts.oswald(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 5),
-              Text(
-                "Bolsista",
-                style: GoogleFonts.oswald(
-                    color: Colors.grey,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: Transform.translate(
-                  offset: Offset(0, -20),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "HORAS",
-                            style: GoogleFonts.oswald(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
+                    ),
+                    Transform.translate(
+                      offset: Offset(0, -80),
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 75,
+                                backgroundImage: NetworkImage(breeds.first?.foto ?? ""),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "67h",
-                            style: GoogleFonts.oswald(
-                                color: Colors.black,
-                                fontSize: 15),
-                          )
-                        ],
+                        ),
                       ),
-                      SizedBox(width: 30),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "ENTRADAS",
-                            style: GoogleFonts.oswald(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                          Text(
-                            "13",
-                            style: GoogleFonts.oswald(
-                                color: Colors.black,
-                                fontSize: 15),
-                          )
-                        ],
+                    ),
+                    Transform.translate(
+                      offset: Offset(0, -80),
+                      child: Text(
+                        "${breeds.first?.nome}",
+                        style: GoogleFonts.oswald(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(width: 30),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "SAÍDAS",
-                            style: GoogleFonts.oswald(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                          Text(
-                            "13",
-                            style: GoogleFonts.oswald(
-                                color: Colors.black,
-                                fontSize: 15),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              info(context, "STATUS:", "AUTORIZADO"),
-              SizedBox(height: 15),
-              info(context, "CURSO:", "SISTEMAS PARA INTERNET"),
-              SizedBox(height: 15),
-              info(context, "PER/ANO:", "3º PERÍODO"),
-              SizedBox(height: 15),
-              Container(
-                alignment: Alignment.center,
-                width: 0.9 * MediaQuery.of(context).size.width,
-                child: Container(
-                  width: 0.9 * MediaQuery.of(context).size.width,
-                  height: 50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.red, // Cor de fundo do Container interno
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Text(
-                    "DENUNCIAR",
-                    style: GoogleFonts.oswald(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    ),
+                    SizedBox(height: 0),
+                    Transform.translate(
+                      offset: Offset(0, -80),
+                      child: Text(
+                        vinculo,
+                        style: GoogleFonts.oswald(
+                            color: Colors.grey,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      child: Transform.translate(
+                        offset: Offset(0, -60),
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "HORAS",
+                                  style: GoogleFonts.oswald(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                                Text(
+                                  "$totalHoras h",
+                                  style: GoogleFonts.oswald(
+                                      color: Colors.black, fontSize: 15),
+                                )
+                              ],
+                            ),
+                            SizedBox(width: 30),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "ENTRADAS",
+                                  style: GoogleFonts.oswald(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                                Text(
+                                  "$totalEntradas",
+                                  style: GoogleFonts.oswald(
+                                      color: Colors.black, fontSize: 15),
+                                )
+                              ],
+                            ),
+                            SizedBox(width: 30),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "SAÍDAS",
+                                  style: GoogleFonts.oswald(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                                Text(
+                                  "$totalSaidas",
+                                  style: GoogleFonts.oswald(
+                                  color: Colors.black, fontSize: 15),
+                            )
+                          ],
+                        ),
+                        // SizedBox(width: 30),
+                        
+                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
-          )));
-        },
+                info(context, "STATUS:", "AUTORIZADO"),
+                SizedBox(height: 15),
+                info(context, "CURSO:", curso),
+                SizedBox(height: 15),
+                info(context, "PER/ANO:", perAno),
+                SizedBox(height: 15),
+                Container(
+                  alignment: Alignment.center,
+                  width: 0.9 * MediaQuery.of(context).size.width,
+                  child: Container(
+                    width: 0.9 * MediaQuery.of(context).size.width,
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.red, // Cor de fundo do Container interno
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Text(
+                      "DENUNCIAR",
+                      style: GoogleFonts.oswald(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+        ],
       ),
-    );
-  }
+    ),
+  ),
+  );
+}
   Widget info(context, String titulo, String dado) {
     return Container(
       width: 0.9 * MediaQuery.of(context).size.width,
