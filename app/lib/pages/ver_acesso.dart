@@ -136,43 +136,52 @@ class _VerAcessoState extends State<VerAcesso> {
   }
 
   Map<String, Map<String, dynamic>> calculateWorkHoursAndCounts() {
-    var userAccess = groupByUser();
-    Map<String, Map<String, dynamic>> workData = {};
+  var userAccess = groupByUser();
+  Map<String, Map<String, dynamic>> workData = {};
 
-    String currentUserEmail = FirebaseAuth.instance.currentUser?.email ?? '';
+  String currentUserEmail = FirebaseAuth.instance.currentUser?.email ?? '';
 
-    userAccess.forEach((user, accessList) {
-      if (user == currentUserEmail) {
-        accessList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+  userAccess.forEach((user, accessList) {
+    if (user == currentUserEmail) {
+      accessList.sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
-        double totalHours = 0;
-        int entryCount = 0;
-        int exitCount = 0;
-        DateTime? lastInTime;
+      double totalHours = 0;
+      int entryCount = 0;
+      int exitCount = 0;
+      DateTime? lastInTime;
 
-        for (var access in accessList) {
-          if (access.tipo == 'Entrou') {
-            entryCount++;
-            lastInTime = DateTime.parse(access.createdAt);
-          } else if (access.tipo == 'Saiu' && lastInTime != null) {
-            exitCount++;
-            DateTime outTime = DateTime.parse(access.createdAt);
-            Duration duration = outTime.difference(lastInTime);
-            totalHours += duration.inMinutes.toDouble() / 60;
-            lastInTime = null;
-          }
+      for (var access in accessList) {
+        if (access.tipo == 'Entrou') {
+          entryCount++;
+          lastInTime = DateTime.parse(access.createdAt);
+        } else if (access.tipo == 'Saiu' && lastInTime != null) {
+          exitCount++;
+          DateTime outTime = DateTime.parse(access.createdAt);
+          Duration duration = outTime.difference(lastInTime);
+          totalHours += duration.inMinutes.toDouble() / 60;
+          lastInTime = null;
         }
-
-        workData[user] = {
-          'totalHours': totalHours,
-          'entryCount': entryCount,
-          'exitCount': exitCount,
-        };
       }
-    });
 
-    return workData;
+      workData[user] = {
+        'totalHours': totalHours,
+        'entryCount': entryCount,
+        'exitCount': exitCount,
+      };
+    }
+  });
+
+  // Verificar se não há dados, definir valores padrão para zero
+  if (workData.isEmpty) {
+    workData[currentUserEmail] = {
+      'totalHours': 0,
+      'entryCount': 0,
+      'exitCount': 0,
+    };
   }
+
+  return workData;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -368,7 +377,7 @@ class _VerAcessoState extends State<VerAcesso> {
                                     ],
                                   ),
                                 )),
-                            info(context, "STATUS:", "AUTORIZADO"),
+                            info(context, "STATUS:", estado),
                             SizedBox(height: 15),
                             info(context, "CURSO:",
                                 "${data['vinculo']['curso'] ?? ''}"),
@@ -437,17 +446,24 @@ Widget info(context, String titulo, String dado) {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: dado == "AUTORIZADO"
-                      ? GoogleFonts.oswald(
-                          color: Colors.green[800],
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                        )
-                      : GoogleFonts.oswald(
-                          color: Color.fromARGB(255, 16, 16, 16),
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                ),
+                          ? GoogleFonts.oswald(
+                              color: Colors.green[800],
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold)
+                          : dado == 'NEGADO'
+                              ? GoogleFonts.oswald(
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold)
+                              : dado == "EM ESPERA"
+                                  ? GoogleFonts.oswald(
+                                      color: Color.fromARGB(255, 190, 146, 0),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)
+                                  : GoogleFonts.oswald(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
               ),
               SizedBox(width: 10),
             ],
