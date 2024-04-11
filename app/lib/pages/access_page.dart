@@ -55,7 +55,7 @@ class _AccessPageState extends State<AccessPage> {
 
   try {
     final response = await http.get(
-      Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+      Uri.parse('https://api-labmaker.onrender.com/acessos'),
     );
 
     if (response.statusCode == 200) {
@@ -108,7 +108,7 @@ Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime end
   try {
     User? user = FirebaseAuth.instance.currentUser;
     final response = await http.get(
-      Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+      Uri.parse('https://api-labmaker.onrender.com/acessos'),
     );
 
     if (response.statusCode == 200) {
@@ -175,7 +175,7 @@ Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime end
 
     try {
       final response = await http.get(
-        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+        Uri.parse('https://api-labmaker.onrender.com/acessos'),
       );
 
       if (mounted) {
@@ -227,7 +227,7 @@ Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime end
     User? user = await FirebaseAuth.instance.authStateChanges().first;
     try {
       final response = await http.get(
-        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+        Uri.parse('https://api-labmaker.onrender.com/acessos'),
       );
 
       if (mounted) {
@@ -306,7 +306,7 @@ Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime end
     User? user = await FirebaseAuth.instance.authStateChanges().first;
     try {
       final response = await http.get(
-        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+        Uri.parse('https://api-labmaker.onrender.com/acessos'),
       );
 
       if (mounted) {
@@ -351,7 +351,7 @@ Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime end
 
     try {
       final response = await http.get(
-        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+        Uri.parse('https://api-labmaker.onrender.com/acessos'),
       );
 
       if (mounted) {

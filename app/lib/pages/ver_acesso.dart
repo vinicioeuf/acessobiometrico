@@ -104,7 +104,7 @@ class _VerAcessoState extends State<VerAcesso> {
   Future<void> fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse('https://api-labmaker-db7c20aa74d8.herokuapp.com/acessos'),
+        Uri.parse('https://api-labmaker.onrender.com/acessos'),
       );
 
       if (response.statusCode == 200) {
