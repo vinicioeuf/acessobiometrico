@@ -189,7 +189,7 @@ class _ValidacoesScreenState extends State<ValidacoesScreen> {
                               try {
                                 final response = await http.post(
                                   Uri.parse(
-                                      "https://api-labmaker.onrender.com/addusuarios"),
+                                      "https://api-labmaker.vercel.app/addusuarios"),
                                   headers: <String, String>{
                                     'Content-Type': 'application/json; charset=UTF-8',
                                   },

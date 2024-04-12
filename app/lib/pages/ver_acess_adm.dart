@@ -56,7 +56,7 @@ List<DogBreed?> breeds = [];
   Future<void> filterData() async {
   try {
     final response = await http.get(
-      Uri.parse('https://api-labmaker.onrender.com/acessos'),
+      Uri.parse('https://api-labmaker.vercel.app/acessos'),
     );
 
     if (response.statusCode == 200) {
@@ -113,7 +113,7 @@ List<DogBreed?> breeds = [];
   Future<void> fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse('https://api-labmaker.onrender.com/acessos'),
+        Uri.parse('https://api-labmaker.vercel.app/acessos'),
       );
 
       if (response.statusCode == 200) {
