@@ -68,7 +68,7 @@ class _AccessPageState extends State<AccessPage> {
         // Filtrar os acessos pelo intervalo de datas selecionado
         breeds = breeds.where((breed) {
           DateTime dateTime = DateTime.parse(breed.createdAt);
-          dateTime = dateTime.subtract(Duration(hours: 3));
+          dateTime = dateTime.subtract(Duration(hours: 0));
           return dateTime.isAfter(startDate.subtract(Duration(days: 1))) &&
               dateTime.isBefore(endDate.add(Duration(days: 1)));
         }).toList();
@@ -124,7 +124,7 @@ Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime end
         // Filtrar os acessos pelo intervalo de datas selecionado
         breeds = breeds.where((breed) {
           DateTime dateTime = DateTime.parse(breed.createdAt);
-          dateTime = dateTime.subtract(Duration(hours: 3));
+          dateTime = dateTime.subtract(Duration(hours: 0));
           return dateTime.isAfter(startDate.subtract(Duration(days: 1))) &&
               dateTime.isBefore(endDate.add(Duration(days: 1)));
         }).toList();
@@ -190,7 +190,7 @@ Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime end
             // Filtrar os acessos pela data selecionada
             breeds = breeds.where((breed) {
               DateTime dateTime = DateTime.parse(breed.createdAt);
-              dateTime = dateTime.subtract(Duration(hours: 3));
+              dateTime = dateTime.subtract(Duration(hours: 0));
               return dateTime.day == selectedDate.day &&
                   dateTime.month == selectedDate.month &&
                   dateTime.year == selectedDate.year;
@@ -245,7 +245,7 @@ Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime end
             // Filtrar os acessos pela data selecionada
             breeds = breeds.where((breed) {
               DateTime dateTime = DateTime.parse(breed.createdAt);
-              dateTime = dateTime.subtract(Duration(hours: 3));
+              dateTime = dateTime.subtract(Duration(hours: 0));
               return dateTime.day == selectedDate2.day &&
                   dateTime.month == selectedDate2.month &&
                   dateTime.year == selectedDate2.year;
@@ -415,7 +415,7 @@ Future<void> fetchDataByDateRangeForCurrentUser(DateTime startDate, DateTime end
             
             // Adapte a lógica para verificar se a data está dentro do intervalo selecionado
             DateTime dateTime = DateTime.parse(breeds[index].createdAt);
-            dateTime = dateTime.subtract(Duration(hours: 3));
+            dateTime = dateTime.subtract(Duration(hours: 0));
 
             if ((selectedDay == null || dateTime.day == selectedDay) &&
                 (selectedMonth == null || dateTime.month == selectedMonth) &&
