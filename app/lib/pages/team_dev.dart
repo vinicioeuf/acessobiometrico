@@ -41,7 +41,7 @@ class TeamDevPage extends StatelessWidget {
                   'assets/imagens/viniEufrazio.jpg',
                   'VINICIO EUFRAZIO',
                   'Desenvolvedor FullStack',
-                  'Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Técnico em Informática (IFSertãoPE), Administrador de sites na K1Digital.'),
+                  'Graduando em Tecnologia em Sistemas para Internet (IFSertãoPE), Técnico em Informática (IFSertãoPE).'),
               SizedBox(height: 25),
               buildTeamMember(
                   'assets/imagens/vicCarlos.jpg',
